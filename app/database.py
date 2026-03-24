@@ -176,6 +176,7 @@ def create_tables() -> None:
         with connection.cursor() as cursor:
             for statement in TABLE_STATEMENTS:
                 cursor.execute(statement)
+        connection.commit()
         print("所有数据表创建完成")
     finally:
         connection.close()
