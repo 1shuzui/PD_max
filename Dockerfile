@@ -16,6 +16,8 @@ WORKDIR /app
 
 # 4. 复制并安装 Python 依赖
 COPY requirements.txt .
+RUN mkdir -p /root/.config/pip && \
+    echo "[global]\nindex-url = https://pypi.tuna.tsinghua.edu.cn/simple" > /root/.config/pip/pip.conf
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 5. 复制项目代码
