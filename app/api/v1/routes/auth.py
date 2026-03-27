@@ -2,6 +2,7 @@
 用户认证模块路由
 接口前缀：/auth
 包含接口：
+  A0. POST /auth/register        - 用户注册（默认 user 角色）
   A1. POST /auth/login           - 登录，返回 JWT token
   A2. GET  /auth/users           - 获取用户列表（仅 admin）
   A3. POST /auth/users           - 新增用户（仅 admin）
@@ -42,6 +43,13 @@ class LoginRequest(BaseModel):
     password: str
 
 
+class RegisterRequest(BaseModel):
+    username: str = Field(..., min_length=3, max_length=50)
+    real_name: Optional[str] = None
+    password: str = Field(..., min_length=6)
+    phone: Optional[str] = None
+
+
 class CreateUserRequest(BaseModel):
     username: str = Field(..., min_length=3, max_length=50)
     real_name: Optional[str] = None
@@ -67,6 +75,24 @@ class DeleteUserRequest(BaseModel):
 
 
 # ==================== 路由 ====================
+
+# A0 注册
+@router.post("/register", summary="用户注册")
+def register(body: RegisterRequest, service: UserService = Depends(get_user_service)):
+    try:
+        result = service.create_user(
+            username=body.username,
+            password=body.password,
+            real_name=body.real_name,
+            role="user",
+            phone=body.phone,
+        )
+        return {"code": 200, "msg": "注册成功", "id": result["id"]}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 # A1 登录
 @router.post("/login", summary="用户登录")
