@@ -1,5 +1,5 @@
 # 1. 基础镜像
-FROM python:3.10-slim
+FROM python:3.11-slim
 
 # 2. 安装系统依赖（opencv 需要 libxcb 等库）
 RUN apt-get update && apt-get install -y --no-install-recommends \

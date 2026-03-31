@@ -43,17 +43,32 @@ pip install -r requirements.txt
 pip install rapidocr_onnxruntime
 ```
 
-### 2. 配置环境变量
+### 2. 新的配置方法（推荐）
 
-创建 `.env` 文件：
+注意：⚠️ 请先查看并复制示例环境文件，然后在 `.env` 中填写真实值。
 
-```env
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-MYSQL_USER=root
-MYSQL_PASSWORD=yourpassword
-MYSQL_DATABASE=tl_compare
+- 在类 Unix 环境下查看并复制：
+
+```bash
+cat .env.example
+cp .env.example .env
 ```
+
+- 在 Windows PowerShell 中复制：
+
+```powershell
+Get-Content .env.example
+copy .env.example .env
+```
+
+- 使用 `uv` 工具同步并运行（在项目根目录）：
+
+```bash
+uv sync
+uv run main.py
+```
+
+以上方法适用于本地快速开发；若使用 Docker Compose，请参见下方的 Docker 运行说明并使用 `docker-compose up --build`。
 
 ### 3. 启动服务
 

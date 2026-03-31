@@ -1,0 +1,23 @@
+[project]
+name = "pd-max"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+	"fastapi",
+	"uvicorn",
+	"pymysql",
+	"python-dotenv",
+	"pydantic",
+	"python-multipart",
+	"cryptography",
+	"rapidocr_onnxruntime",
+	"bcrypt",
+	"python-jose[cryptography]",
+	"openai",
+]
+
+[[tool.uv.index]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+default = true
