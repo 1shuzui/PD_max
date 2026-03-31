@@ -19,6 +19,18 @@ class AddWarehouseRequest(BaseModel):
     仓库名: str = Field(..., description="仓库名称")
 
 
+class AddSmelterRequest(BaseModel):
+    """新建冶炼厂请求体"""
+    冶炼厂名: str = Field(..., description="冶炼厂名称")
+
+
+class UpdateSmelterRequest(BaseModel):
+    """修改冶炼厂请求体"""
+    冶炼厂id: int = Field(..., description="冶炼厂ID")
+    冶炼厂名: Optional[str] = Field(None, description="冶炼厂名称（可选）")
+    is_active: Optional[bool] = Field(None, description="是否启用（可选）")
+
+
 class UploadFreightRequest(BaseModel):
     """接口6 请求体（单条）"""
     仓库: str = Field(..., description="仓库名称，如 北京仓")

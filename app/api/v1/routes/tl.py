@@ -23,6 +23,8 @@ from app.models.tl import (
     CategoryMappingItem,
     ConfirmPriceTableRequest,
     AddWarehouseRequest,
+    AddSmelterRequest,
+    UpdateSmelterRequest,
     PurchaseSuggestionRequest,
     VlmFullData,
     TaxRateItem,
@@ -57,6 +59,19 @@ def get_warehouses(service: TLService = Depends(get_tl_service)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ===================== 接口1b：新建冶炼厂 =====================
+
+@router.post("/add_smelter", summary="新建冶炼厂")
+def add_smelter(
+    body: AddSmelterRequest,
+    service: TLService = Depends(get_tl_service),
+):
+    try:
+        return service.add_smelter(name=body.冶炼厂名)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ===================== 接口2：获取冶炼厂列表 =====================
 
 @router.get("/get_smelters", summary="获取冶炼厂列表")
@@ -64,6 +79,40 @@ def get_smelters(service: TLService = Depends(get_tl_service)):
     try:
         data = service.get_smelters()
         return {"code": 200, "data": data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ===================== 接口2b：修改冶炼厂 =====================
+
+@router.post("/update_smelter", summary="修改冶炼厂信息")
+def update_smelter(
+    body: UpdateSmelterRequest,
+    service: TLService = Depends(get_tl_service),
+):
+    try:
+        return service.update_smelter(
+            smelter_id=body.冶炼厂id,
+            name=body.冶炼厂名,
+            is_active=body.is_active,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ===================== 接口2c：删除冶炼厂 =====================
+
+@router.delete("/delete_smelter", summary="删除冶炼厂（软删除）")
+def delete_smelter(
+    smelter_id: int,
+    service: TLService = Depends(get_tl_service),
+):
+    try:
+        return service.delete_smelter(smelter_id=smelter_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

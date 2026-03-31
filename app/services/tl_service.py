@@ -45,6 +45,36 @@ class TLService:
             logger.error(f"添加仓库失败: {e}")
             raise
 
+    # ==================== 接口0b：新建冶炼厂 ====================
+
+    def add_smelter(self, name: str) -> Dict[str, Any]:
+        try:
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "SELECT id, is_active FROM dict_factories WHERE name = %s",
+                        (name,),
+                    )
+                    row = cur.fetchone()
+                    if row:
+                        smelter_id, is_active = row
+                        if is_active == 1:
+                            return {"code": 200, "msg": "冶炼厂已存在", "冶炼厂id": smelter_id, "新建": False}
+                        cur.execute(
+                            "UPDATE dict_factories SET is_active = 1 WHERE id = %s",
+                            (smelter_id,),
+                        )
+                        return {"code": 200, "msg": "冶炼厂已恢复启用", "冶炼厂id": smelter_id, "新建": False}
+
+                    cur.execute(
+                        "INSERT INTO dict_factories (name, is_active) VALUES (%s, 1)",
+                        (name,),
+                    )
+                    return {"code": 200, "msg": "冶炼厂新建成功", "冶炼厂id": cur.lastrowid, "新建": True}
+        except Exception as e:
+            logger.error(f"新建冶炼厂失败: {e}")
+            raise
+
     # ==================== 接口1：获取仓库列表 ====================
 
     def get_warehouses(self) -> List[Dict[str, Any]]:
@@ -81,6 +111,78 @@ class TLService:
                     return [dict(zip(columns, row)) for row in rows]
         except Exception as e:
             logger.error(f"获取冶炼厂列表失败: {e}")
+            raise
+
+    # ==================== 接口2b：修改冶炼厂 ====================
+
+    def update_smelter(
+        self,
+        smelter_id: int,
+        name: Optional[str] = None,
+        is_active: Optional[bool] = None,
+    ) -> Dict[str, Any]:
+        if name is None and is_active is None:
+            raise ValueError("至少需要提供一个待修改字段：冶炼厂名 或 is_active")
+
+        try:
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("SELECT id FROM dict_factories WHERE id = %s", (smelter_id,))
+                    if not cur.fetchone():
+                        raise ValueError(f"冶炼厂 id={smelter_id} 不存在")
+
+                    updates = []
+                    params: List[Any] = []
+
+                    if name is not None:
+                        cur.execute(
+                            "SELECT id FROM dict_factories WHERE name = %s AND id <> %s",
+                            (name, smelter_id),
+                        )
+                        if cur.fetchone():
+                            raise ValueError(f"冶炼厂名 '{name}' 已存在")
+                        updates.append("name = %s")
+                        params.append(name)
+
+                    if is_active is not None:
+                        updates.append("is_active = %s")
+                        params.append(1 if is_active else 0)
+
+                    params.append(smelter_id)
+                    cur.execute(
+                        f"UPDATE dict_factories SET {', '.join(updates)} WHERE id = %s",
+                        tuple(params),
+                    )
+
+            return {"code": 200, "msg": "冶炼厂信息修改成功"}
+        except ValueError:
+            raise
+        except Exception as e:
+            logger.error(f"修改冶炼厂失败: {e}")
+            raise
+
+    # ==================== 接口2c：删除冶炼厂（软删除） ====================
+
+    def delete_smelter(self, smelter_id: int) -> Dict[str, Any]:
+        try:
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "SELECT id FROM dict_factories WHERE id = %s AND is_active = 1",
+                        (smelter_id,),
+                    )
+                    if not cur.fetchone():
+                        raise ValueError(f"冶炼厂 id={smelter_id} 不存在或已删除")
+
+                    cur.execute(
+                        "UPDATE dict_factories SET is_active = 0 WHERE id = %s",
+                        (smelter_id,),
+                    )
+            return {"code": 200, "msg": "冶炼厂已删除"}
+        except ValueError:
+            raise
+        except Exception as e:
+            logger.error(f"删除冶炼厂失败: {e}")
             raise
 
     # ==================== 接口3：获取品类列表 ====================
