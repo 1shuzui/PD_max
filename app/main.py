@@ -6,6 +6,10 @@ from fastapi import FastAPI
 from app.api.v1.router import api_router
 from app.api.v1.routes.ai_detection import shutdown_ai_detection, startup_ai_detection
 from app.database import create_tables, init_default_data
+from app.logging_config import setup_logging
+
+setup_logging()
+logger = logging.getLogger(__name__)
 
 logger = logging.getLogger(__name__)
 
@@ -48,4 +52,4 @@ def _init_admin():
                 "VALUES (%s, %s, %s, 'admin', 1)",
                 (username, hash_password(password), "管理员"),
             )
-    print(f"默认管理员账户已创建：username={username}")
+    logger.info("默认管理员账户已创建：username=%s", username)
