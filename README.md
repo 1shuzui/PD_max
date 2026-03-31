@@ -43,42 +43,47 @@ pip install -r requirements.txt
 pip install rapidocr_onnxruntime
 ```
 
-### 2. 新的配置方法（推荐）
+### 2. 环境变量（准备一次即可）
 
-注意：⚠️ 请先查看并复制示例环境文件，然后在 `.env` 中填写真实值。
-
-- 在类 Unix 环境下查看并复制：
+应用启动时会读取项目根目录的 `.env`（`app/config.py` 要求配置 `MYSQL_HOST`、`MYSQL_PORT`、`MYSQL_USER`、`MYSQL_PASSWORD`、`MYSQL_DATABASE` 等）。**第一次**从示例复制并改好密码即可，之后每次启动不必再配。
 
 ```bash
-cat .env.example
 cp .env.example .env
+# 编辑 .env 填入数据库密码等
 ```
 
-- 在 Windows PowerShell 中复制：
+### 3. 本地启动（推荐 `uv`）
 
-```powershell
-Get-Content .env.example
-copy .env.example .env
-```
-
-- 使用 `uv` 工具同步并运行（在项目根目录）：
+在项目根目录：
 
 ```bash
-uv sync
-uv run main.py
+uv sync                    # 首次或依赖变更后执行一次
+uv run app.py              # 入口是根目录 app.py，不是 main.py
 ```
 
-以上方法适用于本地快速开发；若使用 Docker Compose，请参见下方的 Docker 运行说明并使用 `docker-compose up --build`。
-
-### 3. 启动服务
+若你感觉每次 `uv run` 都在「装包 / 同步环境」，那是 `uv run` 默认会检查并同步虚拟环境与锁文件。依赖已稳定后可改用：
 
 ```bash
-uvicorn app.main:app --reload
+uv run --no-sync app.py
+# 或：source .venv/bin/activate && python app.py
 ```
 
-启动后自动创建数据库和所有表，访问 `http://localhost:8000/docs` 查看 Swagger 文档。
+`app.py` **必须**在 `.env`（或环境中）配置 `PORT`，否则无法启动；文档地址为 `http://localhost:<PORT>/docs`。
 
-### 4. 测试OCR
+也可用 uvicorn（需自行指定端口，与 `PORT` 一致即可）：
+
+```bash
+uv run --no-sync uvicorn app.main:app --host 0.0.0.0 --reload --port 8002
+```
+
+### 4. Docker 启动
+
+- **推荐**：`docker compose up -d --build`（见 `docs/docker.md`，需先配置 `.env` 或导出变量）。
+- **手动 `docker run`**：最后一行必须是已构建的镜像名（如 `my-backend`），且**反斜杠续行后不能有空格**，不要把文档里的 `...` 粘进命令。示例见 `docs/docker.md` 第三节。
+
+以上方法适用于本地快速开发；Compose 细节见 [docs/docker.md](docs/docker.md)。
+
+### 5. 测试OCR
 
 ```bash
 python test_ocr.py
