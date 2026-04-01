@@ -42,6 +42,20 @@
 
 ---
 
+## 接口1c：删除仓库（软删除）
+- 方法：`DELETE`
+- 路由：`/tl/delete_warehouse`
+- 传入（Query参数）：`warehouse_id`
+- 输出：状态提示
+- 逻辑说明：将 `dict_warehouses.is_active` 置为0，不物理删除，避免运费等关联数据受外键约束影响
+- 模拟请求：`DELETE /tl/delete_warehouse?warehouse_id=101`
+- 模拟返回JSON：
+```json
+{ "code": 200, "msg": "仓库已删除" }
+```
+
+---
+
 ## 接口1b：新建冶炼厂
 - 方法：`POST`
 - 路由：`/tl/add_smelter`

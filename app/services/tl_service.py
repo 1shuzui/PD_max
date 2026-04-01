@@ -94,6 +94,30 @@ class TLService:
             logger.error(f"获取仓库列表失败: {e}")
             raise
 
+    # ==================== 接口1c：删除仓库（软删除） ====================
+
+    def delete_warehouse(self, warehouse_id: int) -> Dict[str, Any]:
+        try:
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "SELECT id FROM dict_warehouses WHERE id = %s AND is_active = 1",
+                        (warehouse_id,),
+                    )
+                    if not cur.fetchone():
+                        raise ValueError(f"仓库 id={warehouse_id} 不存在或已删除")
+
+                    cur.execute(
+                        "UPDATE dict_warehouses SET is_active = 0 WHERE id = %s",
+                        (warehouse_id,),
+                    )
+            return {"code": 200, "msg": "仓库已删除"}
+        except ValueError:
+            raise
+        except Exception as e:
+            logger.error(f"删除仓库失败: {e}")
+            raise
+
     # ==================== 接口2：获取冶炼厂列表 ====================
 
     def get_smelters(self) -> List[Dict[str, Any]]:
