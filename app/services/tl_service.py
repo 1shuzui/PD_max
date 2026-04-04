@@ -1185,6 +1185,68 @@ class TLService:
             logger.error(f"获取运费列表失败: {e}")
             raise
 
+    # ==================== 接口6c：编辑运费 ====================
+
+    def update_freight(
+        self,
+        freight_id: int,
+        price_per_ton: float,
+        effective_date_str: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """按主键更新运费单价；可选修改生效日期（须满足 uk_factory_warehouse_date）。"""
+        if freight_id < 1:
+            raise ValueError("运费id 无效")
+        new_ed: Optional[date] = None
+        if effective_date_str is not None and str(effective_date_str).strip() != "":
+            try:
+                new_ed = date.fromisoformat(str(effective_date_str).strip())
+            except (ValueError, TypeError):
+                raise ValueError(f"生效日期格式不正确: {effective_date_str}，应为 YYYY-MM-DD")
+
+        try:
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "SELECT factory_id, warehouse_id, effective_date "
+                        "FROM freight_rates WHERE id = %s",
+                        (freight_id,),
+                    )
+                    row = cur.fetchone()
+                    if not row:
+                        raise ValueError(f"运费记录不存在: id={freight_id}")
+                    factory_id, warehouse_id, current_ed = int(row[0]), int(row[1]), row[2]
+                    if isinstance(current_ed, datetime):
+                        current_ed = current_ed.date()
+
+                    target_ed = new_ed if new_ed is not None else current_ed
+
+                    if new_ed is not None and new_ed != current_ed:
+                        cur.execute(
+                            "SELECT id FROM freight_rates "
+                            "WHERE factory_id = %s AND warehouse_id = %s "
+                            "AND effective_date = %s AND id <> %s",
+                            (factory_id, warehouse_id, new_ed, freight_id),
+                        )
+                        if cur.fetchone():
+                            raise ValueError(
+                                "该仓库与冶炼厂在目标生效日期已存在其它运费记录，无法改为该日期"
+                            )
+
+                    cur.execute(
+                        "UPDATE freight_rates SET price_per_ton = %s, effective_date = %s, "
+                        "updated_at = CURRENT_TIMESTAMP WHERE id = %s",
+                        (price_per_ton, target_ed, freight_id),
+                    )
+                    if cur.rowcount == 0:
+                        raise ValueError(f"更新失败: id={freight_id}")
+
+            return {"code": 200, "msg": "运费已更新"}
+        except ValueError:
+            raise
+        except Exception as e:
+            logger.error(f"更新运费失败: {e}")
+            raise
+
     def _prepare_quote_details_filter(
         self,
         factory_id: Optional[int],
@@ -1441,6 +1503,12 @@ class TLService:
         try:
             with get_conn() as conn:
                 with conn.cursor() as cur:
+                    if category_id <= 0:
+                        cur.execute(
+                            "SELECT COALESCE(MAX(category_id), 0) + 1 FROM dict_categories"
+                        )
+                        category_id = int(cur.fetchone()[0])
+
                     # 将该 category_id 下所有旧记录的 is_main 置为 0
                     cur.execute(
                         "UPDATE dict_categories SET is_main = 0 WHERE category_id = %s",
@@ -1471,7 +1539,11 @@ class TLService:
                                 (category_id, name, is_main),
                             )
 
-            return {"code": 200, "msg": "品类映射表更新成功，数据已存入数据库"}
+            return {
+                "code": 200,
+                "msg": "品类映射表更新成功，数据已存入数据库",
+                "品类id": category_id,
+            }
 
         except ValueError:
             raise

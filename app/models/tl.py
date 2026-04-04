@@ -50,6 +50,16 @@ class UploadFreightRequest(BaseModel):
     运费: float = Field(..., description="运费金额（元/吨）")
 
 
+class UpdateFreightRequest(BaseModel):
+    """接口6c 编辑运费（按列表返回的 id）"""
+    运费id: int = Field(..., description="freight_rates 主键，见 get_freight_list 返回的 id")
+    运费: float = Field(..., ge=0, description="每吨运费（元）")
+    生效日期: Optional[str] = Field(
+        None,
+        description="YYYY-MM-DD；不传则保持原生效日期；若修改，同一仓库+冶炼厂下该日期不能已有其它记录",
+    )
+
+
 class CategoryMappingItem(BaseModel):
     """接口7 单条品类映射"""
     品类id: int = Field(..., description="品类分组ID")

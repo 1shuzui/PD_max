@@ -17,11 +17,12 @@ TL比价模块路由
   5d.GET  /tl/export_quote_details_excel - 导出报价数据 Excel（与查询条件一致）
   6. POST /tl/upload_freight           - 上传运费
   6b.GET  /tl/get_freight_list         - 运费列表（分页、筛选）
+  6c.POST /tl/update_freight           - 编辑运费（按 id）
   7a.GET  /tl/get_category_mapping     - 获取品类映射表
   7. POST /tl/update_category_mapping  - 更新品类映射表
 """
 import io
-from typing import List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import quote
 
 from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File
@@ -30,6 +31,7 @@ from fastapi.responses import StreamingResponse
 from app.models.tl import (
     ComparisonRequest,
     UploadFreightRequest,
+    UpdateFreightRequest,
     CategoryMappingItem,
     ConfirmPriceTableRequest,
     AddWarehouseRequest,
@@ -407,6 +409,26 @@ def get_freight_list(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ===================== 接口6c：编辑运费 =====================
+
+@router.post("/update_freight", summary="编辑运费")
+def update_freight(
+    body: UpdateFreightRequest,
+    service: TLService = Depends(get_tl_service),
+):
+    """按 `get_freight_list` 返回的 `id` 更新单价；可选修改生效日期（不可与同仓库+冶炼厂下其它记录日期冲突）。"""
+    try:
+        return service.update_freight(
+            freight_id=body.运费id,
+            price_per_ton=body.运费,
+            effective_date_str=body.生效日期,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ===================== 接口7a：获取品类映射表 =====================
 
 @router.get("/get_category_mapping", summary="获取品类映射表")
@@ -484,17 +506,24 @@ def delete_tax_rate(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
+@router.post("/update_category_mapping", summary="更新品类映射表")
 def update_category_mapping(
     body: List[CategoryMappingItem],
     service: TLService = Depends(get_tl_service),
 ):
     try:
+        last_cid: Optional[int] = None
         for item in body:
-            service.update_category_mapping(
+            r = service.update_category_mapping(
                 category_id=item.品类id,
                 names=item.品类名称,
             )
-        return {"code": 200, "msg": "品类映射表更新成功，数据已存入数据库"}
+            last_cid = r.get("品类id")
+        out: Dict[str, Any] = {"code": 200, "msg": "品类映射表更新成功，数据已存入数据库"}
+        if last_cid is not None:
+            out["品类id"] = last_cid
+        return out
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
