@@ -4,6 +4,7 @@ import asyncio
 import json
 import logging
 import os
+import time
 import re
 import shutil
 import tempfile
@@ -225,6 +226,38 @@ async def startup_ai_detection() -> None:
     )
 
 
+def _create_easyocr_reader(use_gpu: bool):
+    """
+    EasyOCR 首次运行会从 GitHub 下载检测/识别模型；网络不稳时易触发 RemoteDisconnected。
+    短暂重试可缓解偶发断连；离线可把模型放到 EASYOCR_MODULE_PATH/model/ 并保证与 easyocr 版本匹配。
+    """
+    import easyocr
+
+    model_dir = os.getenv("EASYOCR_MODULE_PATH", "").strip() or None
+    kwargs: Dict[str, Any] = {"gpu": use_gpu, "verbose": False}
+    if model_dir:
+        kwargs["model_storage_directory"] = os.path.join(model_dir, "model")
+        Path(kwargs["model_storage_directory"]).mkdir(parents=True, exist_ok=True)
+
+    last_err: Optional[BaseException] = None
+    for attempt in range(3):
+        try:
+            return easyocr.Reader(["ch_sim", "en"], **kwargs)
+        except Exception as e:
+            last_err = e
+            if attempt < 2:
+                wait_s = 2.0 * (attempt + 1)
+                logger.warning(
+                    "EasyOCR 初始化失败 (%s)，%ss 后重试 (%s/2)",
+                    e,
+                    wait_s,
+                    attempt + 1,
+                )
+                time.sleep(wait_s)
+    assert last_err is not None
+    raise last_err
+
+
 async def ensure_ai_detection_runtime() -> None:
     if EngineContainer.instance is not None and EngineContainer.ocr_reader is not None:
         return
@@ -241,16 +274,15 @@ async def ensure_ai_detection_runtime() -> None:
         device = "cuda" if torch.cuda.is_available() else "cpu"
         logger.info("Loading AI detection runtime on %s (first use; may download EasyOCR models)", device)
         try:
-            import easyocr
+            import easyocr  # noqa: F401 — 提前校验依赖
         except ModuleNotFoundError as exc:
             raise RuntimeError(
                 "Missing dependency 'easyocr'. Run `uv sync` or `pip install easyocr`."
             ) from exc
 
         EngineContainer.ocr_reader = await run_in_threadpool(
-            easyocr.Reader,
-            ["ch_sim", "en"],
-            gpu=(device == "cuda"),
+            _create_easyocr_reader,
+            device == "cuda",
         )
         from app.ai_detection.inference_api import InferenceEngineAPI
 

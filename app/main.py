@@ -84,7 +84,11 @@ async def on_startup():
             await _ai_det_mod.ensure_ai_detection_runtime()
             logger.info("AI 鉴伪运行时已预加载（AI_DETECTION_PRELOAD=1）")
         except Exception:
-            logger.exception("AI 鉴伪预加载失败，将在首次检测请求时再加载")
+            logger.exception(
+                "AI 鉴伪预加载失败（多为 EasyOCR 从 GitHub 下载模型时网络中断；"
+                "比价等接口不受影响，首次鉴伪请求会再尝试加载）。"
+                "可：关 AI_DETECTION_PRELOAD、配置 HTTPS 代理、或设置 EASYOCR_MODULE_PATH 使用离线模型目录。"
+            )
 
 
 @app.on_event("shutdown")
