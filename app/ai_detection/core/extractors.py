@@ -8,6 +8,7 @@ import faiss
 import pickle
 import logging
 import re
+from typing import Any, Optional
 
 from app.ai_detection.easyocr_download_patch import patch_easyocr_download
 from app.ai_detection.runtime_assets import get_easyocr_reader_kwargs
@@ -16,23 +17,28 @@ logger = logging.getLogger(__name__)
 
 
 class FeatureExtractor:
-    def __init__(self):
+    def __init__(self, reader: Optional[Any] = None):
+        """
+        :param reader: 若传入已初始化的 easyocr.Reader，则复用（与 HTTP 层异步自动框选共用同一份模型，省一份内存）。
+        """
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        try:
-            import easyocr
-        except ModuleNotFoundError as exc:
-            raise ModuleNotFoundError(
-                "Missing dependency 'easyocr'. Install dependencies with `uv sync` "
-                "or `pip install easyocr`."
-            ) from exc
+        if reader is not None:
+            self.reader = reader
+        else:
+            try:
+                import easyocr
+            except ModuleNotFoundError as exc:
+                raise ModuleNotFoundError(
+                    "Missing dependency 'easyocr'. Install dependencies with `uv sync` "
+                    "or `pip install easyocr`."
+                ) from exc
 
-        patch_easyocr_download()
+            patch_easyocr_download()
 
-        # 预加载 OCR，只实例化一次
-        self.reader = easyocr.Reader(
-            ['ch_sim', 'en'],
-            **get_easyocr_reader_kwargs(gpu=(self.device.type == 'cuda')),
-        )
+            self.reader = easyocr.Reader(
+                ['ch_sim', 'en'],
+                **get_easyocr_reader_kwargs(gpu=(self.device.type == 'cuda')),
+            )
 
         # 加载 ResNet 用于提取特征
         resnet = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)

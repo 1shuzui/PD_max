@@ -7,7 +7,7 @@ import os
 import joblib
 import re
 from pathlib import Path
-from typing import List
+from typing import Any, List, Optional
 
 from app.ai_detection.core.extractors import FeatureExtractor, FontFeatureLibrary, TamperAnalyzer
 from app.ai_detection.core.detectors import PixelLevelDetector
@@ -22,7 +22,10 @@ logger = logging.getLogger(__name__)
 
 
 class InferenceEngineAPI:
-    def __init__(self, config_path="config.yaml"):
+    def __init__(self, config_path="config.yaml", shared_ocr_reader: Optional[Any] = None):
+        """
+        :param shared_ocr_reader: 与路由层共用的 easyocr.Reader；传入则 FeatureExtractor 不再单独 new 一份（显著降低内存）。
+        """
         config_file = Path(config_path)
         if not config_file.is_absolute():
             config_file = (Path(__file__).resolve().parent / config_file).resolve()
@@ -32,7 +35,7 @@ class InferenceEngineAPI:
             self.config = yaml.safe_load(f)
         self.base_dir = config_file.parent
 
-        self.extractor = FeatureExtractor()
+        self.extractor = FeatureExtractor(reader=shared_ocr_reader)
         self.font_lib = FontFeatureLibrary()
         font_lib_path = self._resolve_path(self.config['paths']['font_lib_path'])
         self.font_lib.load(font_lib_path)

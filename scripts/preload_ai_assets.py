@@ -31,14 +31,13 @@ def main() -> None:
     if mp:
         print(f"EASYOCR_GITHUB_MIRROR={mp}")
 
-    # 先单独预热 EasyOCR 自动找框用到的模型。
-    easyocr.Reader(
+    reader = easyocr.Reader(
         ["ch_sim", "en"],
         **get_easyocr_reader_kwargs(gpu=False),
     )
 
-    # 再实例化推理引擎，顺带预热 FeatureExtractor 里的 EasyOCR 与 ResNet 权重。
-    engine = InferenceEngineAPI("config.yaml")
+    # 与线上一致：引擎与预热脚本只保留一份 EasyOCR Reader
+    engine = InferenceEngineAPI("config.yaml", shared_ocr_reader=reader)
     print(f"engine_ready={engine.__class__.__name__}")
     print(f"torch_cuda_available={torch.cuda.is_available()}")
 

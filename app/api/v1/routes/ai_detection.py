@@ -297,6 +297,14 @@ async def ensure_ai_detection_runtime() -> None:
 
         import torch
 
+        _tn = os.getenv("TORCH_NUM_THREADS", "").strip()
+        if _tn:
+            try:
+                torch.set_num_threads(max(1, int(_tn)))
+                torch.set_num_interop_threads(1)
+            except (ValueError, RuntimeError):
+                pass
+
         device = "cuda" if torch.cuda.is_available() else "cpu"
         logger.info("Loading AI detection runtime on %s (first use; may download EasyOCR models)", device)
         try:
@@ -306,13 +314,18 @@ async def ensure_ai_detection_runtime() -> None:
                 "Missing dependency 'easyocr'. Run `uv sync` or `pip install easyocr`."
             ) from exc
 
-        EngineContainer.ocr_reader = await run_in_threadpool(
+        ocr_reader = await run_in_threadpool(
             _create_easyocr_reader,
             device == "cuda",
         )
+        EngineContainer.ocr_reader = ocr_reader
         from app.ai_detection.inference_api import InferenceEngineAPI
 
-        EngineContainer.instance = await run_in_threadpool(InferenceEngineAPI, "config.yaml")
+        def _build_engine() -> InferenceEngineAPI:
+            # 与 FeatureExtractor 共用同一 EasyOCR，避免双份检测模型常驻（原先可占数百 MB～1GB+）
+            return InferenceEngineAPI("config.yaml", shared_ocr_reader=ocr_reader)
+
+        EngineContainer.instance = await run_in_threadpool(_build_engine)
         logger.info("AI detection runtime ready")
 
 

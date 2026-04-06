@@ -68,3 +68,20 @@ else:
 VLM_API_KEY = os.getenv("VLM_API_KEY", "")
 VLM_BASE_URL = os.getenv("VLM_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
 VLM_MODEL = os.getenv("VLM_MODEL", "qwen-vl-max-latest")
+
+
+def _env_enabled(name: str, *, default: bool = True) -> bool:
+    """环境变量开关：未设置时用 default；0/false/off 为关，1/true/on 为开。"""
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    v = raw.strip().lower()
+    if v in ("0", "false", "no", "off", "disabled"):
+        return False
+    if v in ("1", "true", "yes", "on", "enabled"):
+        return True
+    return default
+
+
+# 为 0 时不注册 /ai-detection/*、不启动鉴伪 GC/任务表、不预加载模型（省内存）
+AI_DETECTION_ENABLED = _env_enabled("AI_DETECTION_ENABLED", default=True)

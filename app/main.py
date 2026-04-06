@@ -5,9 +5,8 @@ import time
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-import app.config  # noqa: F401 — 加载项目根 .env（副作用）
+import app.config as app_config  # noqa: F401 — 加载项目根 .env（副作用）
 from app.api.v1.router import api_router
-from app.api.v1.routes.ai_detection import shutdown_ai_detection, startup_ai_detection
 from app.database import create_tables, init_default_data
 from app.logging_config import setup_logging
 
@@ -72,33 +71,39 @@ async def on_startup():
     create_tables()
     init_default_data()
     _init_admin()
-    try:
-        await startup_ai_detection()
-    except Exception:
-        logger.exception("AI detection init failed; TL core APIs remain available.")
-    # 经 Nginx/云网关时，首次检测若现场加载 OCR+模型易超 60s 触发 504；预加载可拉长启动、缩短首请求耗时
-    if os.getenv("AI_DETECTION_PRELOAD", "").strip().lower() in ("1", "true", "yes", "on"):
-        try:
-            from app.api.v1.routes import ai_detection as _ai_det_mod
+    if app_config.AI_DETECTION_ENABLED:
+        from app.api.v1.routes.ai_detection import startup_ai_detection
 
-            await _ai_det_mod.ensure_ai_detection_runtime()
-            logger.info("AI 鉴伪运行时已预加载（AI_DETECTION_PRELOAD=1）")
+        try:
+            await startup_ai_detection()
         except Exception:
-            logger.exception(
-                "AI 鉴伪预加载失败（多为 EasyOCR 从 GitHub 下载模型时网络中断；"
-                "比价等接口不受影响，首次鉴伪请求会再尝试加载）。"
-                "可：关 AI_DETECTION_PRELOAD、配置 HTTPS 代理、或设置 EASYOCR_MODULE_PATH 使用离线模型目录。"
-            )
+            logger.exception("AI detection init failed; TL core APIs remain available.")
+        # 经 Nginx/云网关时，首次检测若现场加载 OCR+模型易超 60s 触发 504；预加载可拉长启动、缩短首请求耗时
+        if os.getenv("AI_DETECTION_PRELOAD", "").strip().lower() in ("1", "true", "yes", "on"):
+            try:
+                from app.api.v1.routes import ai_detection as _ai_det_mod
+
+                await _ai_det_mod.ensure_ai_detection_runtime()
+                logger.info("AI 鉴伪运行时已预加载（AI_DETECTION_PRELOAD=1）")
+            except Exception:
+                logger.exception(
+                    "AI 鉴伪预加载失败（多为 EasyOCR 从 GitHub 下载模型时网络中断；"
+                    "比价等接口不受影响，首次鉴伪请求会再尝试加载）。"
+                    "可：关 AI_DETECTION_PRELOAD、配置 HTTPS 代理、或设置 EASYOCR_MODULE_PATH 使用离线模型目录。"
+                )
+    else:
+        logger.info("AI 鉴伪模块已关闭（AI_DETECTION_ENABLED=0），不注册 /ai-detection 路由、不加载模型")
 
 
 @app.on_event("shutdown")
 async def on_shutdown():
-    await shutdown_ai_detection()
+    if app_config.AI_DETECTION_ENABLED:
+        from app.api.v1.routes.ai_detection import shutdown_ai_detection
+
+        await shutdown_ai_detection()
 
 
 def _warn_insecure_defaults() -> None:
-    from app import config as app_config
-
     if app_config.JWT_SECRET_KEY == "change_this_to_a_strong_random_secret":
         logger.warning(
             "JWT_SECRET_KEY 仍为占位默认值，生产环境请务必在 .env 中更换为强随机密钥"
