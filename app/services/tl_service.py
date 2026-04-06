@@ -978,6 +978,9 @@ class TLService:
                 api_key=app_config.VLM_API_KEY,
                 base_url=app_config.VLM_BASE_URL,
                 model=app_config.VLM_MODEL,
+                max_tokens=app_config.VLM_MAX_TOKENS,
+                image_max_edge=app_config.VLM_IMAGE_MAX_EDGE,
+                jpeg_quality=app_config.VLM_JPEG_QUALITY,
                 save_individual=False,
             )
 

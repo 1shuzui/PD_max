@@ -150,6 +150,11 @@ class VLMConfig(BaseModel):
     supported_ext: Tuple[str, ...] = ('.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.webp', '.gif')
     temperature: float = 0.1
     max_tokens: int = 8192
+    image_max_edge: Optional[int] = Field(
+        default=None,
+        description="最长边超过此像素则缩小后再送 VLM；None 表示不缩放",
+    )
+    jpeg_quality: int = Field(default=88, ge=60, le=100)
     on_progress: Optional[Callable] = Field(default=None, exclude=True)
     on_error: Optional[Callable] = Field(default=None, exclude=True)
     on_complete: Optional[Callable] = Field(default=None, exclude=True)
@@ -251,9 +256,57 @@ class QwenVLFullExtractor:
         self._client = None
         self._initialized = False
 
-    def _encode_image(self, image_path: str) -> str:
+    def _image_data_url(self, image_path: str) -> str:
+        """构建 data:image/...;base64,... 供多模态 API 使用；可选缩小长边以加速识别。"""
+        path_lower = image_path.lower()
         with open(image_path, "rb") as f:
-            return base64.b64encode(f.read()).decode("utf-8")
+            raw = f.read()
+
+        max_edge = self.config.image_max_edge
+        if max_edge is None or max_edge <= 0:
+            b64 = base64.b64encode(raw).decode("utf-8")
+            mime = (
+                "image/png"
+                if path_lower.endswith((".png", ".webp"))
+                else "image/jpeg"
+            )
+            return f"data:{mime};base64,{b64}"
+
+        import numpy as np
+        import cv2
+
+        arr = np.frombuffer(raw, dtype=np.uint8)
+        img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+        if img is None:
+            b64 = base64.b64encode(raw).decode("utf-8")
+            mime = "image/png" if path_lower.endswith(".png") else "image/jpeg"
+            return f"data:{mime};base64,{b64}"
+
+        h, w = img.shape[:2]
+        longest = max(h, w)
+        if longest <= max_edge:
+            b64 = base64.b64encode(raw).decode("utf-8")
+            mime = "image/png" if path_lower.endswith(".png") else "image/jpeg"
+            return f"data:{mime};base64,{b64}"
+
+        scale = max_edge / float(longest)
+        nw, nh = max(1, int(w * scale)), max(1, int(h * scale))
+        logger.info(
+            "VLM 入图缩放 %s×%s -> %s×%s (max_edge=%s)",
+            w,
+            h,
+            nw,
+            nh,
+            max_edge,
+        )
+        resized = cv2.resize(img, (nw, nh), interpolation=cv2.INTER_AREA)
+        q = max(60, min(100, int(self.config.jpeg_quality)))
+        ok, buf = cv2.imencode(".jpg", resized, [int(cv2.IMWRITE_JPEG_QUALITY), q])
+        if not ok:
+            b64 = base64.b64encode(raw).decode("utf-8")
+            return f"data:image/jpeg;base64,{b64}"
+        b64 = base64.b64encode(buf.tobytes()).decode("utf-8")
+        return f"data:image/jpeg;base64,{b64}"
 
     def _normalize_path(self, path: str) -> str:
         return path.strip().replace('"', '').replace("'", "").replace('\\', '/')
@@ -436,7 +489,7 @@ class QwenVLFullExtractor:
             )
         
         try:
-            base64_image = self._encode_image(abs_path)
+            image_data_url = self._image_data_url(abs_path)
             logger.info(f"正在识别: {file_name}")
             
             response = self._client.chat.completions.create(
@@ -445,7 +498,7 @@ class QwenVLFullExtractor:
                     "role": "user",
                     "content": [
                         {"type": "text", "text": FULL_EXTRACTION_PROMPT},
-                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
+                        {"type": "image_url", "image_url": {"url": image_data_url}},
                     ]
                 }],
                 temperature=self.config.temperature,

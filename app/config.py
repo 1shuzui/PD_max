@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from typing import Optional
 
 from dotenv import load_dotenv
 
@@ -68,6 +69,30 @@ else:
 VLM_API_KEY = os.getenv("VLM_API_KEY", "")
 VLM_BASE_URL = os.getenv("VLM_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
 VLM_MODEL = os.getenv("VLM_MODEL", "qwen-vl-max-latest")
+
+
+def _optional_positive_int(name: str) -> Optional[int]:
+    raw = os.getenv(name, "").strip()
+    if not raw:
+        return None
+    try:
+        v = int(raw)
+        return v if v > 0 else None
+    except ValueError:
+        return None
+
+
+# 上传百炼前将图最长边压到此值（像素），可明显缩短传输与视觉编码时间；不设则不缩放
+VLM_IMAGE_MAX_EDGE = _optional_positive_int("VLM_IMAGE_MAX_EDGE")
+_vlm_mt = os.getenv("VLM_MAX_TOKENS", "8192").strip()
+try:
+    VLM_MAX_TOKENS = max(1024, min(32768, int(_vlm_mt)))
+except ValueError:
+    VLM_MAX_TOKENS = 8192
+try:
+    VLM_JPEG_QUALITY = max(60, min(100, int(os.getenv("VLM_JPEG_QUALITY", "88"))))
+except ValueError:
+    VLM_JPEG_QUALITY = 88
 
 
 def _env_enabled(name: str, *, default: bool = True) -> bool:
