@@ -25,12 +25,7 @@ class ComparisonRequest(BaseModel):
     吨数: float = Field(
         1.0,
         gt=0,
-        description="货物吨数；车数=max(1, ⌈吨数/每车吨数⌉)；总运费=车数×每车运费（元/车）",
-    )
-    每车吨数: float = Field(
-        35.0,
-        gt=0,
-        description="单车核定吨数；用于由吨数推算车数；总运费=每车运费×车数（运费表数值按元/车解释）",
+        description="货物吨数；总运费=freight_rates 每吨运费（元/吨）×吨数",
     )
     最优价计税口径列表: List[str] = Field(
         default_factory=lambda: ["3pct"],
@@ -126,6 +121,29 @@ class UpdateCategoryMappingRequest(BaseModel):
     """接口7 请求体"""
     品类id: int = Field(..., description="品类分组ID")
     品类名称: List[str] = Field(..., description="品类名称列表，第一个为主名称")
+
+
+class UpdateCategoryRowRequest(BaseModel):
+    """按 dict_categories.row_id 修改单条别名（名称或主名称）"""
+
+    model_config = ConfigDict(extra="ignore")
+
+    行id: int = Field(..., ge=1, description="dict_categories 主键 row_id，见 get_category_mapping 别名行")
+    品种名: Optional[str] = Field(
+        None,
+        description="新名称；传入则改名，并同步 quote_details 中历史 category_name",
+    )
+    设为主名称: Optional[bool] = Field(
+        None,
+        description="传 true 将该别名设为该品类组的主名称（is_main=1，同组其余为0）",
+    )
+
+    @model_validator(mode="after")
+    def _at_least_one_field(self) -> "UpdateCategoryRowRequest":
+        has_name = self.品种名 is not None and str(self.品种名).strip() != ""
+        if has_name or self.设为主名称 is True:
+            return self
+        raise ValueError("至少需要提供非空的 品种名，或将 设为主名称 设为 true")
 
 
 class VlmPriceRow(BaseModel):

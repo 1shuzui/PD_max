@@ -6,7 +6,6 @@ import hashlib
 import io
 import json
 import logging
-import math
 import os
 import uuid
 from datetime import date, datetime
@@ -215,15 +214,21 @@ class TLService:
 
     # ==================== 接口1：获取仓库列表 ====================
 
-    def get_warehouses(self) -> List[Dict[str, Any]]:
+    def get_warehouses(self, keyword: Optional[str] = None) -> List[Dict[str, Any]]:
         try:
+            conditions = ["is_active = 1"]
+            params: List[Any] = []
+            if keyword is not None and str(keyword).strip():
+                conditions.append("name LIKE %s")
+                params.append(f"%{str(keyword).strip()}%")
+            where_sql = " AND ".join(conditions)
             with get_conn() as conn:
                 with conn.cursor() as cur:
                     cur.execute(
-                        "SELECT id AS `仓库id`, name AS `仓库名` "
-                        "FROM dict_warehouses "
-                        "WHERE is_active = 1 "
-                        "ORDER BY id"
+                        f"SELECT id AS `仓库id`, name AS `仓库名` "
+                        f"FROM dict_warehouses WHERE {where_sql} "
+                        "ORDER BY id",
+                        tuple(params),
                     )
                     columns = [desc[0] for desc in cur.description]
                     rows = cur.fetchall()
@@ -508,14 +513,15 @@ class TLService:
         category_ids: List[int],
         price_type: Optional[str] = None,
         tons: float = 1.0,
-        tons_per_truck: float = 35.0,
         optimal_basis_list: Optional[List[str]] = None,
         optimal_sort_basis: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         price_type: 目标税率类型，None=普通价, 1pct/3pct/13pct/normal_invoice/reverse_invoice
-        吨数 t: 报价按元/吨；**总运费**恒为：车数=max(1, ⌈t/每车吨数⌉)×**每车运费**（`freight_rates.price_per_ton` 在比价中按**元/车**使用）。
-        **展示用「报价」**：按所选 price_type 折合为不含税（元/吨）后写入 `报价`，`利润`=不含税报价×t−总运费。
+        吨数 t: 报价按元/吨；**总运费** = 运费单价（元/吨）× t，即 **运费×吨数**。
+        **展示用「报价」**：按所选 price_type 折合为不含税（元/吨）后写入 `报价`；
+        **`报价金额`** = **报价×吨数**（无报价为 `null`）；**`利润`** = **报价金额 − 总运费**（即 **报价×吨数 − 运费×吨数**）。
+        前端最终比价、明细排序与 **`冶炼厂利润排行`** 均以该 **`利润`**（及所选最优价口径）为准。
         **最优价各口径利润**=该口径下元/吨单价×t−总运费（与主利润同一套总运费）。
         同时按表中已有列统一反推 `基准价`（不含税）、`含1%税价`、`含3%税价`（与 OCR 按税点入库、再换算一致）；
         `利润_基准`=基准价×t−总运费，`利润_含3%`=含3%税价×t−总运费。
@@ -731,9 +737,8 @@ class TLService:
                         return row
                 return None
 
-            # 组合结果；总运费恒为：车数×每车运费（元/车），车数由吨数与每车吨数推算
+            # 组合结果；总运费 = 每吨运费（元/吨）× 吨数
             t = float(tons)
-            tp_truck = float(tons_per_truck) if tons_per_truck and tons_per_truck > 0 else 35.0
             result: List[Dict[str, Any]] = []
             for (wid, fid), (wname, fname, freight) in freight_map.items():
                 for cid in category_ids:
@@ -751,12 +756,18 @@ class TLService:
                     else:
                         p_net = None
 
-                    p = float(p_net) if p_net is not None else 0.0
                     fr = float(freight) if freight is not None else 0.0
-                    n_trucks = max(1, math.ceil(t / tp_truck))
-                    freight_cost_total = round(fr * n_trucks, 2)
+                    freight_cost_total = round(fr * t, 2)
 
-                    profit = round(p * t - freight_cost_total, 2)
+                    quote_amount: Optional[float] = (
+                        round(float(p_net) * t, 2) if p_net is not None else None
+                    )
+                    profit = (
+                        round(quote_amount - freight_cost_total, 2)
+                        if quote_amount is not None
+                        else round(-freight_cost_total, 2)
+                    )
+                    p = float(p_net) if p_net is not None else 0.0
 
                     qrow = pick_quote_row(fid, cid)
                     breakdown = (
@@ -789,12 +800,11 @@ class TLService:
                         "品类": cat_name,
                         "price_type": price_type_name,
                         "吨数": t,
-                        "运费计价方式": "per_truck",
-                        "车数": n_trucks,
-                        "每车吨数": tp_truck,
+                        "运费计价方式": "per_ton",
                         "运费": fr,
                         "总运费": freight_cost_total,
                         "报价": p_net if source != "unavailable" else None,
+                        "报价金额": quote_amount,
                         "报价来源": source,
                         "基准价": base_net,
                         "含1%税价": p1_vat,
@@ -1567,6 +1577,25 @@ class TLService:
             logger.error(f"更新运费失败: {e}")
             raise
 
+    # ==================== 接口6d：删除运费 ====================
+
+    def delete_freight(self, freight_id: int) -> Dict[str, Any]:
+        """按主键物理删除 `freight_rates` 一条记录（与 6c 使用同一 id）。"""
+        if freight_id < 1:
+            raise ValueError("运费id 无效")
+        try:
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("DELETE FROM freight_rates WHERE id = %s", (freight_id,))
+                    if cur.rowcount == 0:
+                        raise ValueError(f"运费记录不存在: id={freight_id}")
+            return {"code": 200, "msg": "运费已删除"}
+        except ValueError:
+            raise
+        except Exception as e:
+            logger.error(f"删除运费失败: {e}")
+            raise
+
     def _prepare_quote_details_filter(
         self,
         factory_id: Optional[int],
@@ -1795,7 +1824,7 @@ class TLService:
             with get_conn() as conn:
                 with conn.cursor() as cur:
                     cur.execute(
-                        "SELECT category_id, name, is_main "
+                        "SELECT row_id, category_id, name, is_main "
                         "FROM dict_categories "
                         "WHERE is_active = 1 "
                         "ORDER BY category_id, is_main DESC, row_id"
@@ -1803,9 +1832,20 @@ class TLService:
                     rows = cur.fetchall()
 
             result: Dict[int, Dict[str, Any]] = {}
-            for cat_id, name, is_main in rows:
+            for row_id, cat_id, name, is_main in rows:
                 if cat_id not in result:
-                    result[cat_id] = {"品类id": cat_id, "品类名称": []}
+                    result[cat_id] = {
+                        "品类id": cat_id,
+                        "品类名称": [],
+                        "别名行": [],
+                    }
+                result[cat_id]["别名行"].append(
+                    {
+                        "行id": row_id,
+                        "名称": name,
+                        "是否主名称": bool(is_main),
+                    }
+                )
                 if is_main:
                     result[cat_id]["品类名称"].insert(0, name)
                 else:
@@ -1875,6 +1915,136 @@ class TLService:
             raise
         except Exception as e:
             logger.error(f"更新品类映射失败: {e}")
+            raise
+
+    # ==================== 接口7b：按行修改品类别名 ====================
+
+    def update_category_row(
+        self,
+        row_id: int,
+        new_name: Optional[str] = None,
+        set_main: Optional[bool] = None,
+    ) -> Dict[str, Any]:
+        if new_name is None and set_main is None:
+            raise ValueError("至少需要提供 品种名 或 设为主名称（true）之一")
+
+        try:
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "SELECT row_id, category_id, name FROM dict_categories "
+                        "WHERE row_id = %s AND is_active = 1",
+                        (row_id,),
+                    )
+                    found = cur.fetchone()
+                    if not found:
+                        raise ValueError(f"品类别名不存在或已删除: 行id={row_id}")
+                    _rid, cat_id, old_name = found
+
+                    if new_name is not None:
+                        nn = str(new_name).strip()
+                        if not nn:
+                            raise ValueError("品种名不能为空")
+                        if len(nn) > 50:
+                            raise ValueError("品种名长度不能超过 50")
+                        cur.execute(
+                            "SELECT row_id FROM dict_categories "
+                            "WHERE name = %s AND row_id <> %s AND is_active = 1",
+                            (nn, row_id),
+                        )
+                        if cur.fetchone():
+                            raise ValueError(f"品种名「{nn}」已被其它别名使用")
+                        cur.execute(
+                            "UPDATE dict_categories SET name = %s WHERE row_id = %s",
+                            (nn, row_id),
+                        )
+                        cur.execute(
+                            "UPDATE quote_details SET category_name = %s WHERE category_name = %s",
+                            (nn, old_name),
+                        )
+
+                    if set_main is True:
+                        cur.execute(
+                            "UPDATE dict_categories SET is_main = 0 WHERE category_id = %s",
+                            (cat_id,),
+                        )
+                        cur.execute(
+                            "UPDATE dict_categories SET is_main = 1 WHERE row_id = %s",
+                            (row_id,),
+                        )
+
+            return {"code": 200, "msg": "品类别名已更新"}
+        except ValueError:
+            raise
+        except Exception as e:
+            logger.error(f"修改品类别名失败: {e}")
+            raise
+
+    # ==================== 接口7c：删除品类分组（软删除） ====================
+
+    def delete_category(self, category_id: int) -> Dict[str, Any]:
+        if category_id < 1:
+            raise ValueError("品类id 无效")
+        try:
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "UPDATE dict_categories SET is_active = 0 "
+                        "WHERE category_id = %s AND is_active = 1",
+                        (category_id,),
+                    )
+                    n = cur.rowcount
+                    if n == 0:
+                        raise ValueError(f"品类 id={category_id} 不存在或已删除")
+            return {"code": 200, "msg": "品类分组已删除", "影响行数": n}
+        except ValueError:
+            raise
+        except Exception as e:
+            logger.error(f"删除品类分组失败: {e}")
+            raise
+
+    # ==================== 接口7d：删除单条品类别名（软删除） ====================
+
+    def delete_category_row(self, row_id: int) -> Dict[str, Any]:
+        if row_id < 1:
+            raise ValueError("行id 无效")
+        try:
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "SELECT category_id, is_main FROM dict_categories "
+                        "WHERE row_id = %s AND is_active = 1",
+                        (row_id,),
+                    )
+                    row = cur.fetchone()
+                    if not row:
+                        raise ValueError(f"品类别名不存在或已删除: 行id={row_id}")
+                    cat_id, was_main = int(row[0]), int(row[1])
+
+                    cur.execute(
+                        "UPDATE dict_categories SET is_active = 0 WHERE row_id = %s",
+                        (row_id,),
+                    )
+
+                    if was_main:
+                        cur.execute(
+                            "SELECT row_id FROM dict_categories "
+                            "WHERE category_id = %s AND is_active = 1 "
+                            "ORDER BY row_id ASC LIMIT 1",
+                            (cat_id,),
+                        )
+                        nxt = cur.fetchone()
+                        if nxt:
+                            cur.execute(
+                                "UPDATE dict_categories SET is_main = 1 WHERE row_id = %s",
+                                (nxt[0],),
+                            )
+
+            return {"code": 200, "msg": "品类别名已删除"}
+        except ValueError:
+            raise
+        except Exception as e:
+            logger.error(f"删除品类别名失败: {e}")
             raise
 
     # ==================== 接口A7：采购建议 ====================
@@ -2078,11 +2248,12 @@ class TLService:
                 price_map[(fid, cid)] = resolve_price(fid, cid)
 
         # 构造结构化数据：每条需求 × 全部冶炼厂，报价与各仓库运费对比
+        # 与 get_comparison 一致：比价利润 = 报价×吨数 − 运费×吨数 → 元/吨档为 (报价 − 运费)
         demand_rows = []
         raw = []
         for d in demands:
             cid = d["category_id"]
-            demand_tons = d["demand"]
+            demand_tons = float(d["demand"])
             for fid in smelter_ids:
                 fname = factory_name_map.get(fid, f"冶炼厂{fid}")
                 cat_name = cat_name_map.get(cid, f"品类{cid}")
@@ -2092,11 +2263,17 @@ class TLService:
                 for wid in warehouse_ids:
                     wname = warehouse_name_map.get(wid, f"仓库{wid}")
                     freight = freight_map.get((wid, fid))
-                    total_cost = (price + freight) if (price is not None and freight is not None) else None
+                    margin_per_ton: Optional[float] = None
+                    if price is not None and freight is not None:
+                        margin_per_ton = round(float(price) - float(freight), 2)
+                    profit_yuan: Optional[float] = None
+                    if margin_per_ton is not None:
+                        profit_yuan = round(margin_per_ton * demand_tons, 2)
                     warehouse_options.append({
                         "仓库": wname,
                         "运费(元/吨)": freight,
-                        "综合成本(元/吨)": total_cost,
+                        "比价利润元每吨": margin_per_ton,
+                        "比价利润(元)": profit_yuan,
                     })
                     raw.append({
                         "冶炼厂": fname,
@@ -2105,7 +2282,8 @@ class TLService:
                         "报价(元/吨)": price,
                         "仓库": wname,
                         "运费(元/吨)": freight,
-                        "综合成本(元/吨)": total_cost,
+                        "比价利润元每吨": margin_per_ton,
+                        "比价利润(元)": profit_yuan,
                     })
 
                 demand_rows.append({
@@ -2135,9 +2313,9 @@ class TLService:
 {data_str}
 
 请给出各仓库发车建议，要求：
-1. 优先选综合成本低的仓库
+1. 与系统比价一致：每条线路的「比价利润(元)」= 报价×吨数 − 运费×吨数（数据中已按此计算）；优先选比价利润更高（更优）的仓库
 2. 同仓库不同品类可混装，尽量整车（20-30吨）
-3. 按仓库分段输出：仓库名、装车方案（品类+吨数+冶炼厂+综合成本）、备注
+3. 按仓库分段输出：仓库名、装车方案（品类+吨数+冶炼厂+比价利润）、备注
 4. 数据缺失的在备注注明
 5. 纯文本，简洁"""
 

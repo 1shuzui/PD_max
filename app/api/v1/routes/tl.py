@@ -18,8 +18,12 @@ TL比价模块路由
   6. POST /tl/upload_freight           - 上传运费
   6b.GET  /tl/get_freight_list         - 运费列表（分页、筛选）
   6c.POST /tl/update_freight           - 编辑运费（按 id）
+  6d.DELETE /tl/delete_freight         - 删除运费（按 id）
   7a.GET  /tl/get_category_mapping     - 获取品类映射表
   7. POST /tl/update_category_mapping  - 更新品类映射表
+  7b.POST /tl/update_category_row      - 按行修改品类别名（改名/设主名称）
+  7c.DELETE /tl/delete_category        - 删除品类分组（软删除）
+  7d.DELETE /tl/delete_category_row    - 删除单条品类别名（软删除）
 """
 import io
 from typing import Any, Dict, List, Optional, Tuple
@@ -33,6 +37,7 @@ from app.models.tl import (
     UploadFreightRequest,
     UpdateFreightRequest,
     CategoryMappingItem,
+    UpdateCategoryRowRequest,
     ConfirmPriceTableRequest,
     AddWarehouseRequest,
     UpdateWarehouseRequest,
@@ -84,9 +89,15 @@ def add_warehouse(
 # ===================== 接口1：获取仓库列表 =====================
 
 @router.get("/get_warehouses", summary="获取仓库列表")
-def get_warehouses(service: TLService = Depends(get_tl_service)):
+def get_warehouses(
+    keyword: Optional[str] = Query(
+        None,
+        description="仓库名模糊搜索（可选）；不传则返回全部启用仓库",
+    ),
+    service: TLService = Depends(get_tl_service),
+):
     try:
-        data = service.get_warehouses()
+        data = service.get_warehouses(keyword=keyword)
         return {"code": 200, "data": data}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -226,7 +237,6 @@ def get_comparison(
             category_ids=body.品类id列表,
             price_type=body.price_type,
             tons=body.吨数,
-            tons_per_truck=body.每车吨数,
             optimal_basis_list=body.最优价计税口径列表,
             optimal_sort_basis=body.最优价排序口径,
         )
@@ -438,6 +448,24 @@ def update_freight(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ===================== 接口6d：删除运费 =====================
+
+@router.delete("/delete_freight", summary="删除运费")
+def delete_freight(
+    freight_id: int = Query(..., description="freight_rates 主键，与 get_freight_list 返回的 id 一致"),
+    service: TLService = Depends(get_tl_service),
+):
+    """物理删除一条运费配置；删除后同仓库+冶炼厂可重新上传该生效日期的运费。"""
+    try:
+        return service.delete_freight(freight_id=freight_id)
+    except ValueError as e:
+        msg = str(e)
+        code = 404 if "运费记录不存在" in msg else 400
+        raise HTTPException(status_code=code, detail=msg)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ===================== 接口7a：获取品类映射表 =====================
 
 @router.get("/get_category_mapping", summary="获取品类映射表")
@@ -533,6 +561,55 @@ def update_category_mapping(
         if last_cid is not None:
             out["品类id"] = last_cid
         return out
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ===================== 接口7b：按行修改品类别名 =====================
+
+@router.post("/update_category_row", summary="按行修改品类别名")
+def update_category_row(
+    body: UpdateCategoryRowRequest,
+    service: TLService = Depends(get_tl_service),
+):
+    try:
+        return service.update_category_row(
+            row_id=body.行id,
+            new_name=body.品种名,
+            set_main=body.设为主名称,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ===================== 接口7c：删除品类分组 =====================
+
+@router.delete("/delete_category", summary="删除品类分组（软删除）")
+def delete_category(
+    品类id: int,
+    service: TLService = Depends(get_tl_service),
+):
+    try:
+        return service.delete_category(category_id=品类id)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ===================== 接口7d：删除单条品类别名 =====================
+
+@router.delete("/delete_category_row", summary="删除单条品类别名（软删除）")
+def delete_category_row(
+    行id: int,
+    service: TLService = Depends(get_tl_service),
+):
+    try:
+        return service.delete_category_row(row_id=行id)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
