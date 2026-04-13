@@ -550,18 +550,8 @@ def update_category_mapping(
     service: TLService = Depends(get_tl_service),
 ):
     try:
-        last_cid: Optional[int] = None
-        for item in body:
-            r = service.update_category_mapping(
-                category_id=item.品类id,
-                names=item.品类名称,
-                append_only=item.仅追加别名,
-            )
-            last_cid = r.get("品类id")
-        out: Dict[str, Any] = {"code": 200, "msg": "品类映射表更新成功，数据已存入数据库"}
-        if last_cid is not None:
-            out["品类id"] = last_cid
-        return out
+        batch = [(it.品类id, it.品类名称, it.仅追加别名) for it in body]
+        return service.update_category_mapping_batch(batch)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:

@@ -1858,12 +1858,8 @@ class TLService:
 
     # ==================== 接口7：更新品类映射表 ====================
 
-    def update_category_mapping(
-        self,
-        category_id: int,
-        names: List[str],
-        append_only: bool = False,
-    ) -> Dict[str, Any]:
+    @staticmethod
+    def _normalize_category_mapping_names(names: List[str]) -> List[str]:
         norm: List[str] = []
         seen: set = set()
         for raw in names:
@@ -1879,6 +1875,92 @@ class TLService:
                 norm.append(n)
         if not norm:
             raise ValueError("品类名称列表不能为空")
+        return norm
+
+    @staticmethod
+    def _resolve_replace_batch_name_owners(
+        replace_rows: List[Tuple[int, int, List[str]]],
+    ) -> Dict[str, int]:
+        """
+        同一次批量提交里，若同一品种名出现在多个「整组替换」条目中，全局只能落在一个 category_id
+        （dict_categories.name UNIQUE）。优先保留在「本条名称数量更多」的分组；条数相同则保留在
+        请求中更靠前的条目。返回值：name -> 归属 id；新品类（请求里 品类id<=0）用占位 id -(batch_idx+1)。
+        """
+        best: Dict[str, Tuple[int, int, int]] = {}
+        for batch_idx, cid, norm in replace_rows:
+            eff_cid = cid if cid > 0 else -(batch_idx + 1)
+            glen = len(norm)
+            for n in norm:
+                if n not in best:
+                    best[n] = (eff_cid, glen, batch_idx)
+                else:
+                    oc, og, ob = best[n]
+                    if glen > og or (glen == og and batch_idx < ob):
+                        best[n] = (eff_cid, glen, batch_idx)
+        return {n: t[0] for n, t in best.items()}
+
+    def update_category_mapping_batch(
+        self,
+        items: List[Tuple[int, List[str], bool]],
+    ) -> Dict[str, Any]:
+        """
+        批量更新品类映射：先消解「一名多组」冲突，再逐条写入。
+        items: (品类id, 品类名称列表, 仅追加别名)
+        """
+        normalized: List[Tuple[int, int, List[str], bool]] = []
+        for batch_idx, (category_id, names, append_only) in enumerate(items):
+            norm = self._normalize_category_mapping_names(names)
+            normalized.append((batch_idx, category_id, norm, append_only))
+
+        replace_rows: List[Tuple[int, int, List[str]]] = [
+            (bi, cid, norm) for bi, cid, norm, app in normalized if not app
+        ]
+        owner_by_name = self._resolve_replace_batch_name_owners(replace_rows)
+
+        last_cid: Optional[int] = None
+        for batch_idx, category_id, norm, append_only in normalized:
+            if append_only:
+                r = self.update_category_mapping(
+                    category_id=category_id,
+                    names=norm,
+                    append_only=True,
+                )
+                last_cid = r.get("品类id")
+                continue
+
+            eff_cid = category_id if category_id > 0 else -(batch_idx + 1)
+            filtered = [n for n in norm if owner_by_name.get(n, eff_cid) == eff_cid]
+            if not filtered:
+                if category_id > 0:
+                    try:
+                        self.delete_category(category_id)
+                    except ValueError:
+                        pass
+                continue
+            norm = filtered
+
+            r = self.update_category_mapping(
+                category_id=category_id,
+                names=norm,
+                append_only=False,
+            )
+            last_cid = r.get("品类id")
+
+        out: Dict[str, Any] = {
+            "code": 200,
+            "msg": "品类映射表更新成功，数据已存入数据库",
+        }
+        if last_cid is not None:
+            out["品类id"] = last_cid
+        return out
+
+    def update_category_mapping(
+        self,
+        category_id: int,
+        names: List[str],
+        append_only: bool = False,
+    ) -> Dict[str, Any]:
+        norm = self._normalize_category_mapping_names(names)
 
         if append_only and category_id <= 0:
             raise ValueError("仅追加别名时 品类id 须为已有分组（>0）")
