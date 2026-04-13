@@ -1862,6 +1862,7 @@ class TLService:
         self,
         category_id: int,
         names: List[str],
+        append_only: bool = False,
     ) -> Dict[str, Any]:
         norm: List[str] = []
         seen: set = set()
@@ -1879,6 +1880,11 @@ class TLService:
         if not norm:
             raise ValueError("品类名称列表不能为空")
 
+        if append_only and category_id <= 0:
+            raise ValueError("仅追加别名时 品类id 须为已有分组（>0）")
+
+        had_active_before = False
+
         try:
             with get_conn() as conn:
                 with conn.cursor() as cur:
@@ -1887,6 +1893,22 @@ class TLService:
                             "SELECT COALESCE(MAX(category_id), 0) + 1 FROM dict_categories"
                         )
                         category_id = int(cur.fetchone()[0])
+                    elif append_only:
+                        cur.execute(
+                            "SELECT name FROM dict_categories "
+                            "WHERE category_id = %s AND is_active = 1 "
+                            "ORDER BY is_main DESC, row_id ASC",
+                            (category_id,),
+                        )
+                        existing_order = [row[0] for row in cur.fetchall()]
+                        had_active_before = len(existing_order) > 0
+                        merged: List[str] = []
+                        seen_m: set = set()
+                        for n in existing_order + norm:
+                            if n not in seen_m:
+                                seen_m.add(n)
+                                merged.append(n)
+                        norm = merged
                     else:
                         # 整组替换：该分组下原启用、且不在本次提交列表中的别名一律软删除
                         ph = ",".join(["%s"] * len(norm))
@@ -1920,11 +1942,17 @@ class TLService:
                                 (category_id, is_main, existing[0]),
                             )
                         else:
+                            # 仅追加且分组原先已有启用别名：新插入的一律为别名，不得成为主名称
+                            insert_main = (
+                                0
+                                if (append_only and had_active_before)
+                                else is_main
+                            )
                             cur.execute(
                                 "INSERT INTO dict_categories "
                                 "(category_id, name, is_main, is_active) "
                                 "VALUES (%s, %s, %s, 1)",
-                                (category_id, name, is_main),
+                                (category_id, name, insert_main),
                             )
 
             return {

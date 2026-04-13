@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, field_validator, model_validator
 
 OPTIMAL_PRICE_BASIS_ALLOWED = frozenset(
     {"base", "1pct", "3pct", "13pct", "normal_invoice", "reverse_invoice"}
@@ -113,14 +113,85 @@ class UpdateFreightRequest(BaseModel):
 
 class CategoryMappingItem(BaseModel):
     """接口7 单条品类映射"""
-    品类id: int = Field(..., description="品类分组ID")
-    品类名称: List[str] = Field(..., description="品类名称列表，第一个为主名称")
+
+    model_config = ConfigDict(extra="ignore")
+
+    品类id: int = Field(
+        ...,
+        validation_alias=AliasChoices("品类id", "品类ID", "category_id"),
+        description="品类分组ID",
+    )
+    品类名称: List[str] = Field(
+        ...,
+        min_length=1,
+        validation_alias=AliasChoices("品类名称", "names", "aliasNames"),
+        description=(
+            "名称列表：默认（整组替换）时第一项为主名称，其余为别名；"
+            "当 仅追加别名=true 时只填待追加的别名即可，勿再传主名称（主名称沿用库中已有）；"
+            "也可传单个字符串，会自动当作单元素列表"
+        ),
+    )
+    仅追加别名: bool = Field(
+        False,
+        validation_alias=AliasChoices(
+            "仅追加别名",
+            "append_only",
+            "appendOnly",
+            "append_aliases",
+            "appendAliases",
+        ),
+        description=(
+            "false（默认）：提交列表为该分组最终别名集，未出现在列表中的原启用别名将软删除；"
+            "true：在保留该分组已有启用别名的前提下合并列表中的名称（去重）；"
+            "此时 品类名称 只写要追加的别名；若分组已有启用行，新插入的名称不会成为主名称"
+        ),
+    )
+
+    @field_validator("品类名称", mode="before")
+    @classmethod
+    def _coerce_category_names(cls, v: Any) -> Any:
+        if isinstance(v, str):
+            t = v.strip()
+            return [t] if t else []
+        if isinstance(v, (int, float)):
+            return [str(v).strip()]
+        return v
 
 
 class UpdateCategoryMappingRequest(BaseModel):
-    """接口7 请求体"""
-    品类id: int = Field(..., description="品类分组ID")
-    品类名称: List[str] = Field(..., description="品类名称列表，第一个为主名称")
+    """接口7 请求体（与 CategoryMappingItem 字段一致，单条 JSON 时使用）"""
+
+    model_config = ConfigDict(extra="ignore")
+
+    品类id: int = Field(
+        ...,
+        validation_alias=AliasChoices("品类id", "品类ID", "category_id"),
+    )
+    品类名称: List[str] = Field(
+        ...,
+        min_length=1,
+        validation_alias=AliasChoices("品类名称", "names", "aliasNames"),
+    )
+    仅追加别名: bool = Field(
+        False,
+        validation_alias=AliasChoices(
+            "仅追加别名",
+            "append_only",
+            "appendOnly",
+            "append_aliases",
+            "appendAliases",
+        ),
+    )
+
+    @field_validator("品类名称", mode="before")
+    @classmethod
+    def _coerce_category_names_single(cls, v: Any) -> Any:
+        if isinstance(v, str):
+            t = v.strip()
+            return [t] if t else []
+        if isinstance(v, (int, float)):
+            return [str(v).strip()]
+        return v
 
 
 class UpdateCategoryRowRequest(BaseModel):

@@ -555,6 +555,7 @@ def update_category_mapping(
             r = service.update_category_mapping(
                 category_id=item.品类id,
                 names=item.品类名称,
+                append_only=item.仅追加别名,
             )
             last_cid = r.get("品类id")
         out: Dict[str, Any] = {"code": 200, "msg": "品类映射表更新成功，数据已存入数据库"}
