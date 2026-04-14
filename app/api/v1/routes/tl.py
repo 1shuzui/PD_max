@@ -16,6 +16,8 @@ TL比价模块路由
   5c.GET  /tl/get_quote_details_list   - 报价数据列表（分页、筛选）
   5d.GET  /tl/export_quote_details_excel - 导出报价数据 Excel（与查询条件一致）
   6. POST /tl/upload_freight           - 上传运费
+  6a.POST /tl/download_freight_template_excel - 下载运费导入模板（Excel）
+  6a2.POST /tl/import_freight_excel     - 导入运费配置（Excel，写入 freight_rates）
   6b.GET  /tl/get_freight_list         - 运费列表（分页、筛选）
   6c.POST /tl/update_freight           - 编辑运费（按 id）
   6d.DELETE /tl/delete_freight         - 删除运费（按 id）
@@ -35,6 +37,7 @@ from fastapi.responses import StreamingResponse
 from app.models.tl import (
     ComparisonRequest,
     UploadFreightRequest,
+    DownloadFreightTemplateRequest,
     UpdateFreightRequest,
     CategoryMappingItem,
     UpdateCategoryRowRequest,
@@ -401,6 +404,49 @@ def upload_freight(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ===================== 接口6a：下载运费导入模板 Excel =====================
+
+
+@router.post("/download_freight_template_excel", summary="下载运费导入模板（Excel）")
+def download_freight_template_excel(
+    body: DownloadFreightTemplateRequest,
+    service: TLService = Depends(get_tl_service),
+):
+    """表头为「库房」及全部启用冶炼厂；首列为请求中的库房名称（按 id 顺序），其余单元格为空，供填写后走 import_freight_excel 导入。"""
+    try:
+        data = service.build_freight_template_excel(warehouse_ids=body.库房id列表)
+        filename = "运费导入模板.xlsx"
+        return StreamingResponse(
+            io.BytesIO(data),
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={
+                "Content-Disposition": f"attachment; filename*=UTF-8''{quote(filename)}",
+            },
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ===================== 接口6a2：导入运费配置 Excel =====================
+
+
+@router.post("/import_freight_excel", summary="导入运费配置（Excel）")
+async def import_freight_excel(
+    file: UploadFile = File(..., description="由 download_freight_template_excel 生成并填写后的 xlsx"),
+    service: TLService = Depends(get_tl_service),
+):
+    """识别首列库房、表头冶炼厂与单元格数值，写入 freight_rates（当日生效）；结果可在 get_freight_list 中查询。"""
+    try:
+        raw = await file.read()
+        return service.import_freight_excel(raw)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ===================== 接口6b：运费列表 =====================
 
 @router.get("/get_freight_list", summary="运费列表")
@@ -411,6 +457,13 @@ def get_freight_list(
     date_to: Optional[str] = None,
     page: int = 1,
     page_size: int = 50,
+    include_latest_quotes: bool = Query(
+        False,
+        description=(
+            "为 true 时，在 data 中附带「冶炼厂各品种最新报价」：按冶炼厂+品种名称取 quote_details 最新日期；"
+            "无报价记录则各价格字段为 null（与比价取价一致）"
+        ),
+    ),
     service: TLService = Depends(get_tl_service),
 ):
     """按仓库/冶炼厂/生效日期区间筛选，默认按生效日期倒序分页。"""
@@ -422,6 +475,7 @@ def get_freight_list(
             date_to=date_to,
             page=page,
             page_size=page_size,
+            include_latest_quotes=include_latest_quotes,
         )
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

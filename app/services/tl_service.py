@@ -1483,6 +1483,290 @@ class TLService:
             logger.error(f"上传运费失败: {e}")
             raise
 
+    def build_freight_template_excel(self, warehouse_ids: List[int]) -> bytes:
+        """首列：所选库房名称（按传入 id 顺序）；表头：库房 + 全部启用冶炼厂；数据格留空。"""
+        if not warehouse_ids:
+            raise ValueError("库房id列表不能为空")
+        seen: set[int] = set()
+        ordered_ids: List[int] = []
+        for wid in warehouse_ids:
+            if wid in seen:
+                continue
+            seen.add(wid)
+            ordered_ids.append(int(wid))
+        try:
+            from openpyxl import Workbook
+
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    wh_ph = ",".join(["%s"] * len(ordered_ids))
+                    cur.execute(
+                        f"SELECT id, name FROM dict_warehouses "
+                        f"WHERE id IN ({wh_ph}) AND is_active = 1",
+                        tuple(ordered_ids),
+                    )
+                    wh_map: Dict[int, str] = {int(r[0]): str(r[1]) for r in cur.fetchall()}
+                    missing = [i for i in ordered_ids if i not in wh_map]
+                    if missing:
+                        raise ValueError(f"以下库房不存在或未启用: {missing}")
+
+                    cur.execute(
+                        "SELECT name FROM dict_factories WHERE is_active = 1 ORDER BY id"
+                    )
+                    smelter_names = [str(r[0]) for r in cur.fetchall()]
+                    if not smelter_names:
+                        raise ValueError("没有可用的冶炼厂，请先在冶炼厂字典中维护")
+
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "运费配置"
+            header = ["库房"] + smelter_names
+            ws.append(header)
+            for wid in ordered_ids:
+                ws.append([wh_map[wid]] + [None] * len(smelter_names))
+            buf = io.BytesIO()
+            wb.save(buf)
+            return buf.getvalue()
+        except ValueError:
+            raise
+        except Exception as e:
+            logger.error(f"生成运费模板 Excel 失败: {e}")
+            raise
+
+    def import_freight_excel(self, content: bytes) -> Dict[str, Any]:
+        """
+        解析运费矩阵：第 1 行表头为「库房」+ 冶炼厂名称；自第 2 行起首列为库房名，对应列填运费。
+        与 upload_freight 相同写入 freight_rates（当日生效）；空单元格跳过。
+        """
+        if not content:
+            raise ValueError("文件内容为空")
+        try:
+            from openpyxl import load_workbook
+        except ImportError as e:
+            raise ValueError("服务端未安装 openpyxl，无法导入 Excel") from e
+
+        def _coerce_freight(v: Any) -> Optional[float]:
+            if v is None:
+                return None
+            if isinstance(v, bool):
+                return None
+            if isinstance(v, str):
+                s = v.strip()
+                if not s:
+                    return None
+                v = s
+            try:
+                x = float(v)
+            except (TypeError, ValueError):
+                return None
+            if x < 0:
+                raise ValueError("运费不能为负数")
+            return round(x, 2)
+
+        wb = load_workbook(io.BytesIO(content), read_only=True, data_only=True)
+        try:
+            ws = wb.active
+            rows_iter = ws.iter_rows(values_only=True)
+            header_row = next(rows_iter, None)
+            if not header_row or not any(
+                c is not None and str(c).strip() for c in header_row
+            ):
+                raise ValueError("无法读取表头（第 1 行）")
+
+            headers = [str(c).strip() if c is not None else "" for c in header_row]
+            if not headers:
+                raise ValueError("表头为空")
+
+            factory_by_col: Dict[int, Tuple[str, int]] = {}
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "SELECT id, name FROM dict_factories WHERE is_active = 1"
+                    )
+                    name_to_fid = {str(r[1]).strip(): int(r[0]) for r in cur.fetchall()}
+
+                    for col_idx in range(1, len(headers)):
+                        h = headers[col_idx]
+                        if not h:
+                            continue
+                        fid = name_to_fid.get(h)
+                        if fid is None:
+                            continue
+                        factory_by_col[col_idx + 1] = (h, fid)  # 1-based column for messages
+
+                    if not factory_by_col:
+                        raise ValueError(
+                            "表头中未匹配到任何启用中的冶炼厂名称，请与系统冶炼厂名称完全一致"
+                        )
+
+                    today = date.today().isoformat()
+                    written = 0
+                    skipped_rows = 0
+                    skipped_cells = 0
+                    errors: List[str] = []
+
+                    for ridx, row in enumerate(rows_iter, start=2):
+                        if not row:
+                            skipped_rows += 1
+                            continue
+                        wh_cell = row[0] if len(row) > 0 else None
+                        if wh_cell is None or (
+                            isinstance(wh_cell, str) and not wh_cell.strip()
+                        ):
+                            skipped_rows += 1
+                            continue
+                        wh_name = str(wh_cell).strip()
+                        cur.execute(
+                            "SELECT id FROM dict_warehouses WHERE name = %s AND is_active = 1",
+                            (wh_name,),
+                        )
+                        wh_row = cur.fetchone()
+                        if not wh_row:
+                            errors.append(f"第{ridx}行：库房「{wh_name}」不存在或未启用")
+                            continue
+                        wid = int(wh_row[0])
+
+                        for col_idx, (fname, fid) in factory_by_col.items():
+                            if col_idx - 1 >= len(row):
+                                continue
+                            cell_v = row[col_idx - 1]
+                            freight = _coerce_freight(cell_v)
+                            if freight is None:
+                                skipped_cells += 1
+                                continue
+                            cur.execute(
+                                "INSERT INTO freight_rates "
+                                "(factory_id, warehouse_id, price_per_ton, effective_date) "
+                                "VALUES (%s, %s, %s, %s) "
+                                "ON DUPLICATE KEY UPDATE "
+                                "price_per_ton = VALUES(price_per_ton), "
+                                "updated_at = CURRENT_TIMESTAMP",
+                                (fid, wid, freight, today),
+                            )
+                            written += 1
+
+            msg = f"已写入 {written} 条运费（生效日期 {today}）"
+            return {
+                "code": 200,
+                "msg": msg,
+                "写入条数": written,
+                "跳过空单元格数": skipped_cells,
+                "跳过空行数": skipped_rows,
+                "错误明细": errors if errors else None,
+            }
+        except ValueError:
+            raise
+        except Exception as e:
+            logger.error(f"导入运费 Excel 失败: {e}")
+            raise
+        finally:
+            wb.close()
+
+    def _build_factory_latest_quote_catalog(
+        self, factory_ids: List[int]
+    ) -> Dict[int, List[Dict[str, Any]]]:
+        """
+        每个冶炼厂在系统品类下的「最新」报价：同一品类多别名时取 quote_date 最新的一条；无记录则各价为 null。
+        与比价接口取价一致（按冶炼厂+品种名称维度的 MAX(quote_date)）。
+        """
+        if not factory_ids:
+            return {}
+        fac_ph = ",".join(["%s"] * len(factory_ids))
+        try:
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        "SELECT category_id, name FROM dict_categories "
+                        "WHERE is_active = 1 ORDER BY category_id, is_main DESC, row_id"
+                    )
+                    cat_id_to_names: Dict[int, List[str]] = {}
+                    cat_id_main: Dict[int, str] = {}
+                    for cid, name in cur.fetchall():
+                        cid = int(cid)
+                        n = str(name).strip()
+                        if not n:
+                            continue
+                        cat_id_to_names.setdefault(cid, []).append(n)
+                        if cid not in cat_id_main:
+                            cat_id_main[cid] = n
+
+                    cur.execute(
+                        f"""
+                        SELECT qd.factory_id, qd.category_name, qd.quote_date,
+                               qd.unit_price, qd.price_3pct_vat, qd.price_13pct_vat
+                        FROM quote_details qd
+                        JOIN (
+                            SELECT factory_id, category_name, MAX(quote_date) AS mq
+                            FROM quote_details
+                            WHERE factory_id IN ({fac_ph})
+                            GROUP BY factory_id, category_name
+                        ) t ON qd.factory_id = t.factory_id
+                           AND qd.category_name = t.category_name
+                           AND qd.quote_date = t.mq
+                        WHERE qd.factory_id IN ({fac_ph})
+                        """,
+                        tuple(factory_ids) + tuple(factory_ids),
+                    )
+                    # (fid, name) -> (quote_date, unit, p3, p13)
+                    latest_by_pair: Dict[Tuple[int, str], Tuple[Any, Any, Any, Any]] = {}
+                    for fid, cname, qd_d, up, p3, p13 in cur.fetchall():
+                        latest_by_pair[(int(fid), str(cname).strip())] = (
+                            qd_d,
+                            up,
+                            p3,
+                            p13,
+                        )
+
+            out: Dict[int, List[Dict[str, Any]]] = {
+                int(fid): [] for fid in factory_ids
+            }
+            sorted_cids = sorted(cat_id_to_names.keys())
+            for fid in factory_ids:
+                for cid in sorted_cids:
+                    display = cat_id_main.get(cid, cat_id_to_names[cid][0])
+                    best: Optional[Tuple[Any, Any, Any, Any]] = None
+                    best_d: Optional[date] = None
+                    for alias in cat_id_to_names[cid]:
+                        key = (fid, alias)
+                        if key not in latest_by_pair:
+                            continue
+                        qd_d, up, p3, p13 = latest_by_pair[key]
+                        cmp_d = qd_d
+                        if isinstance(cmp_d, datetime):
+                            cmp_d = cmp_d.date()
+                        if best_d is None or (
+                            isinstance(cmp_d, date) and cmp_d > best_d
+                        ):
+                            best_d = cmp_d if isinstance(cmp_d, date) else None
+                            best = (qd_d, up, p3, p13)
+                    if best is None:
+                        out[fid].append(
+                            {
+                                "品类id": cid,
+                                "品种": display,
+                                "报价日期": None,
+                                "普通价": None,
+                                "3%含税价": None,
+                                "13%含税价": None,
+                            }
+                        )
+                    else:
+                        qd_d, up, p3, p13 = best
+                        out[fid].append(
+                            {
+                                "品类id": cid,
+                                "品种": display,
+                                "报价日期": _cell_json(qd_d),
+                                "普通价": _cell_json(up),
+                                "3%含税价": _cell_json(p3),
+                                "13%含税价": _cell_json(p13),
+                            }
+                        )
+            return out
+        except Exception as e:
+            logger.error(f"构建冶炼厂最新报价目录失败: {e}")
+            raise
+
     # ==================== 接口6b：运费列表 ====================
 
     def get_freight_list(
@@ -1493,6 +1777,7 @@ class TLService:
         date_to: Optional[str] = None,
         page: int = 1,
         page_size: int = 50,
+        include_latest_quotes: bool = False,
     ) -> Dict[str, Any]:
         if page < 1:
             raise ValueError("page 必须 >= 1")
@@ -1563,7 +1848,13 @@ class TLService:
                         {c: _cell_json(v) for c, v in zip(cols, r)}
                         for r in cur.fetchall()
                     ]
-            return {"code": 200, "data": {"total": total, "list": rows}}
+            data: Dict[str, Any] = {"total": total, "list": rows}
+            if include_latest_quotes and rows:
+                fac_ids = sorted({int(r["冶炼厂id"]) for r in rows})
+                data["冶炼厂各品种最新报价"] = self._build_factory_latest_quote_catalog(
+                    fac_ids
+                )
+            return {"code": 200, "data": data}
         except ValueError:
             raise
         except Exception as e:

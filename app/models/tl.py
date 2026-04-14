@@ -101,6 +101,14 @@ class UpdateSmelterRequest(BaseModel):
     is_active: Optional[bool] = Field(None, description="是否启用（可选）")
 
 
+class DownloadFreightTemplateRequest(BaseModel):
+    """下载运费导入模板：首列为所选库房名称，表头为全部启用冶炼厂（其余格为空）。"""
+
+    model_config = ConfigDict(extra="ignore")
+
+    库房id列表: List[int] = Field(..., min_length=1, description="库房（仓库）ID 列表，顺序即模板首列自上而下顺序")
+
+
 class UploadFreightRequest(BaseModel):
     """接口6 请求体（单条）"""
     仓库: str = Field(..., description="仓库名称，如 北京仓")
