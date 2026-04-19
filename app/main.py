@@ -16,7 +16,10 @@ setup_logging()
 logger = logging.getLogger(__name__)
 access_logger = logging.getLogger("app.access")
 
-app = FastAPI(title="TL比价系统", version="1.0.0")
+# 经 Nginx 等以子路径反代时，不设会导致 /docs 内请求的 openapi.json 路径错误 → 白屏无接口列表
+_fastapi_root = (os.getenv("FASTAPI_ROOT_PATH") or os.getenv("ROOT_PATH") or "").strip().rstrip("/")
+
+app = FastAPI(title="TL比价系统", version="1.0.0", root_path=_fastapi_root)
 
 # 浏览器前端与 API 不同源时，须配置 CORS，否则请求会被浏览器拦截（控制台常见 CORS / Network failed）
 _cors_origins = os.getenv("CORS_ORIGINS", "").strip()
