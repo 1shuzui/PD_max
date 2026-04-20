@@ -133,10 +133,22 @@ def _patched_download_and_unzip(url: str, filename: str, model_storage_directory
 
 
 def patch_easyocr_download() -> None:
-    """对 easyocr.utils.download_and_unzip 打补丁；可重复调用（幂等）。"""
+    """对 easyocr 的下载函数打补丁；可重复调用（幂等）。
+
+    easyocr.easyocr 在 import 时用 ``from .utils import download_and_unzip`` 绑定了
+    函数对象；只改 ``easyocr.utils.download_and_unzip`` 不会更新 Reader 里用的那份引用，
+    Reader 仍会走 urllib 的 urlretrieve（无镜像、易 SSL EOF / 超时）。
+    因此需同时替换 utils 与 easyocr 包内已缓存的绑定。
+    """
     global _ORIGINAL
     import easyocr.utils as eu
 
     if _ORIGINAL is None:
         _ORIGINAL = eu.download_and_unzip
     eu.download_and_unzip = _patched_download_and_unzip
+    try:
+        import easyocr.easyocr as eocr
+
+        eocr.download_and_unzip = _patched_download_and_unzip
+    except Exception:  # noqa: BLE001 — 无 easyocr.easyocr 的旧版本等，utils 已修补即可
+        logger.debug("未修补 easyocr.easyocr.download_and_unzip", exc_info=True)
