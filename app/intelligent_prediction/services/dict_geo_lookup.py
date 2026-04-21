@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 import re
-from typing import Literal, Optional
+from typing import Any, Literal, Optional
 
 from app.database import get_conn
 from app.intelligent_prediction.logging_utils import get_logger
@@ -134,3 +134,128 @@ def lookup_warehouse_factory_cities(
         logger.exception("dict geo lookup failed warehouse=%s smelter=%s", wn, sn)
         return None, None
     return wh_city, sm_city
+
+
+def _nullable_str(v: Any) -> Optional[str]:
+    if v is None:
+        return None
+    s = str(v).strip()
+    return s or None
+
+
+def _full_address(
+    province: Any, city: Any, district: Any, address: Any
+) -> str:
+    parts: list[str] = []
+    for p in (province, city, district, address):
+        s = _nullable_str(p)
+        if s:
+            parts.append(s)
+    return "".join(parts)
+
+
+def _row_to_address_dict(row: tuple[Any, ...]) -> dict[str, Any]:
+    """将 dict_warehouses / dict_factories 一行转为 API 字典。"""
+    _id, n, prov, city, dist, addr, lon, lat = row
+
+    def _fnum(x: Any) -> Optional[float]:
+        if x is None:
+            return None
+        try:
+            return float(x)
+        except (TypeError, ValueError):
+            return None
+
+    return {
+        "id": int(_id),
+        "name": str(n).strip(),
+        "province": _nullable_str(prov),
+        "city": _nullable_str(city),
+        "district": _nullable_str(dist),
+        "address": _nullable_str(addr),
+        "longitude": _fnum(lon),
+        "latitude": _fnum(lat),
+        "full_address": _full_address(prov, city, dist, addr),
+    }
+
+
+def _lookup_address_one_table(cur, table: _DictTable, raw_name: str) -> Optional[dict[str, Any]]:
+    """按与「市」解析相同的名称匹配规则，取一条字典记录的完整地址字段。"""
+    assert table in (_TABLE_WH, _TABLE_DF)
+    name = (raw_name or "").strip()
+    if not name:
+        return None
+
+    cur.execute(
+        f"""
+        SELECT id, name, province, city, district, address, longitude, latitude
+        FROM {table}
+        WHERE name = %s AND is_active = 1
+        LIMIT 1
+        """,
+        (name,),
+    )
+    row = cur.fetchone()
+    if row:
+        return _row_to_address_dict(row)
+
+    compact = _compact(name)
+    if len(compact) < 2:
+        return None
+
+    esc = _escape_like(name)
+    like_pat = f"%{esc}%"
+    cur.execute(
+        f"""
+        SELECT id, name, province, city, district, address, longitude, latitude
+        FROM {table}
+        WHERE is_active = 1
+          AND (
+            REPLACE(REPLACE(REPLACE(REPLACE(TRIM(name), CHAR(10), ''), CHAR(13), ''), ' ', ''), '　', '') = %s
+            OR name LIKE %s ESCAPE '\\\\'
+            OR %s LIKE CONCAT('%%', name, '%%')
+          )
+        LIMIT 80
+        """,
+        (compact, like_pat, name),
+    )
+    rows = cur.fetchall()
+    if not rows:
+        return None
+
+    valid = [r for r in rows if r and len(r) > 1 and str(r[1]).strip()]
+    if not valid:
+        return None
+
+    best = min(
+        valid,
+        key=lambda r: (_rank_match(name, str(r[1])), str(r[1])),
+    )
+    return _row_to_address_dict(best)
+
+
+def lookup_warehouse_smelter_dict_addresses(
+    warehouse_name: str,
+    smelter_name: Optional[str],
+) -> tuple[Optional[dict[str, Any]], Optional[dict[str, Any]]]:
+    """从 TL 主库 ``dict_warehouses`` / ``dict_factories`` 解析仓库与冶炼厂地址（名称匹配规则同 :func:`lookup_warehouse_factory_cities`）。
+
+    返回两个字典，字段含 ``id``、``name``、省市区、``address``、经纬度及拼接的 ``full_address``；未命中则为 ``None``。
+    """
+    wh_out: Optional[dict[str, Any]] = None
+    sm_out: Optional[dict[str, Any]] = None
+    wn = (warehouse_name or "").strip()
+    sn = (smelter_name or "").strip() or None
+    try:
+        with get_conn() as conn:
+            with conn.cursor() as cur:
+                if wn:
+                    wh_out = _lookup_address_one_table(cur, _TABLE_WH, wn)
+                if sn:
+                    sm_out = _lookup_address_one_table(cur, _TABLE_DF, sn)
+    except Exception:
+        logger.exception(
+            "dict address lookup failed warehouse=%s smelter=%s", wn, sn
+        )
+        return None, None
+    return wh_out, sm_out

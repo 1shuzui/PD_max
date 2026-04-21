@@ -1,4 +1,4 @@
-﻿"""RAG 预留路由（501）。"""
+"""RAG 预留路由（501）。"""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/检索",
+    "/search",
     summary="知识库检索（预留）",
     description="RAG 检索接口，当前未实现。",
 )
@@ -17,7 +17,7 @@ async def knowledge_search() -> Response:
 
 
 @router.post(
-    "/入库",
+    "/ingest",
     summary="知识库文档入库（预留）",
     description="RAG 入库接口，当前未实现。",
 )

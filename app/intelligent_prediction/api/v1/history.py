@@ -63,10 +63,10 @@ def _parse_history_query_date(name: str, raw: Optional[str]) -> Optional[date]:
 
 
 @router.get(
-    "/模板/fields",
+    "/template/fields",
     response_model=HistoryTemplateFieldsResponse,
     summary="导入模板列定义（JSON）",
-    description="返回模板表头顺序及与内部字段映射；导入时「到货日期」列名会映射为送货日期；「节假日」须手填；选填「天气」不填则按晴；与 GET /delivery-history/模板 下载的 xlsx 表头一致。",
+    description="返回模板表头顺序及与内部字段映射；导入时「到货日期」列名会映射为送货日期；「节假日」须手填；选填「天气」不填则按晴；与 GET /delivery-history/template 下载的 xlsx 表头一致。",
 )
 async def history_template_fields() -> HistoryTemplateFieldsResponse:
     return HistoryTemplateFieldsResponse(
@@ -76,7 +76,7 @@ async def history_template_fields() -> HistoryTemplateFieldsResponse:
 
 
 @router.get(
-    "/模板",
+    "/template",
     summary="下载送货历史导入模板",
     description=(
         "返回标准 xlsx：含「导入数据」（表头 + 可跳过示例行）与「使用说明」；"
@@ -120,7 +120,7 @@ async def download_history_template_csv() -> StreamingResponse:
 
 
 @router.post(
-    "/导入",
+    "/import",
     response_model=HistoryImportResponse,
     summary="导入送货历史 Excel",
     description=(
@@ -128,7 +128,6 @@ async def download_history_template_csv() -> StreamingResponse:
         "校验失败时返回 details.errors：每项含 Excel 行号 row_index、列字母 excel_column、表头 column_header 与 message。"
     ),
 )
-@router.post("/import", response_model=HistoryImportResponse)
 async def import_history_excel(
     request: Request,
     file: UploadFile = File(..., description="送货历史数据文件：.csv（推荐，纯文本）或 .xlsx"),
@@ -175,7 +174,7 @@ async def import_history_excel(
 
 
 @router.get(
-    "/统计",
+    "/statistics",
     response_model=HistoryStatsResponse,
     summary="送货历史统计分析",
     description="在筛选条件下汇总总条数、总重量，并按仓库、品种、大区经理聚合（各最多 200 条，按重量降序）。",
@@ -302,7 +301,7 @@ async def list_history(
 
 
 @router.delete(
-    "/批量删除",
+    "/batch-delete",
     summary="批量删除送货历史",
     description="根据主键 id 列表批量删除记录。",
 )
@@ -329,7 +328,7 @@ async def batch_delete_history(
 
 
 @router.post(
-    "/清除全部",
+    "/purge-all",
     summary="一键清除全部送货历史",
     description=(
         "删除表 pd_ip_delivery_records 全部行。须先在环境变量配置 INTELLIGENT_PREDICTION_HISTORY_PURGE_SECRET；"

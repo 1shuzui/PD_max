@@ -71,7 +71,7 @@ class HistoryService:
 
     @classmethod
     def import_template_headers(cls) -> list[str]:
-        """与 GET /delivery-history/模板 生成的 xlsx/csv 表头顺序一致。"""
+        """与 GET /delivery-history/template 生成的 xlsx/csv 表头顺序一致。"""
         return [cn for cn, _ in cls._ALL_IMPORT_COLUMN_PAIRS]
 
     ALIAS_TO_CANONICAL: dict[str, str] = {

@@ -1,4 +1,4 @@
-﻿"""预测 HTTP 接口。"""
+"""预测 HTTP 接口。"""
 
 from __future__ import annotations
 
@@ -20,6 +20,10 @@ from app.intelligent_prediction.api.deps import get_prediction_db_session, get_p
 from app.intelligent_prediction.models import PredictionBatch
 from app.intelligent_prediction.models import PredictionResult as PredictionResultRow
 from app.intelligent_prediction.schemas.audit import OperationAuditItem, OperationAuditListResponse
+from app.intelligent_prediction.schemas.dict_addresses import (
+    TlDictEntityAddress,
+    WarehouseSmelterAddressLookupResponse,
+)
 from app.intelligent_prediction.schemas.prediction import (
     AsyncPredictionAccepted,
     BatchPredictionRequest,
@@ -29,6 +33,9 @@ from app.intelligent_prediction.schemas.prediction import (
     StoredPredictionResultListResponse,
 )
 from app.intelligent_prediction.services.audit_service import list_audit_events
+from app.intelligent_prediction.services.dict_geo_lookup import (
+    lookup_warehouse_smelter_dict_addresses,
+)
 from app.intelligent_prediction.services.prediction_service import PredictionService
 from app.intelligent_prediction.tasks.export_tasks import run_prediction_batch_task
 
@@ -37,7 +44,28 @@ router = APIRouter()
 
 
 @router.get(
-    "/操作审计",
+    "/dict-addresses",
+    response_model=WarehouseSmelterAddressLookupResponse,
+    summary="查询仓库与冶炼厂地址（TL 字典）",
+    description=(
+        "按名称从主库 ``dict_warehouses``、``dict_factories`` 解析省市区、详址与经纬度；"
+        "名称匹配规则与送货历史导入时的地理解析一致（精确 → 去空白等 → 模糊择优）。"
+    ),
+)
+def get_warehouse_smelter_dict_addresses(
+    warehouse: str = Query(..., min_length=1, description="仓库名称"),
+    smelter: str | None = Query(None, description="冶炼厂名称（可选）"),
+) -> WarehouseSmelterAddressLookupResponse:
+    sn = smelter.strip() if smelter and smelter.strip() else None
+    wh_raw, sm_raw = lookup_warehouse_smelter_dict_addresses(warehouse.strip(), sn)
+    return WarehouseSmelterAddressLookupResponse(
+        warehouse=TlDictEntityAddress.model_validate(wh_raw) if wh_raw else None,
+        smelter=TlDictEntityAddress.model_validate(sm_raw) if sm_raw else None,
+    )
+
+
+@router.get(
+    "/operation-audit",
     response_model=OperationAuditListResponse,
     summary="分页查询智能预测操作审计",
     description="追溯导入、删除、导出、单条历史修改、定时预测等操作（何人、何时、何事）。",
@@ -94,7 +122,7 @@ async def predict_sync(
 
 
 @router.post(
-    "/异步",
+    "/async",
     response_model=AsyncPredictionAccepted,
     summary="异步批量预测",
     description="创建预测批次并入队 Celery，返回任务编号与批次编号。",
@@ -139,7 +167,7 @@ async def predict_async(
 
 
 @router.get(
-    "/结果",
+    "/results",
     response_model=StoredPredictionResultListResponse,
     summary="分页查询预测结果",
     description="查询已落库的预测明细，支持按仓库、品种、冶炼厂、区域经理、批次、目标日期筛选。",
@@ -199,7 +227,7 @@ async def list_stored_prediction_results(
 
 
 @router.get(
-    "/批次/{predict_id}",
+    "/batches/{predict_id}",
     response_model=BatchStatusResponse,
     summary="查询异步批次状态",
     description="根据批次 UUID 查询处理状态、结果条数、导出文件是否就绪等。",
@@ -233,7 +261,7 @@ async def get_batch_status(
 
 
 @router.get(
-    "/批次/{predict_id}/下载",
+    "/batches/{predict_id}/download",
     summary="下载批次导出 Excel",
     description="异步任务生成导出文件后，通过本接口下载对应 xlsx。",
 )

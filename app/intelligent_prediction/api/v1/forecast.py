@@ -1,4 +1,4 @@
-﻿"""PRD 规则预测：图表、明细分页、导出。"""
+"""PRD 规则预测：图表、明细分页、导出。"""
 
 from __future__ import annotations
 
@@ -66,7 +66,7 @@ def _prd_query(
 
 
 @router.get(
-    "/图表",
+    "/chart",
     response_model=PrdForecastChartResponse,
     summary="送货量预测图表数据",
     description="按日期区间与筛选条件返回汇总曲线及按区域经理拆分的序列；支持按冶炼厂筛选。",
@@ -109,7 +109,7 @@ async def prd_forecast_chart(
 
 
 @router.get(
-    "/明细",
+    "/details",
     response_model=PrdForecastDetailResponse,
     summary="送货量预测明细分页",
     description="返回规则模型计算的逐日、逐仓、逐品种、逐冶炼厂预测明细。",
@@ -154,7 +154,7 @@ async def prd_forecast_detail(
 
 
 @router.get(
-    "/导出",
+    "/export",
     summary="导出送货量预测 Excel",
     description="按当前筛选条件导出全部明细为 xlsx 流。",
 )
