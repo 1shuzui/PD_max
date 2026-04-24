@@ -17,6 +17,8 @@ TL比价模块路由
   4. POST /tl/get_comparison           - 获取比价表
   5. POST /tl/upload_price_table       - 上传价格表（OCR识别，返回原始识别结果）
   5b.POST /tl/confirm_price_table      - 确认写入报价数据（冶炼厂须字典名称精确匹配；品类缺失仍可自动新建）
+  5b2.POST /tl/manual_quote            - 手写录入报价（无 OCR；请求体与 confirm 相同，full_data 可省略）
+  5b3.POST /tl/update_quote_detail     - 按明细 id 修改报价（改价后按冶炼厂税率重算各档含税价）
   5c.GET  /tl/get_quote_details_list   - 报价数据列表（分页、筛选）
   5d.GET  /tl/export_quote_details_excel - 导出报价数据 Excel（与查询条件一致）
   6. POST /tl/upload_freight           - 上传运费
@@ -51,6 +53,8 @@ from app.models.tl import (
     CategoryMappingItem,
     UpdateCategoryRowRequest,
     ConfirmPriceTableRequest,
+    ManualQuoteRequest,
+    UpdateQuoteDetailRequest,
     AddWarehouseRequest,
     AddWarehouseTypeRequest,
     UpdateWarehouseRequest,
@@ -733,6 +737,40 @@ def confirm_price_table(
             items=items,
             full_data=full_data,
         )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/manual_quote", summary="手写录入报价（无 OCR）")
+def manual_quote(
+    body: ManualQuoteRequest,
+    service: TLService = Depends(get_tl_service),
+):
+    """与 confirm_price_table 相同落库逻辑；可不传 full_data，用于表格/手工维护。"""
+    try:
+        items = [item.model_dump() for item in body.数据]
+        full_data = body.full_data.model_dump() if body.full_data else None
+        return service.manual_quote_entry(
+            quote_date_str=body.报价日期,
+            items=items,
+            full_data=full_data,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/update_quote_detail", summary="按 id 修改单条报价明细")
+def update_quote_detail(
+    body: UpdateQuoteDetailRequest,
+    service: TLService = Depends(get_tl_service),
+):
+    """修改后按冶炼厂税率重算 1%/3%/13% 含税列与不含税基准（锚点为本次请求中实际提交的价格列）。"""
+    try:
+        return service.update_quote_detail(body)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
