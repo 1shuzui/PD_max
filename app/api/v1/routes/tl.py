@@ -31,7 +31,9 @@ TL比价模块路由
   7c.DELETE /tl/delete_category        - 删除品类分组（软删除）
   7d.DELETE /tl/delete_category_row    - 删除单条品类别名（软删除）
 """
+import asyncio
 import io
+import os
 import time
 from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import quote
@@ -70,6 +72,18 @@ from app.services.partner_warehouse_excel import (
 from app.services.tl_service import PurchaseSuggestionLLMError, TLService, get_tl_service
 
 router = APIRouter(prefix="/tl", tags=["TL比价模块"])
+
+
+def _default_warehouse_import_concurrency() -> int:
+    """环境变量 TL_IMPORT_WAREHOUSE_CONCURRENCY（1–20），缺省 3。"""
+    raw = (os.getenv("TL_IMPORT_WAREHOUSE_CONCURRENCY") or "3").strip()
+    try:
+        return max(1, min(20, int(raw)))
+    except ValueError:
+        return 3
+
+
+_DEFAULT_WAREHOUSE_IMPORT_CONCURRENCY = _default_warehouse_import_concurrency()
 
 
 def _merge_quote_list_filters(
@@ -129,6 +143,70 @@ def add_warehouse(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+async def _import_partner_row_async(
+    sem: asyncio.Semaphore,
+    service: TLService,
+    idx: int,
+    wh_name: str,
+    full_addr: str,
+    wt_name: Optional[str],
+    wt_id: Optional[int],
+    geocode_sleep: float,
+) -> Dict[str, Any]:
+    """单行：线程池执行 add_warehouse，信号量限流；sleep 放在锁外以免占满并发槽。"""
+    pv, cv, dv, addr = warehouse_site_fields_from_full_address(full_addr)
+    try:
+        async with sem:
+
+            def _call() -> Dict[str, Any]:
+                return service.add_warehouse(
+                    name=wh_name,
+                    address=addr,
+                    province=pv,
+                    city=cv,
+                    district=dv,
+                    warehouse_type_name=wt_name,
+                    warehouse_type_id=wt_id,
+                )
+
+            out = await asyncio.to_thread(_call)
+        if geocode_sleep > 0:
+            await asyncio.sleep(float(geocode_sleep))
+        return {
+            "index": idx,
+            "仓库名": wh_name,
+            "省": pv,
+            "市": cv,
+            "区": dv,
+            "详址": addr,
+            "response": out,
+        }
+    except ValueError as e:
+        if geocode_sleep > 0:
+            await asyncio.sleep(float(geocode_sleep))
+        return {"index": idx, "仓库名": wh_name, "error": str(e)}
+
+
+def _rollup_partner_import_summary(rows_out: List[Dict[str, Any]]) -> Dict[str, int]:
+    summary = {"新建": 0, "已存在": 0, "失败": 0, "其它": 0}
+    for r in rows_out:
+        if "error" in r:
+            summary["失败"] += 1
+            continue
+        out = r.get("response") or {}
+        code = int(out.get("code", 0))
+        is_new = out.get("新建")
+        if code == 200 and is_new is True:
+            summary["新建"] += 1
+        elif code == 200 and is_new is False:
+            summary["已存在"] += 1
+        elif code == 200:
+            summary["其它"] += 1
+        else:
+            summary["失败"] += 1
+    return summary
+
+
 @router.post("/import_partner_warehouses_excel", summary="批量导入合作库房清单 Excel")
 async def import_partner_warehouses_excel(
     file: UploadFile = File(..., description="xlsx，需含库房名称、库房地址列（规则同离线脚本）"),
@@ -143,7 +221,7 @@ async def import_partner_warehouses_excel(
         0.2,
         ge=0.0,
         le=10.0,
-        description="行间休眠秒数，略降天地图连续请求压力",
+        description="每行处理完成后的休眠秒数（与并发并存，略降天地图压力）；设为 0 关闭",
     ),
     limit: Optional[int] = Form(
         None,
@@ -151,11 +229,18 @@ async def import_partner_warehouses_excel(
         le=5000,
         description="仅处理前 N 条有效行（不传则处理全部）",
     ),
+    concurrency: int = Form(
+        _DEFAULT_WAREHOUSE_IMPORT_CONCURRENCY,
+        ge=1,
+        le=20,
+        description="同时处理的最大行数（1–20）；过大易触发天地图限流，可用环境变量 TL_IMPORT_WAREHOUSE_CONCURRENCY 改默认",
+    ),
     service: TLService = Depends(get_tl_service),
 ):
     """
     读取上传文件，按行解析后与 ``POST /tl/add_warehouse`` 相同调用 ``TLService.add_warehouse``：
     整行地址经 ``cn_address_split`` 拆省市区详址；四级齐全则走完整落库（天地图经纬度），否则走 name+地址极简落库。
+    DB/天地图在默认线程池执行，事件循环可继续响应其它请求；并发由 ``concurrency`` 限制，避免拖死进程。
     """
     fn = (file.filename or "").lower()
     if not fn.endswith((".xlsx", ".xls")):
@@ -180,54 +265,23 @@ async def import_partner_warehouses_excel(
     wt_name = (库房类型名 or "").strip() or None
     wt_id = 仓库类型id
 
-    results: List[Dict[str, Any]] = []
-    summary = {"新建": 0, "已存在": 0, "失败": 0, "其它": 0}
-
-    for idx, (wh_name, full_addr) in enumerate(rows, start=1):
-        pv, cv, dv, addr = warehouse_site_fields_from_full_address(full_addr)
-        try:
-            out = service.add_warehouse(
-                name=wh_name,
-                address=addr,
-                province=pv,
-                city=cv,
-                district=dv,
-                warehouse_type_name=wt_name,
-                warehouse_type_id=wt_id,
-            )
-            code = int(out.get("code", 0))
-            msg = str(out.get("msg", ""))
-            is_new = out.get("新建")
-            if code == 200 and is_new is True:
-                summary["新建"] += 1
-            elif code == 200 and is_new is False:
-                summary["已存在"] += 1
-            elif code == 200:
-                summary["其它"] += 1
-            else:
-                summary["失败"] += 1
-            results.append(
-                {
-                    "index": idx,
-                    "仓库名": wh_name,
-                    "省": pv,
-                    "市": cv,
-                    "区": dv,
-                    "详址": addr,
-                    "response": out,
-                }
-            )
-        except ValueError as e:
-            summary["失败"] += 1
-            results.append(
-                {
-                    "index": idx,
-                    "仓库名": wh_name,
-                    "error": str(e),
-                }
-            )
-        if geocode_sleep > 0 and idx < len(rows):
-            time.sleep(float(geocode_sleep))
+    sem = asyncio.Semaphore(max(1, min(20, int(concurrency))))
+    tasks = [
+        _import_partner_row_async(
+            sem,
+            service,
+            idx,
+            wh_name,
+            full_addr,
+            wt_name,
+            wt_id,
+            float(geocode_sleep),
+        )
+        for idx, (wh_name, full_addr) in enumerate(rows, start=1)
+    ]
+    results = await asyncio.gather(*tasks)
+    results = sorted(results, key=lambda r: int(r["index"]))
+    summary = _rollup_partner_import_summary(results)
 
     return {
         "code": 200,
@@ -851,7 +905,7 @@ async def import_freight_excel(
     """识别首列库房、表头冶炼厂与单元格数值，写入 freight_rates（当日生效）；字典中不存在的库房/冶炼厂名称会自动新建（已停用则恢复启用）。结果可在 get_freight_list 中查询。"""
     try:
         raw = await file.read()
-        return service.import_freight_excel(raw)
+        return await asyncio.to_thread(service.import_freight_excel, raw)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
