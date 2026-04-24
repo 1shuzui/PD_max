@@ -12,14 +12,14 @@ import uuid
 from datetime import date, datetime
 from decimal import Decimal
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import AbstractSet, Any, Dict, List, Optional, Set, Tuple
 
 from pymysql.err import IntegrityError as PyMySQLIntegrityError
 
 from app.config import UPLOAD_DIR
 from app.database import get_conn
 from app.finance_log import log_finance_event
-from app.models.tl import OPTIMAL_PRICE_BASIS_ALLOWED
+from app.models.tl import OPTIMAL_PRICE_BASIS_ALLOWED, UpdateQuoteDetailRequest
 from app.quote_price_sources import (
     API_KEY_TO_DB,
     merge_sources_after_fill,
@@ -218,41 +218,67 @@ def _raise_tl_geo_crud_result(res: Dict[str, Any]) -> Dict[str, Any]:
     raise RuntimeError(msg)
 
 
+QUOTE_PRICE_ANCHOR_ORDER = (
+    "价格",
+    "价格_13pct增值税",
+    "价格_3pct增值税",
+    "价格_1pct增值税",
+    "普通发票价格",
+    "反向发票价格",
+)
+
+
+def _chinese_item_to_prices_en(
+    item: Dict[str, Any],
+    touched_cn: Optional[AbstractSet[str]] = None,
+) -> Dict[str, Any]:
+    """
+    将中文键报价列转为 derive_net_and_vat_from_quote_row 所需英文键。
+    touched_cn 非空时：仅取「本次请求中改动的列」里、按 QUOTE_PRICE_ANCHOR_ORDER 优先级最高的那一档，
+    避免部分更新时旧库里的「基准价」盖住用户新改的含税价。
+    """
+    if touched_cn:
+        for c in QUOTE_PRICE_ANCHOR_ORDER:
+            if c in touched_cn and item.get(c) is not None:
+                dbk = API_KEY_TO_DB.get(c, c)
+                return {dbk: item.get(c)}
+        return {}
+    out: Dict[str, Any] = {}
+    for c in QUOTE_PRICE_ANCHOR_ORDER:
+        v = item.get(c)
+        if v is not None:
+            dbk = API_KEY_TO_DB.get(c, c)
+            out[dbk] = v
+    return out
+
+
 def _apply_factory_tax_rates_to_quote_item(
     item: Dict[str, Any],
     tax_by_fid: Dict[int, Dict[str, float]],
+    touched_price_keys_cn: Optional[AbstractSet[str]] = None,
 ) -> bool:
     """
-    确认写入前：按系统为冶炼厂保存的税率（factory_tax_rates ∪ 默认）统一落库。
+    确认写入 / 修改前：按冶炼厂税率（factory_tax_rates ∪ 默认）统一写入「价格」与含1%/3%/13%列。
 
-    - 若识别/前端给出的是**不含税基准**（「价格」有值）→ 用合并税率**正算**含1%/3%/13%价。
-    - 若仅有**含税价**列（1%/3%/13% 之一）→ 用对应税率**反算**不含税基准，再**正算**三档含税（顺序：优先 13% 列 → 3% → 1%）。
-
-    与图片识别一致：图上可能是基准也可能是含税；最终以本函数 + 系统税率为准写入 quote_details。
+    - 全量条目（touched_price_keys_cn=None）：与 derive_net_and_vat_from_quote_row 一致（基准 → 正算含税；
+      或仅有含税列 → 反算基准再正算；普票/反向发票列按不含税理解）。
+    - 部分更新：仅根据本次改动的价格锚点列重算，避免未改动的旧基准价干扰。
     """
     fid = item.get("冶炼厂id")
     if fid is None:
         return False
     merged = merge_factory_rates(tax_by_fid.get(int(fid)))
 
-    net: Optional[float] = None
-    if item.get("价格") is not None:
-        net = float(item["价格"])
-    elif item.get("价格_13pct增值税") is not None and "13pct" in merged:
-        net = net_from_inclusive(float(item["价格_13pct增值税"]), merged["13pct"])
-    elif item.get("价格_3pct增值税") is not None and "3pct" in merged:
-        net = net_from_inclusive(float(item["价格_3pct增值税"]), merged["3pct"])
-    elif item.get("价格_1pct增值税") is not None and "1pct" in merged:
-        net = net_from_inclusive(float(item["价格_1pct增值税"]), merged["1pct"])
-
-    if net is None:
+    prices_en = _chinese_item_to_prices_en(item, touched_price_keys_cn)
+    derived = derive_net_and_vat_from_quote_row(prices_en, merged)
+    if derived is None:
         return False
 
+    net, p1, p3, p13 = derived
     item["价格"] = round(float(net), 2)
-    f1, f3, f13 = fill_vat_from_exclusive_net(float(item["价格"]), merged)
-    item["价格_1pct增值税"] = f1
-    item["价格_3pct增值税"] = f3
-    item["价格_13pct增值税"] = f13
+    item["价格_1pct增值税"] = p1
+    item["价格_3pct增值税"] = p3
+    item["价格_13pct增值税"] = p13
     return True
 
 
@@ -2477,6 +2503,209 @@ class TLService:
             raise
         except Exception as e:
             logger.error(f"确认价格表写入失败: {e}")
+            raise
+
+    def manual_quote_entry(
+        self,
+        quote_date_str: str,
+        items: List[Dict[str, Any]],
+        full_data: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """手写/表格录入报价，逻辑与 confirm_price_table 相同（可不传 full_data）。"""
+        return self.confirm_price_table(quote_date_str, items, full_data)
+
+    def _quote_detail_row_to_item(self, row: Tuple[Any, ...]) -> Dict[str, Any]:
+        """SELECT quote_details 一行 → confirm 用的中文键条目（不含冶炼厂名）。"""
+        (
+            _rid,
+            _qd,
+            fid,
+            cname,
+            _meta_id,
+            up,
+            p1,
+            p3,
+            p13,
+            pn,
+            pr,
+            _psrc,
+        ) = row
+
+        def _f(v: Any) -> Optional[float]:
+            if v is None:
+                return None
+            return float(v)
+
+        return {
+            "冶炼厂id": int(fid),
+            "品类名": str(cname),
+            "价格": _f(up),
+            "价格_1pct增值税": _f(p1),
+            "价格_3pct增值税": _f(p3),
+            "价格_13pct增值税": _f(p13),
+            "普通发票价格": _f(pn),
+            "反向发票价格": _f(pr),
+        }
+
+    def update_quote_detail(self, body: UpdateQuoteDetailRequest) -> Dict[str, Any]:
+        """按 id 更新 quote_details；本次请求中出现的价格字段作为锚点，按冶炼厂税率重算各档含税价。"""
+        raw = body.model_dump(exclude_unset=True)
+        detail_id = int(raw.pop("id"))
+        touched_cn: Set[str] = {k for k in raw if k in QUOTE_PRICE_ANCHOR_ORDER}
+
+        try:
+            with get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT id, quote_date, factory_id, category_name, metadata_id,
+                               unit_price, price_1pct_vat, price_3pct_vat, price_13pct_vat,
+                               price_normal_invoice, price_reverse_invoice, price_field_sources
+                        FROM quote_details WHERE id = %s
+                        """,
+                        (detail_id,),
+                    )
+                    row = cur.fetchone()
+                    if not row:
+                        raise ValueError(f"报价明细不存在: id={detail_id}")
+
+                    item = self._quote_detail_row_to_item(row)
+
+                    for k, v in raw.items():
+                        if k == "品类名" and v is not None:
+                            item["品类名"] = str(v).strip()
+                        else:
+                            item[k] = v
+
+                    new_qd: Optional[date] = None
+                    if raw.get("报价日期") is not None:
+                        try:
+                            new_qd = date.fromisoformat(str(raw["报价日期"]).strip())
+                        except (ValueError, TypeError):
+                            raise ValueError(
+                                f"报价日期格式不正确: {raw['报价日期']}，应为 YYYY-MM-DD"
+                            )
+                    item.pop("报价日期", None)
+
+                    if raw.get("冶炼厂id") is not None:
+                        nfid = int(raw["冶炼厂id"])
+                        cur.execute(
+                            "SELECT id FROM dict_factories WHERE id = %s AND is_active = 1",
+                            (nfid,),
+                        )
+                        if not cur.fetchone():
+                            raise ValueError(f"冶炼厂不存在或未启用: id={nfid}")
+                        item["冶炼厂id"] = nfid
+
+                    fid = int(item["冶炼厂id"])
+                    tax_by_fid: Dict[int, Dict[str, float]] = {fid: {}}
+                    cur.execute(
+                        "SELECT factory_id, tax_type, tax_rate FROM factory_tax_rates "
+                        "WHERE factory_id = %s",
+                        (fid,),
+                    )
+                    for _fid, ttype, tr in cur.fetchall():
+                        tax_by_fid.setdefault(int(_fid), {})[str(ttype)] = float(tr)
+
+                    snapshot = {k: item.get(k) for k in API_KEY_TO_DB}
+                    client_src = normalize_client_sources(item.get("价格字段来源"))
+
+                    anchor_cn: Optional[str] = None
+                    if touched_cn:
+                        for c in QUOTE_PRICE_ANCHOR_ORDER:
+                            if c in touched_cn and item.get(c) is not None:
+                                anchor_cn = c
+                                break
+
+                    tax_applied = False
+                    if touched_cn:
+                        tax_applied = _apply_factory_tax_rates_to_quote_item(
+                            item, tax_by_fid, touched_cn
+                        )
+                        if not tax_applied:
+                            raise ValueError(
+                                "无法根据本次修改的价格推算不含税基准与各档含税价，"
+                                "请至少填写：基准价、某一档 1%/3%/13% 含税价，或普票/反向发票价之一（且非空）"
+                            )
+
+                    merged_src = merge_sources_after_fill(item, snapshot, client_src)
+                    if tax_applied:
+                        merged_src["price_1pct_vat"] = SOURCE_DERIVED
+                        merged_src["price_3pct_vat"] = SOURCE_DERIVED
+                        merged_src["price_13pct_vat"] = SOURCE_DERIVED
+                        if anchor_cn == "价格":
+                            merged_src["unit_price"] = SOURCE_ORIGINAL
+                        else:
+                            merged_src["unit_price"] = SOURCE_DERIVED
+                    src_json = (
+                        json.dumps(merged_src, ensure_ascii=False) if merged_src else None
+                    )
+
+                    qd_val = new_qd if new_qd is not None else row[1]
+                    cname_val = str(item["品类名"]).strip()
+
+                    try:
+                        cur.execute(
+                            """
+                            UPDATE quote_details SET
+                                quote_date = %s,
+                                factory_id = %s,
+                                category_name = %s,
+                                unit_price = %s,
+                                price_1pct_vat = %s,
+                                price_3pct_vat = %s,
+                                price_13pct_vat = %s,
+                                price_normal_invoice = %s,
+                                price_reverse_invoice = %s,
+                                price_field_sources = %s,
+                                updated_at = CURRENT_TIMESTAMP
+                            WHERE id = %s
+                            """,
+                            (
+                                qd_val,
+                                item["冶炼厂id"],
+                                cname_val,
+                                item.get("价格"),
+                                item.get("价格_1pct增值税"),
+                                item.get("价格_3pct增值税"),
+                                item.get("价格_13pct增值税"),
+                                item.get("普通发票价格"),
+                                item.get("反向发票价格"),
+                                src_json,
+                                detail_id,
+                            ),
+                        )
+                    except PyMySQLIntegrityError as e:
+                        raise ValueError(
+                            "更新后与已有报价冲突（同一冶炼厂、品种、日期只能有一条），"
+                            f"请调整日期、冶炼厂或品种名。详情: {e}"
+                        ) from e
+
+            log_finance_event(
+                "报价明细更新 | id=%s | touched=%s | factory_id=%s",
+                detail_id,
+                sorted(touched_cn),
+                fid,
+            )
+            return {
+                "code": 200,
+                "msg": "更新成功",
+                "data": {
+                    "id": detail_id,
+                    "价格字段来源": merged_src,
+                    "价格": item.get("价格"),
+                    "价格_1pct增值税": item.get("价格_1pct增值税"),
+                    "价格_3pct增值税": item.get("价格_3pct增值税"),
+                    "价格_13pct增值税": item.get("价格_13pct增值税"),
+                    "普通发票价格": item.get("普通发票价格"),
+                    "反向发票价格": item.get("反向发票价格"),
+                },
+            }
+
+        except ValueError:
+            raise
+        except Exception as e:
+            logger.error(f"更新报价明细失败: {e}")
             raise
 
     # ==================== 接口6：上传运费 ====================

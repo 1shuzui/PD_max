@@ -541,6 +541,52 @@ class ConfirmPriceTableRequest(BaseModel):
     数据: List[ConfirmPriceTableItem] = Field(..., description="报价明细列表（前端确认/修改后）")
 
 
+class ManualQuoteRequest(ConfirmPriceTableRequest):
+    """手写录入报价：字段与 confirm_price_table 相同；无需上传图片，full_data 可省略。"""
+
+    model_config = ConfigDict(extra="ignore")
+
+
+class UpdateQuoteDetailRequest(BaseModel):
+    """按 quote_details.id 修改单条报价；改任意价格列后服务端按冶炼厂税率重算其余含税列。"""
+
+    model_config = ConfigDict(extra="ignore")
+
+    id: int = Field(
+        ...,
+        ge=1,
+        validation_alias=AliasChoices("id", "明细id", "quote_detail_id"),
+        description="quote_details 表主键，与列表接口返回的 id 一致",
+    )
+    报价日期: Optional[str] = Field(None, description="YYYY-MM-DD，传入则更新该行报价日期")
+    冶炼厂id: Optional[int] = Field(
+        None,
+        validation_alias=AliasChoices("冶炼厂id", "factory_id"),
+        description="传入则更换冶炼厂（须为已存在且启用的厂）",
+    )
+    品类名: Optional[str] = Field(
+        None,
+        validation_alias=AliasChoices("品类名", "品种", "category_name"),
+        description="传入则更新品种名称（须非空字符串）",
+    )
+    价格: Optional[float] = Field(None, description="不含税基准价（元/吨）")
+    价格_1pct增值税: Optional[float] = None
+    价格_3pct增值税: Optional[float] = None
+    价格_13pct增值税: Optional[float] = None
+    普通发票价格: Optional[float] = None
+    反向发票价格: Optional[float] = None
+    价格字段来源: Optional[Dict[str, str]] = Field(
+        None,
+        description="与确认写入接口相同；未传则保留库中 JSON，重算后含税列会标为「换算」",
+    )
+
+    @model_validator(mode="after")
+    def _category_name_nonempty(self) -> "UpdateQuoteDetailRequest":
+        if self.品类名 is not None and str(self.品类名).strip() == "":
+            raise ValueError("品类名若传入则不能为空字符串")
+        return self
+
+
 class DemandItem(BaseModel):
     """A7 单条需求（冶炼厂由后端默认取全部启用冶炼厂，前端不传）"""
     category_id: int = Field(..., description="品类分组ID")
