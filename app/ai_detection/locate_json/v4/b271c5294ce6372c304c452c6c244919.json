@@ -1,0 +1,57 @@
+{
+  "image_path": "normal/17.jpg",
+  "relative_image_path": "normal/17.jpg",
+  "width": 1179,
+  "height": 2556,
+  "key_regions": [
+    {
+      "text": "转账时间",
+      "confidence": 0.0,
+      "bbox": [
+        350,
+        1181,
+        830,
+        1233
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "收款时间",
+      "confidence": 0.0,
+      "bbox": [
+        350,
+        1266,
+        823,
+        1317
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "一258.00",
+      "confidence": 0.0,
+      "bbox": [
+        417,
+        683,
+        761,
+        776
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_transfer_context_amount",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 27,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

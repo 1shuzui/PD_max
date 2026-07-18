@@ -8,6 +8,7 @@ import logging
 import os
 import joblib
 import re
+import threading
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -17,6 +18,8 @@ from app.ai_detection.core.extractors import FeatureExtractor, FontFeatureLibrar
 from app.ai_detection.core.detectors import PixelLevelDetector, OriginalityChecker
 from app.ai_detection.core.utils import NumpyEncoder, safe_read_image
 from app.ai_detection.ocr_utils import _resize_for_ocr
+from app.ai_detection.known_source_matcher import KnownSourcePairMatcher
+from app.ai_detection.model_registry import ModelRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +47,6 @@ class InferenceEngineAPI:
         self.font_lib.load(font_lib_path)
 
         xgb_path = self.config.get('paths', {}).get('xgb_model_path', "models/global_layout_model.pkl")
-        self.global_model = joblib.load(self._resolve_path(xgb_path))
 
         pixel_cfg = self.config.get('pixel_detector', {})
         self.pixel_detector = PixelLevelDetector(config=pixel_cfg)
@@ -53,13 +55,26 @@ class InferenceEngineAPI:
         self._origin_enabled = self.config.get('originality', {}).get('enabled', True)
 
         self._font_lib_path = font_lib_path
-        self._xgb_path = self._resolve_path(xgb_path)
-
         registry_path = self.config.get("training", {}).get("registry_path", "models/registry.json")
         self._registry_path = self._resolve_path(registry_path)
+        self._legacy_xgb_path = self._resolve_path(xgb_path)
+        registry = ModelRegistry(
+            self._registry_path,
+            fallback_model_path=self._legacy_xgb_path,
+        )
+        registry.bootstrap_fallback()
+        active_entry = registry.resolve_active()
+        self._xgb_path = str(active_entry.get("model_path") or self._legacy_xgb_path)
+        self._model_reload_lock = threading.RLock()
+        self.global_model = joblib.load(self._xgb_path)
 
         calib_cfg = self.config.get("thresholds", {})
         self._calibration_temp = float(calib_cfg.get("calibration_temperature", 1.0))
+        self._global_fake_threshold = float(
+            active_entry.get("global_fake_threshold", calib_cfg.get("global_fake", 0.65))
+        )
+        self._has_calibrated_global_threshold = "global_fake_threshold" in active_entry
+        self._known_source_matcher = self._load_known_source_matcher(active_entry)
 
         self._metrics: dict = {
             "total_predictions": 0,
@@ -73,16 +88,23 @@ class InferenceEngineAPI:
 
     def list_model_versions(self) -> dict:
         """返回模型版本注册表中所有版本。"""
-        registry_path = Path(self._registry_path)
-        if not registry_path.exists():
-            return {"versions": [], "current_model": str(self._xgb_path)}
-        try:
-            with open(registry_path, "r", encoding="utf-8") as f:
-                registry = json.load(f)
-        except (json.JSONDecodeError, OSError):
-            return {"versions": [], "current_model": str(self._xgb_path)}
-        registry["current_model"] = str(self._xgb_path)
-        return registry
+        return self._model_registry().list_models()
+
+    def _model_registry(self) -> ModelRegistry:
+        fallback = getattr(self, "_legacy_xgb_path", None) or getattr(self, "_xgb_path", "")
+        return ModelRegistry(self._registry_path, fallback_model_path=fallback)
+
+    def _load_known_source_matcher(self, entry: Dict[str, Any]) -> Optional[KnownSourcePairMatcher]:
+        dataset_cfg = self.config.get("dataset", {})
+        image_root = self._resolve_path(dataset_cfg.get("image_dir", "images"))
+        return KnownSourcePairMatcher.from_file(
+            entry.get("reference_index_path"),
+            image_root=image_root,
+        )
+
+    def _resolve_active_model_path(self, fallback_path: str) -> str:
+        registry = ModelRegistry(self._registry_path, fallback_model_path=fallback_path)
+        return str(registry.resolve_active().get("model_path") or fallback_path)
 
     def reload_models(self, version: Optional[str] = None) -> dict:
         """热重载 FAISS 字体库和 XGBoost 模型，无需重启服务。
@@ -92,21 +114,28 @@ class InferenceEngineAPI:
         """
         result = {"font_lib": "unchanged", "global_model": "unchanged"}
 
-        xgb_path = self._xgb_path
+        active_entry = self._model_registry().resolve_active()
+        xgb_path = str(active_entry.get("model_path") or self._legacy_xgb_path)
         font_lib_path = self._font_lib_path
+        global_fake_threshold = float(
+            active_entry.get("global_fake_threshold", self.config.get("thresholds", {}).get("global_fake", 0.65))
+        )
+        has_calibrated_global_threshold = "global_fake_threshold" in active_entry
+        known_source_matcher = self._load_known_source_matcher(active_entry)
 
         if version:
-            versions_info = self.list_model_versions()
-            for entry in versions_info.get("versions", []):
-                if entry.get("timestamp") == version:
-                    xgb_path = entry.get("model_path", xgb_path)
-                    font_lib_path = entry.get("font_lib_path", font_lib_path)
-                    result["version"] = version
-                    logger.info("切换到模型版本: %s", version)
-                    break
-            else:
-                logger.warning("未找到版本 %s，使用当前活跃模型", version)
-                result["version"] = "current"
+            active_version = self._model_registry().resolve_active().get("version")
+            if version != active_version:
+                raise ValueError("指定版本切换必须使用模型启用接口完成评估与审计")
+            entry = self._model_registry().get(version)
+            if entry is None:
+                raise ValueError(f"未找到模型版本: {version}")
+            xgb_path = entry.get("model_path", xgb_path)
+            font_lib_path = entry.get("font_lib_path", font_lib_path)
+            global_fake_threshold = float(entry.get("global_fake_threshold", global_fake_threshold))
+            has_calibrated_global_threshold = "global_fake_threshold" in entry
+            known_source_matcher = self._load_known_source_matcher(entry)
+            result["version"] = version
 
         new_font_lib = FontFeatureLibrary()
         if new_font_lib.load(font_lib_path):
@@ -117,13 +146,57 @@ class InferenceEngineAPI:
 
         try:
             new_model = joblib.load(xgb_path)
+        except Exception as exc:
+            raise RuntimeError("全局模型加载失败，当前模型未变更") from exc
+        if not callable(getattr(new_model, "predict_proba", None)):
+            raise RuntimeError("全局模型格式无效，当前模型未变更")
+        with self._model_reload_lock:
             self.global_model = new_model
-            result["global_model"] = "reloaded"
-        except Exception:
-            logger.warning("全局模型重载失败，保留当前模型", exc_info=True)
+            self._xgb_path = str(Path(xgb_path).resolve())
+            self._global_fake_threshold = global_fake_threshold
+            self._has_calibrated_global_threshold = has_calibrated_global_threshold
+            self._known_source_matcher = known_source_matcher
+            if result["font_lib"] == "reloaded":
+                self._font_lib_path = str(font_lib_path)
+        result["global_model"] = "reloaded"
+        result["current_model"] = self._xgb_path
 
         logger.info("模型热重载完成: %s", result)
         return result
+
+    def install_validated_model(self, model: Any, entry: Dict[str, Any]) -> dict:
+        """Atomically install a model that ModelRegistry already validated."""
+        if not callable(getattr(model, "predict_proba", None)):
+            raise ValueError("候选模型缺少 predict_proba")
+        model_path = str(Path(str(entry.get("model_path") or "")).resolve())
+        if not model_path:
+            raise ValueError("候选模型路径为空")
+
+        next_font_lib = None
+        next_known_source_matcher = self._load_known_source_matcher(entry)
+        font_path = str(entry.get("font_lib_path") or "").strip()
+        if font_path:
+            candidate_font_lib = FontFeatureLibrary()
+            if candidate_font_lib.load(font_path):
+                next_font_lib = candidate_font_lib
+
+        with self._model_reload_lock:
+            self.global_model = model
+            self._xgb_path = model_path
+            self._global_fake_threshold = float(
+                entry.get("global_fake_threshold", self.config.get("thresholds", {}).get("global_fake", 0.65))
+            )
+            self._has_calibrated_global_threshold = "global_fake_threshold" in entry
+            self._known_source_matcher = next_known_source_matcher
+            if next_font_lib is not None:
+                self.font_lib = next_font_lib
+                self._font_lib_path = font_path
+        return {
+            "version": entry.get("version"),
+            "global_model": "reloaded",
+            "font_lib": "reloaded" if next_font_lib is not None else "unchanged",
+            "current_model": self._xgb_path,
+        }
 
     def get_metrics(self) -> dict:
         """返回累计推理指标快照。"""
@@ -241,17 +314,8 @@ class InferenceEngineAPI:
         metadata_reasons: List[str],
         threshold: float = 0.50,
     ) -> bool:
-        if metadata_risk < threshold:
-            return False
-        hard_markers = (
-            "EXIF检测到已知修图软件",
-            "文件体积/像素比异常",
-            "缺少EXIF且图像结构异常",
-        )
-        return any(
-            any(marker in reason for marker in hard_markers)
-            for reason in (metadata_reasons or [])
-        )
+        _ = metadata_risk, threshold
+        return any("EXIF检测到已知修图软件" in reason for reason in (metadata_reasons or []))
 
     def predict(
         self,
@@ -271,9 +335,12 @@ class InferenceEngineAPI:
                 self._metrics["error_count"] += 1
                 return json.dumps({"result": "错误", "reason": "无法读取图片或路径不存在"}, ensure_ascii=False)
 
-            orig_h, orig_w = img.shape[:2]
+            original_img = img
+            orig_h, orig_w = original_img.shape[:2]
+            known_source_matcher = getattr(self, "_known_source_matcher", None)
+
             work_img, work_scale = _resize_for_ocr(
-                img,
+                original_img,
                 max_side=PREDICT_MAX_SIDE,
                 max_pixels=PREDICT_MAX_PIXELS,
             )
@@ -288,7 +355,7 @@ class InferenceEngineAPI:
             margin = rules.get('roi_expand_margin', 15)
             max_len = rules.get('max_core_text_length', 15)
 
-            thresh_global = thresh.get('global_fake', 0.65)
+            thresh_global = float(getattr(self, "_global_fake_threshold", thresh.get('global_fake', 0.65)))
             thresh_pixel_alert = thresh.get('pixel_anomaly_alert', 0.60)
             thresh_exempt = thresh.get('exempt_pixel_safe', 0.40)
             thresh_high = thresh.get('suspect_high', 0.65)
@@ -420,11 +487,7 @@ class InferenceEngineAPI:
                     _of, _, _ = self.originality_checker.extract_features(full_image_path)
                     _has_exif = _of.get("has_exif", 0) if _of else 0
 
-                # 元数据强证据时提升全局信号（有EXIF+低色彩熵=AI生成特征）
                 _effective_global = global_ai_score
-                # 元数据强证据时提升全局信号
-                if _has_exif and metadata_risk >= 0.50 and 0.68 <= global_ai_score < 0.85:
-                    _effective_global = min(0.95, global_ai_score + 0.25)
 
                 # EXIF 分级乘数：全局越确信，乘数越高
                 if _has_exif:
@@ -443,11 +506,6 @@ class InferenceEngineAPI:
                     final_risk = local_anomaly * 0.90
                 else:
                     final_risk = local_anomaly * 0.70
-                # 元数据强异常兜底（排除纯色彩均匀，白底文档常见）
-                if metadata_risk >= 0.50 and any(
-                    r for r in reasons if "EXIF" in r or "体积" in r or "结构" in r
-                ):
-                    final_risk = max(final_risk, 0.52)
 
             # bbox IOU 风险叠加
             if bbox_iou_risk > 0:
@@ -458,6 +516,9 @@ class InferenceEngineAPI:
                 metadata_reasons,
                 float(thresh.get("metadata_hard_evidence", 0.50)),
             )
+            strong_global_tamper = bool(
+                getattr(self, "_has_calibrated_global_threshold", False)
+            ) and global_fake_prob >= float(thresh.get("strong_global_tamper", 0.65))
             if metadata_hard_tamper:
                 final_risk = max(final_risk, float(thresh_high) + 0.02)
 
@@ -480,6 +541,9 @@ class InferenceEngineAPI:
                 final_risk = max(final_risk, float(thresh_high) + 0.05)
             elif metadata_hard_tamper:
                 result_status = "篡改"
+            elif strong_global_tamper:
+                result_status = "篡改"
+                final_risk = max(final_risk, float(thresh_high) + 0.01)
             elif final_risk > thresh_high:
                 result_status = "篡改"
             elif final_risk > thresh_low:

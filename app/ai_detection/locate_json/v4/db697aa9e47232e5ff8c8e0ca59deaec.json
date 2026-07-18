@@ -1,0 +1,102 @@
+{
+  "image_path": "normal/40.png",
+  "relative_image_path": "normal/40.png",
+  "width": 1069,
+  "height": 539,
+  "key_regions": [
+    {
+      "text": "金额",
+      "confidence": 0.0,
+      "bbox": [
+        288,
+        308,
+        915,
+        331
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "大写",
+      "confidence": 0.0,
+      "bbox": [
+        808,
+        308,
+        915,
+        331
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "付款方",
+      "confidence": 0.0,
+      "bbox": [
+        157,
+        202,
+        1013,
+        238
+      ],
+      "type": "name",
+      "field_type": "name",
+      "field_label": "姓名",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "收款方",
+      "confidence": 0.0,
+      "bbox": [
+        678,
+        202,
+        1013,
+        226
+      ],
+      "type": "name",
+      "field_type": "name",
+      "field_label": "姓名",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "交易时间",
+      "confidence": 0.0,
+      "bbox": [
+        288,
+        428,
+        892,
+        451
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "2026-07-1016:30.21",
+      "confidence": 0.0,
+      "bbox": [
+        288,
+        429,
+        454,
+        448
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_datetime_value",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 46,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

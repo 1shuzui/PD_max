@@ -1,0 +1,27 @@
+{
+  "image_path": "normal/34.png",
+  "relative_image_path": "normal/34.png",
+  "width": 571,
+  "height": 741,
+  "key_regions": [
+    {
+      "text": "202607.1617.33.00",
+      "confidence": 0.0,
+      "bbox": [
+        111,
+        127,
+        197,
+        138
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_datetime_value",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 41,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

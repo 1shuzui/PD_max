@@ -1,0 +1,42 @@
+{
+  "image_path": "normal/11.jpg",
+  "relative_image_path": "normal/11.jpg",
+  "width": 1179,
+  "height": 2556,
+  "key_regions": [
+    {
+      "text": "2023-11-0317:41:38",
+      "confidence": 0.0,
+      "bbox": [
+        42,
+        1671,
+        455,
+        1713
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_datetime_value",
+      "is_tampered": false
+    },
+    {
+      "text": "半3,602.57",
+      "confidence": 0.0,
+      "bbox": [
+        359,
+        538,
+        869,
+        658
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_transfer_context_amount",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 30,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

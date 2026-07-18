@@ -56,6 +56,18 @@ class DatasetManagerTests(unittest.TestCase):
             self.assertFalse((manager.image_dir / "no (12).jpg").exists())
             self.assertFalse((manager.image_dir / "no (12)_enhanced.jpg").exists())
 
+    def test_update_label_moves_canonical_sample_between_class_directories(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            manager = self._manager(tmp)
+            self._write_image(manager.image_dir / "normal" / "receipt.jpg")
+
+            entry = manager.update_label("receipt.jpg", 1)
+
+            self.assertIsNotNone(entry)
+            self.assertEqual(entry["label"], 1)
+            self.assertTrue((manager.image_dir / "tampered" / "p (receipt).jpg").is_file())
+            self.assertFalse((manager.image_dir / "normal" / "receipt.jpg").exists())
+
     def test_delete_entry_removes_family_and_annotation(self):
         with tempfile.TemporaryDirectory() as tmp:
             manager = self._manager(tmp)

@@ -1,0 +1,102 @@
+{
+  "image_path": "normal/14.jpg",
+  "relative_image_path": "normal/14.jpg",
+  "width": 1320,
+  "height": 2868,
+  "key_regions": [
+    {
+      "text": "交易金额",
+      "confidence": 0.0,
+      "bbox": [
+        1134,
+        1201,
+        1277,
+        1245
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "交易时间",
+      "confidence": 0.0,
+      "bbox": [
+        905,
+        666,
+        1277,
+        710
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "-500.00",
+      "confidence": 0.0,
+      "bbox": [
+        505,
+        387,
+        815,
+        484
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_transfer_context_amount",
+      "is_tampered": false
+    },
+    {
+      "text": "余额:5,188.37",
+      "confidence": 0.0,
+      "bbox": [
+        532,
+        511,
+        787,
+        562
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_transfer_context_amount",
+      "is_tampered": false
+    },
+    {
+      "text": "500.00",
+      "confidence": 0.0,
+      "bbox": [
+        1134,
+        1309,
+        1277,
+        1351
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "amount_token",
+      "is_tampered": false
+    },
+    {
+      "text": "5,188.37",
+      "confidence": 0.0,
+      "bbox": [
+        1108,
+        1521,
+        1277,
+        1571
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "amount_token",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 29,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

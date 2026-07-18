@@ -79,6 +79,22 @@ class RuleCheckRoiTests(unittest.TestCase):
 
         self.assertEqual(rois, [])
 
+    def test_find_key_field_rois_excludes_single_digits_with_trailing_punctuation(self):
+        image_shape = (900, 700, 3)
+        tokens = [
+            OCRToken("4", "4", (100, 200, 120, 230), 0.9, 20, 30, 215.0),
+            OCRToken("0", "0", (100, 260, 120, 290), 0.9, 20, 30, 275.0),
+            OCRToken("币-67000.00,", "币-67000.00,", (100, 320, 300, 350), 0.9, 200, 30, 335.0),
+            OCRToken("金额36000元,切勿泄露", "金额36000元,切勿泄露", (100, 380, 360, 410), 0.9, 260, 30, 395.0),
+        ]
+
+        rois = find_key_field_rois(tokens, image_shape)
+
+        self.assertEqual(
+            [roi["bbox"] for roi in rois if roi["field_type"] == "amount"],
+            [[100, 320, 300, 350], [100, 380, 360, 410]],
+        )
+
     def test_find_key_field_rois_keeps_multiple_time_candidates(self):
         image_shape = (1200, 800, 3)
         tokens = [
@@ -92,6 +108,78 @@ class RuleCheckRoiTests(unittest.TestCase):
 
         time_rois = [roi for roi in rois if roi.get("field_type") == "time"]
         self.assertEqual(len(time_rois), 2)
+
+    def test_find_key_field_rois_recovers_formatted_datetime_and_minor_unit_amount(self):
+        image_shape = (900, 700, 3)
+        tokens = [
+            OCRToken("202607.151432.52", "202607.151432.52", (100, 100, 280, 130), 0.9, 180, 30, 115.0),
+            OCRToken("小:+518.32", "小:+518.32", (100, 160, 250, 190), 0.9, 150, 30, 175.0),
+            OCRToken("2026年01月24日13:40", "2026年01月24日13:40", (100, 200, 320, 230), 0.9, 220, 30, 215.0),
+            OCRToken("20260601123000", "20260601123000", (100, 220, 290, 250), 0.9, 190, 30, 235.0),
+            OCRToken("6222****8888", "6222****8888", (100, 280, 260, 310), 0.9, 160, 30, 295.0),
+        ]
+
+        rois = find_key_field_rois(tokens, image_shape)
+
+        self.assertIn([100, 100, 280, 130], [roi["bbox"] for roi in rois if roi["field_type"] == "time"])
+        self.assertIn([100, 200, 320, 230], [roi["bbox"] for roi in rois if roi["field_type"] == "time"])
+        self.assertIn([100, 160, 250, 190], [roi["bbox"] for roi in rois if roi["field_type"] == "amount"])
+        self.assertNotIn([100, 220, 290, 250], [roi["bbox"] for roi in rois])
+        self.assertNotIn([100, 280, 260, 310], [roi["bbox"] for roi in rois])
+
+    def test_find_key_field_rois_matches_wrapped_currency_value_to_amount_label(self):
+        image_shape = (1500, 1200, 3)
+        tokens = [
+            OCRToken("金额", "金额", (900, 500, 1020, 550), 0.9, 120, 50, 525.0),
+            OCRToken("98000元", "98000元", (100, 560, 310, 620), 0.9, 210, 60, 590.0),
+            OCRToken("收款账户", "收款账户", (100, 760, 300, 810), 0.9, 200, 50, 785.0),
+            OCRToken("6222888899990000", "6222888899990000", (100, 850, 450, 910), 0.9, 350, 60, 880.0),
+        ]
+
+        rois = find_key_field_rois(tokens, image_shape)
+
+        self.assertIn([100, 560, 310, 620], [roi["bbox"] for roi in rois if roi["field_type"] == "amount"])
+        self.assertNotIn([100, 850, 450, 910], [roi["bbox"] for roi in rois])
+
+    def test_find_key_field_rois_keeps_currency_amounts_inside_notification_text(self):
+        image_shape = (640, 770, 3)
+        tokens = [
+            OCRToken("向张允孝转出33000元,", "向张允孝转出33000元,", (72, 204, 352, 250), 0.79, 280, 46, 227.0),
+            OCRToken("余额为1643.51元,", "余额为1643.51元,", (365, 205, 690, 250), 0.79, 325, 45, 227.5),
+            OCRToken("6228481059948885547", "6228481059948885547", (484, 300, 651, 320), 0.91, 167, 20, 310.0),
+        ]
+
+        rois = find_key_field_rois(tokens, image_shape)
+
+        amount_bboxes = [roi["bbox"] for roi in rois if roi["field_type"] == "amount"]
+        self.assertIn([72, 204, 352, 250], amount_bboxes)
+        self.assertIn([365, 205, 690, 250], amount_bboxes)
+        self.assertNotIn([484, 300, 651, 320], amount_bboxes)
+
+    def test_find_key_field_rois_keeps_currency_amount_with_ocr_label_noise(self):
+        image_shape = (900, 700, 3)
+        tokens = [
+            OCRToken("小:G000000元", "小:G000000元", (146, 220, 220, 233), 0.10, 74, 13, 226.5),
+            OCRToken("订单号123456789012", "订单号123456789012", (100, 350, 380, 380), 0.96, 280, 30, 365.0),
+        ]
+
+        rois = find_key_field_rois(tokens, image_shape)
+
+        self.assertIn([146, 220, 220, 233], [roi["bbox"] for roi in rois if roi["field_type"] == "amount"])
+        self.assertNotIn([100, 350, 380, 380], [roi["bbox"] for roi in rois])
+
+    def test_find_key_field_rois_recovers_prominent_transfer_amount_without_currency_symbol(self):
+        image_shape = (640, 677, 3)
+        tokens = [
+            OCRToken("转给梁伟", "转给梁伟", (299, 94, 377, 118), 0.93, 78, 24, 106.0),
+            OCRToken("半30000", "半30000", (286, 126, 412, 161), 0.90, 126, 35, 143.5),
+            OCRToken("6228481059948885547", "6228481059948885547", (484, 225, 651, 241), 0.91, 167, 16, 233.0),
+        ]
+
+        rois = find_key_field_rois(tokens, image_shape)
+
+        self.assertIn([286, 126, 412, 161], [roi["bbox"] for roi in rois if roi["field_type"] == "amount"])
+        self.assertNotIn([484, 225, 651, 241], [roi["bbox"] for roi in rois])
 
     def test_find_suggested_rois_only_amount_name_time(self):
         image_shape = (1200, 800, 3)

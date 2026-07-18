@@ -1,10 +1,28 @@
 import unittest
+import inspect
 from unittest.mock import MagicMock, patch
 
 from app.ai_detection.history_db import delete_ai_detection_history, normalize_history_original_filename
 
 
 class NormalizeHistoryOriginalFilenameTests(unittest.TestCase):
+    def test_history_schema_and_insert_support_upload_metadata(self):
+        from app.database import TABLE_STATEMENTS, ensure_ai_detection_history_upload_metadata_columns
+        from app.ai_detection.history_db import insert_ai_detection_history
+
+        table_sql = next(sql for sql in TABLE_STATEMENTS if "CREATE TABLE IF NOT EXISTS ai_detection_history" in sql)
+        self.assertIn("content_sha256", table_sql)
+        self.assertIn("size_bytes", table_sql)
+        self.assertIn("media_type", table_sql)
+        migration_source = inspect.getsource(ensure_ai_detection_history_upload_metadata_columns)
+        self.assertIn("content_sha256", migration_source)
+        self.assertIn("size_bytes", migration_source)
+        self.assertIn("media_type", migration_source)
+        insert_params = inspect.signature(insert_ai_detection_history).parameters
+        self.assertIn("content_sha256", insert_params)
+        self.assertIn("size_bytes", insert_params)
+        self.assertIn("media_type", insert_params)
+
     def test_prefers_upload_name(self):
         name = normalize_history_original_filename(
             "chatgptedit.png",

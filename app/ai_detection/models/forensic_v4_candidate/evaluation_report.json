@@ -1,0 +1,123 @@
+{
+  "status": "blocked",
+  "candidate_only": true,
+  "active_model_unchanged": true,
+  "reason": "数据覆盖不足，禁止生成可用 v4 候选模型",
+  "gate_reasons": [
+    "validation ROI 必须同时包含正常和篡改，当前标签=[0]",
+    "test ROI 必须同时包含正常和篡改，当前标签=[0]"
+  ],
+  "candidate_gate": {
+    "passed": false,
+    "minimum_metric": 0.9,
+    "reasons": [
+      "validation ROI 必须同时包含正常和篡改，当前标签=[0]",
+      "test ROI 必须同时包含正常和篡改，当前标签=[0]"
+    ]
+  },
+  "audit": {
+    "passed": true,
+    "errors": [],
+    "entry_count": 154,
+    "split_counts": {
+      "train": 59,
+      "validation": 18,
+      "test": 21
+    },
+    "sha_count": 95,
+    "group_count": 45,
+    "template_cluster_count": 45,
+    "image_roi_coverage": {
+      "by_split": {
+        "train": {
+          "images": 59,
+          "covered_images": 59,
+          "coverage_percent": 100.0
+        },
+        "validation": {
+          "images": 18,
+          "covered_images": 18,
+          "coverage_percent": 100.0
+        },
+        "test": {
+          "images": 21,
+          "covered_images": 21,
+          "coverage_percent": 100.0
+        }
+      },
+      "uncovered_paths": {
+        "train": [],
+        "validation": [],
+        "test": []
+      }
+    },
+    "roi_record_count": 316,
+    "example_count": 1244,
+    "synthetic_positive_count": 663,
+    "replay_paths": [
+      "app/ai_detection/images/tampered/pptest__ebe78fef76ed__111.png",
+      "app/ai_detection/images/tampered/pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd.png"
+    ],
+    "replay_roi_count": 7,
+    "weak_holdout_roi_count": 56,
+    "weak_holdout_paths": [
+      "app/ai_detection/images/tampered/p (1).jpg",
+      "app/ai_detection/images/tampered/p (10).jpg",
+      "app/ai_detection/images/tampered/p (11).jpg",
+      "app/ai_detection/images/tampered/p (12).jpg",
+      "app/ai_detection/images/tampered/p (13).jpg",
+      "app/ai_detection/images/tampered/p (17).jpg",
+      "app/ai_detection/images/tampered/p (18).jpg",
+      "app/ai_detection/images/tampered/p (31).jpg",
+      "app/ai_detection/images/tampered/p (41).jpg",
+      "app/ai_detection/images/tampered/p (5).jpg",
+      "app/ai_detection/images/tampered/p (6).jpg",
+      "app/ai_detection/images/tampered/p (7).jpg"
+    ],
+    "replay_without_roi": [],
+    "roi_split_label_counts": {
+      "train": {
+        "0": 164,
+        "1": 7
+      },
+      "validation": {
+        "0": 54,
+        "1": 21
+      },
+      "test": {
+        "0": 35,
+        "1": 35
+      }
+    },
+    "training_roi_split_label_counts": {
+      "train": {
+        "0": 492,
+        "1": 663
+      },
+      "validation": {
+        "0": 54,
+        "1": 0
+      },
+      "test": {
+        "0": 35,
+        "1": 0
+      }
+    },
+    "roi_coverage": {
+      "train": 171,
+      "validation": 75,
+      "test": 70
+    },
+    "example_group_audit": {
+      "passed": true,
+      "errors": [],
+      "parent_group_count": 29
+    },
+    "example_manifest_path": "app/ai_detection/models/forensic_v4_candidate/example_manifest.json"
+  },
+  "training_replay_regression": {
+    "sample_count": 7,
+    "all_tampered": false,
+    "not_evaluated": true
+  }
+}

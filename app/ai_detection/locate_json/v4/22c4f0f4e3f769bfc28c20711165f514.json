@@ -1,0 +1,57 @@
+{
+  "image_path": "normal/5.png",
+  "relative_image_path": "normal/5.png",
+  "width": 552,
+  "height": 684,
+  "key_regions": [
+    {
+      "text": "202605-2522.00.57",
+      "confidence": 0.0,
+      "bbox": [
+        140,
+        260,
+        226,
+        272
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_datetime_value",
+      "is_tampered": false
+    },
+    {
+      "text": "小:400.00元",
+      "confidence": 0.0,
+      "bbox": [
+        140,
+        210,
+        208,
+        222
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_currency_amount_value",
+      "is_tampered": false
+    },
+    {
+      "text": "202505.2520,52.15",
+      "confidence": 0.0,
+      "bbox": [
+        140,
+        244,
+        226,
+        254
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "amount_token",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 39,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

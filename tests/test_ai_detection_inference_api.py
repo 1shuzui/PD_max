@@ -1,4 +1,6 @@
 import json
+import tempfile
+from pathlib import Path
 
 import unittest
 
@@ -7,6 +9,7 @@ from unittest.mock import patch
 
 
 import numpy as np
+import joblib
 
 
 
@@ -108,6 +111,37 @@ class _DummyPixelDetector:
 
 
 class InferenceEngineApiTests(unittest.TestCase):
+
+    def test_resolves_persisted_active_model_from_registry(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            legacy = root / "legacy.pkl"
+            active = root / "active.pkl"
+            joblib.dump(_DummyGlobalModel(0.1), legacy)
+            joblib.dump(_DummyGlobalModel(0.8), active)
+            (root / "registry.json").write_text(
+                json.dumps(
+                    {
+                        "active_version": "v2",
+                        "versions": [
+                            {
+                                "version": "v2",
+                                "model_path": str(active),
+                                "status": "ACTIVE",
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            engine = InferenceEngineAPI.__new__(InferenceEngineAPI)
+            engine.base_dir = root
+            engine._registry_path = str(root / "registry.json")
+
+            resolved = engine._resolve_active_model_path(str(legacy))
+
+            self.assertEqual(resolved, str(active.resolve()))
+
 
     def _build_engine(self):
 
@@ -290,6 +324,126 @@ class InferenceEngineApiTests(unittest.TestCase):
 
     @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
     @patch("app.ai_detection.inference_api.safe_read_image")
+    def test_predict_does_not_hard_label_from_global_model_threshold_alone(self, mock_safe_read_image, mock_bbox_overlap):
+        mock_safe_read_image.return_value = np.zeros((100, 100, 3), dtype=np.uint8)
+        mock_bbox_overlap.return_value = {
+            "bbox_overlap_check": {"max_iou": 0.0, "overlapping_pairs": [], "box_count": 0, "anomalies": []},
+            "risk": 0.0,
+            "reasons": [],
+            "hard_tamper": False,
+            "max_iou": 0.0,
+        }
+        engine = self._build_engine()
+        engine.global_model = _DummyGlobalModel(tamper_prob=0.55)
+        engine._global_fake_threshold = 0.51
+        engine._has_calibrated_global_threshold = True
+
+        result = json.loads(engine.predict("/tmp/mock.jpg", [10, 20, 40, 50], bbox_format="xyxy"))
+
+        self.assertEqual(result["result"], "正常")
+
+    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.inference_api.safe_read_image")
+    def test_predict_hard_labels_calibrated_strong_global_signal(self, mock_safe_read_image, mock_bbox_overlap):
+        mock_safe_read_image.return_value = np.zeros((100, 100, 3), dtype=np.uint8)
+        mock_bbox_overlap.return_value = {
+            "bbox_overlap_check": {"max_iou": 0.0, "overlapping_pairs": [], "box_count": 0, "anomalies": []},
+            "risk": 0.0,
+            "reasons": [],
+            "hard_tamper": False,
+            "max_iou": 0.0,
+        }
+        engine = self._build_engine()
+        engine.global_model = _DummyGlobalModel(tamper_prob=0.70)
+        engine._has_calibrated_global_threshold = True
+
+        result = json.loads(engine.predict("/tmp/mock.jpg", [10, 20, 40, 50], bbox_format="xyxy"))
+
+        self.assertEqual(result["result"], "篡改")
+
+    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.inference_api.safe_read_image")
+    def test_predict_does_not_hard_label_known_source_local_delta(self, mock_safe_read_image, mock_bbox_overlap):
+        mock_safe_read_image.return_value = np.zeros((100, 100, 3), dtype=np.uint8)
+        mock_bbox_overlap.return_value = {
+            "bbox_overlap_check": {"max_iou": 0.0, "overlapping_pairs": [], "box_count": 0, "anomalies": []},
+            "risk": 0.0,
+            "reasons": [],
+            "hard_tamper": False,
+            "max_iou": 0.0,
+        }
+        engine = self._build_engine()
+
+        class _Matcher:
+            def match(self, *_args, **_kwargs):
+                raise AssertionError("known-source evidence must not bypass the model")
+
+        engine._known_source_matcher = _Matcher()
+        result = json.loads(engine.predict("/tmp/mock.jpg", [10, 20, 40, 50], bbox_format="xyxy"))
+
+        self.assertEqual(result["result"], "正常")
+
+    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.inference_api.safe_read_image")
+    def test_predict_does_not_hard_label_exact_verified_tampered_content(
+        self,
+        mock_safe_read_image,
+        mock_bbox_overlap,
+    ):
+        mock_safe_read_image.return_value = np.zeros((100, 100, 3), dtype=np.uint8)
+        mock_bbox_overlap.return_value = {
+            "bbox_overlap_check": {"max_iou": 0.0, "overlapping_pairs": [], "box_count": 0, "anomalies": []},
+            "risk": 0.0,
+            "reasons": [],
+            "hard_tamper": False,
+            "max_iou": 0.0,
+        }
+        engine = self._build_engine()
+
+        class _Matcher:
+            def match_verified_tampered(self, _image_path):
+                raise AssertionError("verified SHA evidence must not bypass the model")
+
+        engine._known_source_matcher = _Matcher()
+        result = json.loads(engine.predict("/tmp/mock.jpg", [10, 20, 40, 50], bbox_format="xyxy"))
+
+        self.assertEqual(result["result"], "正常")
+
+    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.inference_api.safe_read_image")
+    def test_predict_does_not_match_known_source_against_original_large_image(
+        self,
+        mock_safe_read_image,
+        mock_bbox_overlap,
+    ):
+        original = np.zeros((2863, 3000, 3), dtype=np.uint8)
+        mock_safe_read_image.return_value = original
+        mock_bbox_overlap.return_value = {
+            "bbox_overlap_check": {"max_iou": 0.0, "overlapping_pairs": [], "box_count": 0, "anomalies": []},
+            "risk": 0.0,
+            "reasons": [],
+            "hard_tamper": False,
+            "max_iou": 0.0,
+        }
+        engine = self._build_engine()
+
+        class _Matcher:
+            def __init__(self):
+                self.image_shape = None
+                self.roi_bbox = None
+
+            def match(self, image, roi_bbox, **_kwargs):
+                raise AssertionError("known-source evidence must not bypass the model")
+
+        matcher = _Matcher()
+        engine._known_source_matcher = matcher
+
+        result = json.loads(engine.predict("/tmp/mock.jpg", [100, 200, 700, 500], bbox_format="xyxy"))
+
+        self.assertEqual(result["result"], "正常")
+
+    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.inference_api.safe_read_image")
     def test_predict_downscales_large_work_image_but_returns_original_bbox(
         self,
         mock_safe_read_image,
@@ -316,20 +470,20 @@ class InferenceEngineApiTests(unittest.TestCase):
         mock_bbox_overlap.assert_called()
         self.assertEqual(mock_bbox_overlap.call_args.kwargs["roi_bbox_xyxy"], [100, 200, 700, 500])
 
-    def test_file_size_metadata_is_hard_tamper_evidence(self):
+    def test_file_size_metadata_is_not_hard_tamper_evidence(self):
         engine = self._build_engine()
 
-        self.assertTrue(
+        self.assertFalse(
             engine._has_hard_metadata_evidence(
                 0.50,
                 ["文件体积/像素比异常(疑似工具导出)"],
             )
         )
 
-    def test_structural_metadata_is_hard_tamper_evidence(self):
+    def test_structural_metadata_is_not_hard_tamper_evidence(self):
         engine = self._build_engine()
 
-        self.assertTrue(
+        self.assertFalse(
             engine._has_hard_metadata_evidence(
                 0.55,
                 ["缺少EXIF且图像结构异常(疑似生成图)", "色彩分布过于均匀(疑似生成图或纯色背景)"],

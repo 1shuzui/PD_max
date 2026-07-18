@@ -1,0 +1,57 @@
+{
+  "image_path": "normal/44.jpg",
+  "relative_image_path": "normal/44.jpg",
+  "width": 1206,
+  "height": 2622,
+  "key_regions": [
+    {
+      "text": "2026年6月24日21:23:32",
+      "confidence": 0.0,
+      "bbox": [
+        386,
+        1057,
+        856,
+        1109
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_datetime_value",
+      "is_tampered": false
+    },
+    {
+      "text": "一388.00",
+      "confidence": 0.0,
+      "bbox": [
+        441,
+        681,
+        760,
+        764
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_transfer_context_amount",
+      "is_tampered": false
+    },
+    {
+      "text": "190.30",
+      "confidence": 0.0,
+      "bbox": [
+        387,
+        1590,
+        512,
+        1630
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "amount_token",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 30,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

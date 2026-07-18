@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "artifacts": [
+    {
+      "filename": "evaluation_report.json",
+      "size_bytes": 3261,
+      "sha256": "f6d587aa8ef433e16accfa2fdb6a7ecfd90646b858a14464c259f4ea13fbeb40"
+    },
+    {
+      "filename": "example_manifest.json",
+      "size_bytes": 647598,
+      "sha256": "b355e067b326f46813125c3fbfc2b828455d8d618e2cfb6391c74ed1808af26a"
+    }
+  ]
+}

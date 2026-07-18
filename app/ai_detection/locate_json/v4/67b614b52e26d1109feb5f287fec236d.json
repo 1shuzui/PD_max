@@ -1,0 +1,87 @@
+{
+  "image_path": "normal/47.jpg",
+  "relative_image_path": "normal/47.jpg",
+  "width": 1206,
+  "height": 2622,
+  "key_regions": [
+    {
+      "text": "转账金额",
+      "confidence": 0.0,
+      "bbox": [
+        840,
+        1289,
+        1053,
+        1343
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "付款人",
+      "confidence": 0.0,
+      "bbox": [
+        954,
+        820,
+        1048,
+        876
+      ],
+      "type": "name",
+      "field_type": "name",
+      "field_label": "姓名",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "收款人",
+      "confidence": 0.0,
+      "bbox": [
+        952,
+        1005,
+        1050,
+        1064
+      ],
+      "type": "name",
+      "field_type": "name",
+      "field_label": "姓名",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "交易时间",
+      "confidence": 0.0,
+      "bbox": [
+        610,
+        1475,
+        1051,
+        1522
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "10,000.00",
+      "confidence": 0.0,
+      "bbox": [
+        403,
+        543,
+        898,
+        668
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_transfer_context_amount",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 37,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

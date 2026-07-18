@@ -15,6 +15,7 @@ from app.api.v1.routes.ai_detection import (
     DetectionDomainServiceV3,
     MemoryTaskRegistry,
     STORAGE_DIR,
+    TaskRecordDTO,
     TaskStatusEnum,
     _persist_upload_task,
     _task_sidecar_path,
@@ -81,6 +82,60 @@ class TaskRecoveryTests(unittest.TestCase):
 
         asyncio.run(run_case())
 
+    def test_pending_sidecar_after_restart_is_reported_interrupted(self):
+        async def run_case():
+            task_id = "pending-after-restart"
+            storage_path = STORAGE_DIR / f"{task_id}.jpg"
+            sidecar = _task_sidecar_path(task_id)
+            storage_path.parent.mkdir(parents=True, exist_ok=True)
+            storage_path.write_bytes(b"\xff\xd8\xff")
+            registry = MemoryTaskRegistry()
+            try:
+                await registry.create_task(task_id, str(storage_path), "pending.jpg")
+                await registry.update_task(task_id, status=TaskStatusEnum.PENDING)
+                registry._store.clear()
+                with patch(
+                    "app.api.v1.routes.ai_detection.get_async_v3_history_by_task_id",
+                    return_value=None,
+                ):
+                    task = build_task_record_from_persistence(task_id)
+                self.assertIsNotNone(task)
+                assert task is not None
+                self.assertEqual(task.status, TaskStatusEnum.FAILED)
+                self.assertIn("中断", task.error_msg or "")
+            finally:
+                storage_path.unlink(missing_ok=True)
+                sidecar.unlink(missing_ok=True)
+
+        asyncio.run(run_case())
+
+    def test_cancel_terminal_history_does_not_delete_archived_image(self):
+        async def run_case():
+            from app.api.v1.routes.ai_detection import cancel_task
+
+            task_id = "completed-history-cancel"
+            with tempfile.TemporaryDirectory() as tmp:
+                archived = Path(tmp) / "123.png"
+                archived.write_bytes(b"archived")
+                completed = TaskRecordDTO(
+                    task_id=task_id,
+                    status=TaskStatusEnum.COMPLETED,
+                    created_at="2026-07-14T00:00:00",
+                    image_path=str(archived),
+                    original_filename="done.png",
+                    result={"result": "正常"},
+                )
+                registry = MemoryTaskRegistry()
+                with patch(
+                    "app.api.v1.routes.ai_detection.build_task_record_from_persistence",
+                    return_value=completed,
+                ):
+                    result = await cancel_task(task_id, registry)
+                self.assertEqual(result["status"], "already_finished")
+                self.assertTrue(archived.is_file())
+
+        asyncio.run(run_case())
+
     def test_delete_uploaded_task_removes_image_and_sidecar(self):
         async def run_case():
             task_id = "delete-sidecar-task"
@@ -108,7 +163,10 @@ class TaskRecoveryTests(unittest.TestCase):
     def test_persist_upload_task_only_creates_uploaded_task(self):
         async def run_case():
             registry = MemoryTaskRegistry()
-            upload = UploadFile(io.BytesIO(b"fake-image"), filename="receipt.jpg")
+            ok, encoded = cv2.imencode(".png", np.full((8, 10, 3), 127, dtype=np.uint8))
+            self.assertTrue(ok)
+            payload = encoded.tobytes()
+            upload = UploadFile(io.BytesIO(payload), filename="付款截图.jpg")
             task = await _persist_upload_task(
                 file=upload,
                 registry=registry,
@@ -117,10 +175,14 @@ class TaskRecoveryTests(unittest.TestCase):
             )
             try:
                 self.assertEqual(task.status, TaskStatusEnum.UPLOADED)
-                self.assertEqual(task.original_filename, "receipt.jpg")
+                self.assertEqual(task.original_filename, "付款截图.jpg")
                 self.assertEqual(task.image_created_at, "2026-07-06 11:00:00")
                 self.assertEqual(task.batch, "20260706003")
-                self.assertTrue(Path(task.image_path or "").is_file())
+                self.assertEqual(task.media_type, "image/png")
+                self.assertEqual(task.size_bytes, len(payload))
+                self.assertEqual(len(task.content_sha256 or ""), 64)
+                self.assertEqual(Path(task.image_path or "").suffix, ".png")
+                self.assertEqual(Path(task.image_path or "").read_bytes(), payload)
                 self.assertTrue(_task_sidecar_path(task.task_id).is_file())
             finally:
                 await registry.delete_task(task.task_id)
@@ -170,6 +232,7 @@ class TaskRecoveryTests(unittest.TestCase):
 
     def test_build_task_record_from_completed_history(self):
         task_id = "test-task-completed"
+        content_sha256 = "a" * 64
         with patch(
             "app.api.v1.routes.ai_detection.get_async_v3_history_by_task_id",
             return_value={
@@ -179,6 +242,9 @@ class TaskRecoveryTests(unittest.TestCase):
                 "image_created_at": "2026-05-31 12:34:56",
                 "batch": "codex-history-batch-001",
                 "original_filename": "chatgptedit5.png",
+                "content_sha256": content_sha256,
+                "size_bytes": 12345,
+                "media_type": "image/png",
                 "bbox": None,
                 "outcome": {
                     "result": {"result": "正常", "confidence": 0.2},
@@ -197,6 +263,51 @@ class TaskRecoveryTests(unittest.TestCase):
         self.assertEqual(task.result.get("result"), "正常")
         self.assertEqual(task.image_created_at, "2026-05-31 12:34:56")
         self.assertEqual(task.batch, "codex-history-batch-001")
+        self.assertEqual(task.content_sha256, content_sha256)
+        self.assertEqual(task.size_bytes, 12345)
+        self.assertEqual(task.media_type, "image/png")
+
+    def test_persist_history_copies_upload_metadata_from_task(self):
+        async def run_case():
+            registry = MemoryTaskRegistry()
+            task_id = "persist-upload-meta"
+            storage_path = STORAGE_DIR / f"{task_id}.png"
+            storage_path.parent.mkdir(parents=True, exist_ok=True)
+            storage_path.write_bytes(b"png")
+            await registry.create_task(
+                task_id=task_id,
+                image_path=str(storage_path),
+                original_filename="中文原名.png",
+                content_sha256="b" * 64,
+                size_bytes=3,
+                media_type="image/png",
+            )
+            service = DetectionDomainServiceV3(registry, asyncio.Semaphore(1))
+            try:
+                with patch(
+                    "app.api.v1.routes.ai_detection.insert_ai_detection_history"
+                ) as insert_history:
+                    await service._persist_history(
+                        task_id=task_id,
+                        original_filename="中文原名.png",
+                        bbox=None,
+                        status="COMPLETED",
+                        result={"result": "正常"},
+                        source_image_path=str(storage_path),
+                    )
+
+                kwargs = insert_history.call_args.kwargs
+                self.assertEqual(kwargs["content_sha256"], "b" * 64)
+                self.assertEqual(kwargs["size_bytes"], 3)
+                self.assertEqual(kwargs["media_type"], "image/png")
+                self.assertEqual(
+                    kwargs["outcome"]["upload_meta"]["original_filename"],
+                    "中文原名.png",
+                )
+            finally:
+                await registry.delete_task(task_id)
+
+        asyncio.run(run_case())
 
     def test_assign_region_numbers_overwrites_sorted_order(self):
         rows = DetectionDomainServiceV3._assign_region_numbers(
@@ -277,7 +388,43 @@ class TaskRecoveryTests(unittest.TestCase):
 
         asyncio.run(run_case())
 
-    def test_large_document_visual_override_marks_tampered(self):
+    def test_execute_async_waits_for_shared_ai_work_lock(self):
+        async def run_case():
+            registry = MemoryTaskRegistry()
+            task_id = "shared-work-lock-task"
+            image_path = STORAGE_DIR / f"{task_id}.jpg"
+            image_path.write_bytes(b"image")
+            await registry.create_task(task_id, str(image_path), "lock.jpg")
+            service = DetectionDomainServiceV3(registry, asyncio.Semaphore(1))
+            work_lock = asyncio.Lock()
+
+            from app.api.v1.routes.ai_detection import EngineContainer
+
+            old_lock = EngineContainer.work_lock
+            EngineContainer.work_lock = work_lock
+            entered = asyncio.Event()
+
+            async def fake_locked(*_args, **_kwargs):
+                entered.set()
+
+            try:
+                with patch.object(service, "_execute_async_locked", side_effect=fake_locked):
+                    await work_lock.acquire()
+                    task = asyncio.create_task(service.execute_async(task_id, str(image_path)))
+                    await asyncio.sleep(0)
+                    self.assertFalse(entered.is_set())
+                    work_lock.release()
+                    await task
+                    self.assertTrue(entered.is_set())
+            finally:
+                EngineContainer.work_lock = old_lock
+                if work_lock.locked():
+                    work_lock.release()
+                await registry.delete_task(task_id)
+
+        asyncio.run(run_case())
+
+    def test_large_document_without_key_roi_does_not_hard_label_tampered(self):
         registry = MemoryTaskRegistry()
         service = DetectionDomainServiceV3(registry, asyncio.Semaphore(1))
         image = np.full((2600, 3000, 3), 245, dtype=np.uint8)
@@ -293,10 +440,7 @@ class TaskRecoveryTests(unittest.TestCase):
 
         result = service._visual_document_override()
 
-        self.assertIsNotNone(result)
-        assert result is not None
-        self.assertEqual(result["result"], "篡改")
-        self.assertEqual(result["field_label"], "电子凭证")
+        self.assertIsNone(result)
 
     def test_render_annotated_jpeg_draws_region_number_labels(self):
         image = np.full((120, 180, 3), 255, dtype=np.uint8)

@@ -1,0 +1,27 @@
+{
+  "image_path": "normal/31.png",
+  "relative_image_path": "normal/31.png",
+  "width": 554,
+  "height": 709,
+  "key_regions": [
+    {
+      "text": "2025-07-2608.13.14",
+      "confidence": 0.0,
+      "bbox": [
+        109,
+        238,
+        195,
+        248
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_datetime_value",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 39,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

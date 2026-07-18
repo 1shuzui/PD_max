@@ -1,0 +1,102 @@
+{
+  "image_path": "normal/37.png",
+  "relative_image_path": "normal/37.png",
+  "width": 1063,
+  "height": 525,
+  "key_regions": [
+    {
+      "text": "金额",
+      "confidence": 0.0,
+      "bbox": [
+        314,
+        356,
+        703,
+        376
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "大写",
+      "confidence": 0.0,
+      "bbox": [
+        514,
+        356,
+        703,
+        376
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "付款人",
+      "confidence": 0.0,
+      "bbox": [
+        111,
+        193,
+        289,
+        210
+      ],
+      "type": "name",
+      "field_type": "name",
+      "field_label": "姓名",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "收款人",
+      "confidence": 0.0,
+      "bbox": [
+        112,
+        265,
+        963,
+        293
+      ],
+      "type": "name",
+      "field_type": "name",
+      "field_label": "姓名",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "2026-07-10",
+      "confidence": 0.0,
+      "bbox": [
+        314,
+        441,
+        396,
+        457
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_datetime_value",
+      "is_tampered": false
+    },
+    {
+      "text": "2,745.26",
+      "confidence": 0.0,
+      "bbox": [
+        314,
+        359,
+        374,
+        376
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "amount_token",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 53,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

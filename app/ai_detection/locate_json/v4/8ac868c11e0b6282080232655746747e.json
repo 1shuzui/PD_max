@@ -1,0 +1,87 @@
+{
+  "image_path": "normal/41.png",
+  "relative_image_path": "normal/41.png",
+  "width": 1036,
+  "height": 560,
+  "key_regions": [
+    {
+      "text": "小写",
+      "confidence": 0.0,
+      "bbox": [
+        248,
+        299,
+        314,
+        318
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "大写",
+      "confidence": 0.0,
+      "bbox": [
+        248,
+        337,
+        436,
+        356
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "付款方",
+      "confidence": 0.0,
+      "bbox": [
+        542,
+        204,
+        591,
+        222
+      ],
+      "type": "name",
+      "field_type": "name",
+      "field_label": "姓名",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "交易日期",
+      "confidence": 0.0,
+      "bbox": [
+        872,
+        70,
+        1026,
+        87
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "小写4,852.79",
+      "confidence": 0.0,
+      "bbox": [
+        112,
+        298,
+        314,
+        318
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "amount_line",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 39,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

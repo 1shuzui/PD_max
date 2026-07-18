@@ -1,0 +1,57 @@
+{
+  "image_path": "normal/39.png",
+  "relative_image_path": "normal/39.png",
+  "width": 747,
+  "height": 463,
+  "key_regions": [
+    {
+      "text": "金额",
+      "confidence": 0.0,
+      "bbox": [
+        196,
+        163,
+        632,
+        179
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "打印曰期:2026年4月198",
+      "confidence": 0.0,
+      "bbox": [
+        447,
+        61,
+        593,
+        78
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_transfer_context_amount",
+      "is_tampered": false
+    },
+    {
+      "text": "I26,500.00元",
+      "confidence": 0.0,
+      "bbox": [
+        196,
+        163,
+        276,
+        178
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_currency_amount_value",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 54,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

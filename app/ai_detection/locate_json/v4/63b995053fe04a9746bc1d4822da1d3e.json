@@ -1,0 +1,42 @@
+{
+  "image_path": "normal/32.png",
+  "relative_image_path": "normal/32.png",
+  "width": 560,
+  "height": 725,
+  "key_regions": [
+    {
+      "text": "2026-07-1617.32.20",
+      "confidence": 0.0,
+      "bbox": [
+        108,
+        128,
+        196,
+        140
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_datetime_value",
+      "is_tampered": false
+    },
+    {
+      "text": "2026-07-1518:56.57",
+      "confidence": 0.0,
+      "bbox": [
+        108,
+        253,
+        195,
+        265
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_datetime_value",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 40,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

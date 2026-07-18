@@ -1,0 +1,27 @@
+{
+  "image_path": "tampered/pptest__ebe78fef76ed__111.png",
+  "relative_image_path": "tampered/pptest__ebe78fef76ed__111.png",
+  "width": 3000,
+  "height": 2863,
+  "key_regions": [
+    {
+      "text": "姓名",
+      "confidence": 0.0,
+      "bbox": [
+        2202,
+        2029,
+        2666,
+        2352
+      ],
+      "type": "name",
+      "field_type": "name",
+      "field_label": "姓名",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 42,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

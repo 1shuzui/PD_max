@@ -1,0 +1,102 @@
+{
+  "image_path": "tampered/pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd.png",
+  "relative_image_path": "tampered/pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd.png",
+  "width": 1056,
+  "height": 1224,
+  "key_regions": [
+    {
+      "text": "交易金额",
+      "confidence": 0.0,
+      "bbox": [
+        315,
+        384,
+        508,
+        404
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "付款方",
+      "confidence": 0.0,
+      "bbox": [
+        337,
+        264,
+        693,
+        290
+      ],
+      "type": "name",
+      "field_type": "name",
+      "field_label": "姓名",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "姓名",
+      "confidence": 0.0,
+      "bbox": [
+        758,
+        680,
+        902,
+        774
+      ],
+      "type": "name",
+      "field_type": "name",
+      "field_label": "姓名",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "Waggf1688",
+      "confidence": 0.0,
+      "bbox": [
+        611,
+        264,
+        693,
+        290
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_transfer_context_amount",
+      "is_tampered": false
+    },
+    {
+      "text": "2N12588",
+      "confidence": 0.0,
+      "bbox": [
+        622,
+        315,
+        681,
+        332
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_transfer_context_amount",
+      "is_tampered": false
+    },
+    {
+      "text": "小:55589.00元",
+      "confidence": 0.0,
+      "bbox": [
+        315,
+        361,
+        430,
+        384
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_currency_amount_value",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 44,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}

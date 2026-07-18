@@ -14,6 +14,7 @@ from app.ai_detection.rule_check_roi import find_key_field_rois
 OCR_MAX_SIDE = max(1, int(os.getenv("AI_OCR_MAX_SIDE", "2200") or "2200"))
 OCR_MAX_PIXELS = max(1, int(os.getenv("AI_OCR_MAX_PIXELS", "4000000") or "4000000"))
 OCR_MAG_RATIO = max(1.0, float(os.getenv("AI_OCR_MAG_RATIO", "1.5") or "1.5"))
+OCR_MIN_SHORT_SIDE = max(0, int(os.getenv("AI_OCR_MIN_SHORT_SIDE", "1100") or "1100"))
 
 
 def _resize_for_ocr(
@@ -21,26 +22,34 @@ def _resize_for_ocr(
     *,
     max_side: int = OCR_MAX_SIDE,
     max_pixels: int = OCR_MAX_PIXELS,
+    min_short_side: int = 0,
 ) -> Tuple[np.ndarray, float]:
-    """Downscale oversized images before EasyOCR to avoid memory spikes."""
+    """Scale images within OCR memory limits, optionally enlarging small text."""
     h, w = img_cv2.shape[:2]
     if h <= 0 or w <= 0:
         return img_cv2, 1.0
 
     scale = 1.0
-    longest = max(h, w)
-    if longest > max_side:
-        scale = min(scale, max_side / float(longest))
-    pixels = h * w
-    if pixels > max_pixels:
-        scale = min(scale, (max_pixels / float(pixels)) ** 0.5)
+    shortest = min(h, w)
+    if min_short_side:
+        if shortest < min_short_side:
+            scale = min_short_side / float(shortest)
 
-    if scale >= 0.999:
+    longest = max(h, w)
+    pixels = h * w
+    max_safe_scale = min(
+        max_side / float(longest),
+        (max_pixels / float(pixels)) ** 0.5,
+    )
+    scale = min(scale, max_safe_scale)
+
+    if abs(scale - 1.0) < 0.001:
         return img_cv2, 1.0
 
     new_w = max(1, int(round(w * scale)))
     new_h = max(1, int(round(h * scale)))
-    return cv2.resize(img_cv2, (new_w, new_h), interpolation=cv2.INTER_AREA), scale
+    interpolation = cv2.INTER_CUBIC if scale > 1.0 else cv2.INTER_AREA
+    return cv2.resize(img_cv2, (new_w, new_h), interpolation=interpolation), scale
 
 
 def _scale_ocr_results_to_original(
@@ -49,7 +58,7 @@ def _scale_ocr_results_to_original(
     scale: float,
     original_shape: Tuple[int, int, int],
 ) -> List[Tuple[List[List[float]], str, float]]:
-    if scale >= 0.999:
+    if abs(scale - 1.0) < 0.001:
         return [(list(map(list, bbox)), text, conf) for bbox, text, conf in ocr_results]
 
     h, w = original_shape[:2]
@@ -77,7 +86,10 @@ def run_full_image_ocr(
     if img_cv2 is None:
         return None, []
 
-    ocr_img, scale = _resize_for_ocr(img_cv2)
+    ocr_img, scale = _resize_for_ocr(
+        img_cv2,
+        min_short_side=OCR_MIN_SHORT_SIDE,
+    )
     gray = cv2.cvtColor(ocr_img, cv2.COLOR_BGR2GRAY)
     blurred = cv2.medianBlur(gray, 3)
     ocr_results = ocr_reader.readtext(

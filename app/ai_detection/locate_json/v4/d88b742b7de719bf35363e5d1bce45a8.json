@@ -1,0 +1,57 @@
+{
+  "image_path": "normal/1.png",
+  "relative_image_path": "normal/1.png",
+  "width": 570,
+  "height": 778,
+  "key_regions": [
+    {
+      "text": "姓名",
+      "confidence": 0.0,
+      "bbox": [
+        415,
+        452,
+        509,
+        504
+      ],
+      "type": "name",
+      "field_type": "name",
+      "field_label": "姓名",
+      "source": "ocr_labeled_field",
+      "is_tampered": false
+    },
+    {
+      "text": "202505-2515.39.15",
+      "confidence": 0.0,
+      "bbox": [
+        146,
+        254,
+        232,
+        264
+      ],
+      "type": "time",
+      "field_type": "time",
+      "field_label": "时间",
+      "source": "ocr_datetime_value",
+      "is_tampered": false
+    },
+    {
+      "text": "小:&020.00元",
+      "confidence": 0.0,
+      "bbox": [
+        146,
+        220,
+        220,
+        233
+      ],
+      "type": "amount",
+      "field_type": "amount",
+      "field_label": "金额",
+      "source": "ocr_currency_amount_value",
+      "is_tampered": false
+    }
+  ],
+  "ocr_token_count": 40,
+  "ocr_success": true,
+  "schema_version": 2,
+  "generated_by": "prepare_forensic_v4_rois"
+}
