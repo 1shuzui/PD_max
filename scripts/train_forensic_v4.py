@@ -9,7 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from app.ai_detection.forensic_v4 import run_offline_v4
+from app.ai_detection.workflows.forensic_v4 import run_offline_v4
 
 
 def main() -> int:

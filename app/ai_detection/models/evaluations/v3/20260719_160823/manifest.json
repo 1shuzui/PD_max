@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-19T16:10:26",
+  "files": [
+    {
+      "path": "annotated/34__independent.jpg",
+      "sha256": "56c57462da597180fcc8f6d089efd90eb798840b1f74a34d5e8b5a0eab7686c9",
+      "size_bytes": 83430
+    },
+    {
+      "path": "annotated/45__independent.jpg",
+      "sha256": "183116830768e3bfb0136e7e2c9c5489a1f60e88a0f57dcdd6f866496d1e34d6",
+      "size_bytes": 342647
+    },
+    {
+      "path": "annotated/5__independent.jpg",
+      "sha256": "979b0f3873c1721c7e5405e58e493a918206d35717ce449f106da4ea78655718",
+      "size_bytes": 74882
+    },
+    {
+      "path": "annotated/no (6)__independent.jpg",
+      "sha256": "c62e35fbc2937733a7b1fc191167f68b65dc261c412b3366388b13450b13c5b1",
+      "size_bytes": 275163
+    },
+    {
+      "path": "annotated/no (7)__independent.jpg",
+      "sha256": "c62e35fbc2937733a7b1fc191167f68b65dc261c412b3366388b13450b13c5b1",
+      "size_bytes": 275163
+    },
+    {
+      "path": "annotated/p (29)__independent.jpg",
+      "sha256": "5b4bcefc0109e99b5daa12e9dfcca0b60f1a29b34f0535907f59a796987c1fad",
+      "size_bytes": 74657
+    },
+    {
+      "path": "annotated/pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd__training_replay.jpg",
+      "sha256": "184558e019aff3e8f5fec9a6a891ee44fb4a48e6f0c0bcf42cb28fa431d4929e",
+      "size_bytes": 132418
+    },
+    {
+      "path": "annotated/pptest__ebe78fef76ed__111__training_replay.jpg",
+      "sha256": "257a5b8714915c8fc36cc77b9830cddffcd0c7097f046d4215a2017220157bf1",
+      "size_bytes": 5087984
+    },
+    {
+      "path": "charts/outcome_counts.png",
+      "sha256": "7b54a9a9ea75e38ca7049ceb354ba60763b157b1166ed4f06efd83786e57745d",
+      "size_bytes": 36125
+    },
+    {
+      "path": "charts/risk_distribution.png",
+      "sha256": "46e9ca6bb586de0822a96e89e66b95b81f64a4dc89e0a22b3cffa96a845ae765",
+      "size_bytes": 62583
+    },
+    {
+      "path": "metrics.json",
+      "sha256": "dc86d00bce09c5cb3aae687829d1bd5b4b5fa743b9e65023cb4223bf332e7deb",
+      "size_bytes": 4631
+    },
+    {
+      "path": "per_image_results.csv",
+      "sha256": "f6148e5d7300d10153a204d03f94004186e97bee8de7306e4de02c8bc5c34033",
+      "size_bytes": 170529
+    },
+    {
+      "path": "report.md",
+      "sha256": "64c9f5ecc00521dd460d3f64424a969235acea8288979dc5a4cc1c44d56df239",
+      "size_bytes": 1585
+    },
+    {
+      "path": "results.json",
+      "sha256": "b3ceccf0c0fb70aad2637e699f56e5ff263c92b8c22345463421f2fac9384fc0",
+      "size_bytes": 277471
+    },
+    {
+      "path": "summary.json",
+      "sha256": "37a7002b42f4368e1a411a4be3d29d99d73097d44f642628fdac8317e7e44a40",
+      "size_bytes": 5018
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "run_id": "20260719_160823",
+  "created_at": "2026-07-19T16:10:25",
+  "metrics": {
+    "independent": {
+      "sample_count": 96,
+      "strict_correct": 95,
+      "strict_accuracy": 0.989583,
+      "normal_recall": 0.980769,
+      "tampered_recall": 1.0,
+      "result_counts": {
+        "正常": 51,
+        "篡改": 44,
+        "无法自动检测": 1
+      },
+      "suspicious_count": 0,
+      "unable_count": 1,
+      "roi_coverage": 0.989583,
+      "average_elapsed_ms": 1129.47,
+      "max_elapsed_ms": 2629.8,
+      "risk": {
+        "minimum": 0.0,
+        "maximum": 0.816904
+      }
+    },
+    "training_replay": {
+      "sample_count": 2,
+      "strict_correct": 0,
+      "strict_accuracy": 0.0,
+      "normal_recall": 0.0,
+      "tampered_recall": 0.0,
+      "result_counts": {
+        "正常": 2
+      },
+      "suspicious_count": 0,
+      "unable_count": 0,
+      "roi_coverage": 1.0,
+      "average_elapsed_ms": 4356.45,
+      "max_elapsed_ms": 6403.3,
+      "risk": {
+        "minimum": 0.076916,
+        "maximum": 0.168595
+      }
+    },
+    "decision_thresholds": {
+      "suspicious": 0.55,
+      "tampered": 0.65
+    },
+    "training_replay_details": [
+      {
+        "filename": "pptest__ebe78fef76ed__111.png",
+        "expected": "篡改",
+        "result": "正常",
+        "final_risk": 0.07691552597875885,
+        "distance_to_suspicious": -0.473084,
+        "distance_to_tampered": -0.573084,
+        "reason": "文件体积/像素比异常(疑似工具导出)；局部字体风格异常",
+        "regions": [
+          {
+            "region_no": 1,
+            "field_type": "time",
+            "field_label": "时间",
+            "risk": 0.020552054944640116,
+            "result": "正常",
+            "distance_to_suspicious": -0.529448,
+            "distance_to_tampered": -0.629448,
+            "reason": "文件体积/像素比异常(疑似工具导出)；局部字体风格异常"
+          },
+          {
+            "region_no": 2,
+            "field_type": "amount",
+            "field_label": "金额",
+            "risk": 0.07691552597875885,
+            "result": "正常",
+            "distance_to_suspicious": -0.473084,
+            "distance_to_tampered": -0.573084,
+            "reason": "文件体积/像素比异常(疑似工具导出)；局部字体风格异常"
+          },
+          {
+            "region_no": 3,
+            "field_type": "time",
+            "field_label": "时间",
+            "risk": 0.0,
+            "result": "正常",
+            "distance_to_suspicious": -0.55,
+            "distance_to_tampered": -0.65,
+            "reason": "文件体积/像素比异常(疑似工具导出)"
+          },
+          {
+            "region_no": 4,
+            "field_type": "amount",
+            "field_label": "金额",
+            "risk": 0.0,
+            "result": "正常",
+            "distance_to_suspicious": -0.55,
+            "distance_to_tampered": -0.65,
+            "reason": "文件体积/像素比异常(疑似工具导出)"
+          },
+          {
+            "region_no": 5,
+            "field_type": "name",
+            "field_label": "姓名",
+            "risk": 0.0,
+            "result": "正常",
+            "distance_to_suspicious": -0.55,
+            "distance_to_tampered": -0.65,
+            "reason": "文件体积/像素比异常(疑似工具导出)"
+          }
+        ]
+      },
+      {
+        "filename": "pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd.png",
+        "expected": "篡改",
+        "result": "正常",
+        "final_risk": 0.16859454178817518,
+        "distance_to_suspicious": -0.381405,
+        "distance_to_tampered": -0.481405,
+        "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+        "regions": [
+          {
+            "region_no": 1,
+            "field_type": "amount",
+            "field_label": "金额",
+            "risk": 0.07512528076331572,
+            "result": "正常",
+            "distance_to_suspicious": -0.474875,
+            "distance_to_tampered": -0.574875,
+            "reason": "缺少EXIF且图像结构异常(疑似生成图)"
+          },
+          {
+            "region_no": 2,
+            "field_type": "time",
+            "field_label": "时间",
+            "risk": 0.06763826033144921,
+            "result": "正常",
+            "distance_to_suspicious": -0.482362,
+            "distance_to_tampered": -0.582362,
+            "reason": "缺少EXIF且图像结构异常(疑似生成图)"
+          },
+          {
+            "region_no": 3,
+            "field_type": "amount",
+            "field_label": "金额",
+            "risk": 0.16859454178817518,
+            "result": "正常",
+            "distance_to_suspicious": -0.381405,
+            "distance_to_tampered": -0.481405,
+            "reason": "缺少EXIF且图像结构异常(疑似生成图)"
+          }
+        ]
+      }
+    ],
+    "production_model_version": "/home/quyu/PD_new/PD_max/app/ai_detection/models/trained/20260717_193825/global_layout_model.pkl"
+  }
+}

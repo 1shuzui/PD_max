@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-19T16:05:20",
+  "files": [
+    {
+      "path": "annotated/34__independent.jpg",
+      "sha256": "56c57462da597180fcc8f6d089efd90eb798840b1f74a34d5e8b5a0eab7686c9",
+      "size_bytes": 83430
+    },
+    {
+      "path": "annotated/45__independent.jpg",
+      "sha256": "5cfcf0c140a0680cdd092edf2349273e323ca087cf17bbd16a55f86357aa872e",
+      "size_bytes": 342631
+    },
+    {
+      "path": "annotated/5__independent.jpg",
+      "sha256": "979b0f3873c1721c7e5405e58e493a918206d35717ce449f106da4ea78655718",
+      "size_bytes": 74882
+    },
+    {
+      "path": "annotated/no (6)__independent.jpg",
+      "sha256": "c62e35fbc2937733a7b1fc191167f68b65dc261c412b3366388b13450b13c5b1",
+      "size_bytes": 275163
+    },
+    {
+      "path": "annotated/no (7)__independent.jpg",
+      "sha256": "c62e35fbc2937733a7b1fc191167f68b65dc261c412b3366388b13450b13c5b1",
+      "size_bytes": 275163
+    },
+    {
+      "path": "annotated/p (29)__independent.jpg",
+      "sha256": "5b4bcefc0109e99b5daa12e9dfcca0b60f1a29b34f0535907f59a796987c1fad",
+      "size_bytes": 74657
+    },
+    {
+      "path": "annotated/pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd__training_replay.jpg",
+      "sha256": "3208404948fe70e9313beb9e241bc28eb267a79f632d1a2502e0b9ccba484a0c",
+      "size_bytes": 132407
+    },
+    {
+      "path": "annotated/pptest__ebe78fef76ed__111__training_replay.jpg",
+      "sha256": "c9e82b283d46d8daf6790057e3d5c607347f4ab3251ace421ffe0764343dff88",
+      "size_bytes": 5087994
+    },
+    {
+      "path": "charts/outcome_counts.png",
+      "sha256": "7b54a9a9ea75e38ca7049ceb354ba60763b157b1166ed4f06efd83786e57745d",
+      "size_bytes": 36125
+    },
+    {
+      "path": "charts/risk_distribution.png",
+      "sha256": "46e9ca6bb586de0822a96e89e66b95b81f64a4dc89e0a22b3cffa96a845ae765",
+      "size_bytes": 62583
+    },
+    {
+      "path": "metrics.json",
+      "sha256": "c4b66972c94a7b818950fda509354f05cb8c4f939402de1295e237b4af474fcb",
+      "size_bytes": 4631
+    },
+    {
+      "path": "per_image_results.csv",
+      "sha256": "1c0a598f2e0a3910ea46fe02a0ae9a6157db5bb1bee4b63ab764f32cad77af76",
+      "size_bytes": 163975
+    },
+    {
+      "path": "report.md",
+      "sha256": "befdc8fb6b2f1cfa25f974a212e964399ab992e1b80758460fa733757753d830",
+      "size_bytes": 1585
+    },
+    {
+      "path": "summary.json",
+      "sha256": "24d0f1b298b20b585c43559848646a83b8b12911e9afbc0bf369107947295b45",
+      "size_bytes": 5018
+    }
+  ]
+}

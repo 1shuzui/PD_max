@@ -12,6 +12,10 @@ dataset:
 
 training:
   feature_config_version: "global-v2"
+  output_dir: "models/versions"
+  feature_cache_dir: "models/cache/v3_global"
+  evaluation_dir: "models/evaluations/v3"
+  visualization_enabled: true
 
 # 【新增】业务规则与几何参数
 business_rules:

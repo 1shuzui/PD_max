@@ -23,7 +23,7 @@ import numpy as np
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from app.ai_detection.forensic_v4 import resolve_roi_sidecar, v4_sidecar_relative_path
+from app.ai_detection.workflows.forensic_v4 import resolve_roi_sidecar, v4_sidecar_relative_path
 
 
 def _configure_cpu() -> None:
@@ -54,9 +54,9 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
 
 
 def _ocr_rois(image: np.ndarray, reader: Any) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    from app.ai_detection.amount_candidates import tokenize_ocr_results
-    from app.ai_detection.ocr_utils import _resize_for_ocr, _scale_ocr_results_to_original
-    from app.ai_detection.rule_check_roi import find_key_field_rois
+    from app.ai_detection.core.amount_candidates import tokenize_ocr_results
+    from app.ai_detection.core.ocr_utils import _resize_for_ocr, _scale_ocr_results_to_original
+    from app.ai_detection.core.rule_check_roi import find_key_field_rois
 
     work, scale = _resize_for_ocr(
         image,

@@ -28,20 +28,20 @@ from fastapi.responses import FileResponse, JSONResponse, Response, StreamingRes
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.ai_detection.amount_candidates import (
+from app.ai_detection.core.amount_candidates import (
     build_amount_candidates,
     detect_certificate_document_override,
 )
-from app.ai_detection.resource_limits import configure_loaded_cv2, trim_native_memory
+from app.ai_detection.runtime.resource_limits import configure_loaded_cv2, trim_native_memory
 from app.config import AI_RULE_CHECK_PERSIST, AI_RULE_CHECK_STORE_IMAGE, UPLOAD_DIR
-from app.ai_detection.easyocr_download_patch import patch_easyocr_download
-from app.ai_detection.history_export import (
+from app.ai_detection.runtime.easyocr_download_patch import patch_easyocr_download
+from app.ai_detection.services.history_export import (
     EXPORT_MAX_RECORDS,
     build_export_zip,
     preview_export,
     render_annotated_jpeg,
 )
-from app.ai_detection.history_db import (
+from app.ai_detection.services.history_db import (
     HISTORY_RETENTION_DAYS,
     clear_feedback_status,
     delete_ai_detection_history,
@@ -57,9 +57,9 @@ from app.ai_detection.history_db import (
     normalize_history_original_filename,
     purge_ai_detection_history_older_than,
 )
-from app.ai_detection.ocr_utils import build_key_field_rois_from_tokens, run_full_image_ocr
-from app.ai_detection.rule_check_display import build_rule_check_public_summary
-from app.ai_detection.rule_check_history import (
+from app.ai_detection.core.ocr_utils import build_key_field_rois_from_tokens, run_full_image_ocr
+from app.ai_detection.services.rule_check_display import build_rule_check_public_summary
+from app.ai_detection.services.rule_check_history import (
     MODE_RULE_CHECKS,
     MODE_RULE_PIXEL_OVERLAP,
     MODE_RULE_TIMESTAMP,
@@ -69,23 +69,23 @@ from app.ai_detection.rule_check_history import (
     build_timestamp_outcome,
     persist_rule_check_history,
 )
-from app.ai_detection.rule_check_service import (
+from app.ai_detection.services.rule_check_service import (
     merge_pixel_overlap_results,
     run_pixel_overlap_check,
     run_rule_checks,
     run_timestamp_check,
 )
-from app.ai_detection.runtime_assets import get_easyocr_reader_kwargs
-from app.ai_detection.upload_storage import (
+from app.ai_detection.runtime.assets import get_easyocr_reader_kwargs
+from app.ai_detection.services.upload_storage import (
     ImageTooLargeError,
     UnsupportedImageTypeError,
     save_original_image,
 )
-from app.ai_detection.review_audit import insert_review_audit
+from app.ai_detection.services.review_audit import insert_review_audit
 from app.services.user_service import decode_access_token
 
 if TYPE_CHECKING:
-    from app.ai_detection.inference_api import InferenceEngineAPI
+    from app.ai_detection.workflows.inference_v3 import InferenceEngineAPI
 
 configure_loaded_cv2()
 
@@ -545,7 +545,7 @@ async def ensure_ai_detection_runtime() -> None:
             device == "cuda",
         )
         EngineContainer.ocr_reader = ocr_reader
-        from app.ai_detection.inference_api import InferenceEngineAPI
+        from app.ai_detection.workflows.inference_v3 import InferenceEngineAPI
 
         def _build_engine() -> InferenceEngineAPI:
             # 与 FeatureExtractor 共用同一 EasyOCR，避免双份检测模型常驻（原先可占数百 MB～1GB+）
@@ -1086,7 +1086,7 @@ class RuleCheckService:
         """FORGEGUARD_REPLACE_RULE_CHECKS=1 时，将规则检测请求转发到 ForgeGuard。"""
         import requests as _requests
 
-        from app.ai_detection.forgeguard_client import (
+        from app.ai_detection.services.forgeguard_client import (
             FORGEGUARD_BASE_URL,
             forgeguard_detect,
             forgeguard_verify,
@@ -2697,7 +2697,7 @@ class HistoryExportRequest(BaseModel):
 
 
 def _parse_history_export_request(req: HistoryExportRequest) -> HistoryExportRequest:
-    from app.ai_detection.history_db import HISTORY_RETENTION_DAYS
+    from app.ai_detection.services.history_db import HISTORY_RETENTION_DAYS
 
     if req.retention_days is None:
         if req.start_time is None and req.end_time is None:
@@ -3168,7 +3168,7 @@ async def submit_judgment(
     registry: AbstractTaskRegistry = Depends(get_registry),
     current_user: Optional[Dict[str, Any]] = Depends(_optional_ai_user),
 ):
-    from app.ai_detection.feedback_manager import FeedbackManager
+    from app.ai_detection.services.feedback_manager import FeedbackManager
 
     # 检查是否已标注（一个检测任务只允许标注一次）
     existing_status = await run_in_threadpool(get_feedback_status, req.task_id)
@@ -3243,7 +3243,7 @@ async def list_feedback(
     judgment: Optional[str] = Query(None, pattern="^(correct|wrong|suspicious)$"),
     review_status: Optional[str] = Query(None, pattern="^(pending|reviewed|all)$"),
 ):
-    from app.ai_detection.feedback_manager import FeedbackManager
+    from app.ai_detection.services.feedback_manager import FeedbackManager
 
     fb = FeedbackManager()
     entries = fb.list_entries(judgment_filter=judgment, review_filter=review_status)
@@ -3256,7 +3256,7 @@ async def list_feedback(
     description="按反馈条目文件夹名返回元数据、AI 原始结果、图片访问地址等。",
 )
 async def get_feedback_detail(folder_name: str):
-    from app.ai_detection.feedback_manager import FeedbackManager
+    from app.ai_detection.services.feedback_manager import FeedbackManager
 
     fb = FeedbackManager()
     entry = fb.get_entry(folder_name)
@@ -3271,7 +3271,7 @@ async def get_feedback_detail(folder_name: str):
     response_class=FileResponse,
 )
 async def get_feedback_image(folder_name: str):
-    from app.ai_detection.feedback_manager import FeedbackManager
+    from app.ai_detection.services.feedback_manager import FeedbackManager
 
     fb = FeedbackManager()
     path = fb.get_entry_file(folder_name, "image")
@@ -3287,7 +3287,7 @@ async def get_feedback_image(folder_name: str):
     response_class=FileResponse,
 )
 async def get_feedback_roi(folder_name: str):
-    from app.ai_detection.feedback_manager import FeedbackManager
+    from app.ai_detection.services.feedback_manager import FeedbackManager
 
     fb = FeedbackManager()
     path = fb.get_entry_file(folder_name, "roi")
@@ -3306,7 +3306,7 @@ async def update_feedback(
     req: FeedbackUpdateRequest,
     current_user: Optional[Dict[str, Any]] = Depends(_optional_ai_user),
 ):
-    from app.ai_detection.feedback_manager import FeedbackManager
+    from app.ai_detection.services.feedback_manager import FeedbackManager
 
     if req.original_filename is not None:
         if not current_user:
@@ -3341,7 +3341,7 @@ async def update_feedback(
     summary="删除/撤销反馈标注",
 )
 async def delete_feedback(folder_name: str):
-    from app.ai_detection.feedback_manager import FeedbackEntryReviewedError, FeedbackManager
+    from app.ai_detection.services.feedback_manager import FeedbackEntryReviewedError, FeedbackManager
 
     fb = FeedbackManager()
     # 删除前先获取 task_id
@@ -3373,7 +3373,7 @@ async def delete_feedback(folder_name: str):
     ),
 )
 async def confirm_suspicious(folder_name: str = Form(...), judgment: str = Form(..., pattern="^(correct|wrong)$")):
-    from app.ai_detection.feedback_manager import FeedbackManager
+    from app.ai_detection.services.feedback_manager import FeedbackManager
 
     fb = FeedbackManager()
     entry = fb.confirm_suspicious(folder_name, judgment)
@@ -3395,8 +3395,8 @@ async def review_feedback(
     req: FeedbackReviewRequest,
     admin: Dict[str, Any] = Depends(_require_ai_admin),
 ):
-    from app.ai_detection.feedback_manager import FeedbackManager
-    from app.ai_detection.reviewed_dataset import ReviewedDatasetConflict, ReviewRegionRequired
+    from app.ai_detection.services.feedback_manager import FeedbackManager
+    from app.ai_detection.services.reviewed_dataset import ReviewedDatasetConflict, ReviewRegionRequired
 
     manager = FeedbackManager()
     before = manager.get_entry(folder_name)
@@ -3451,8 +3451,8 @@ async def revoke_feedback_review(
     note: str = Query("", max_length=2000),
     admin: Dict[str, Any] = Depends(_require_ai_admin),
 ):
-    from app.ai_detection.feedback_manager import FeedbackManager
-    from app.ai_detection.reviewed_dataset import ReviewedDatasetNotFound
+    from app.ai_detection.services.feedback_manager import FeedbackManager
+    from app.ai_detection.services.reviewed_dataset import ReviewedDatasetNotFound
 
     manager = FeedbackManager()
     before = manager.get_entry(folder_name)
@@ -3503,7 +3503,7 @@ async def list_reviewed_dataset(
     page_size: int = Query(50, ge=1, le=200),
     label: Optional[int] = Query(None, ge=0, le=1),
 ):
-    from app.ai_detection.feedback_manager import FeedbackManager
+    from app.ai_detection.services.feedback_manager import FeedbackManager
 
     manager = FeedbackManager().reviewed
     data = await run_in_threadpool(
@@ -3522,7 +3522,7 @@ async def list_reviewed_dataset(
     response_class=FileResponse,
 )
 async def get_reviewed_dataset_image(sample_id: str):
-    from app.ai_detection.feedback_manager import FeedbackManager
+    from app.ai_detection.services.feedback_manager import FeedbackManager
 
     path = await run_in_threadpool(FeedbackManager().reviewed.image_path, sample_id)
     if path is None:
@@ -3544,8 +3544,8 @@ async def update_reviewed_dataset(
     req: ReviewedDatasetUpdateRequest,
     admin: Dict[str, Any] = Depends(_require_ai_admin),
 ):
-    from app.ai_detection.feedback_manager import FeedbackManager
-    from app.ai_detection.reviewed_dataset import (
+    from app.ai_detection.services.feedback_manager import FeedbackManager
+    from app.ai_detection.services.reviewed_dataset import (
         ReviewedDatasetConflict,
         ReviewedDatasetNotFound,
         ReviewRegionRequired,
@@ -3601,7 +3601,7 @@ async def delete_reviewed_dataset(
     note: str = Query("", max_length=2000),
     admin: Dict[str, Any] = Depends(_require_ai_admin),
 ):
-    from app.ai_detection.feedback_manager import FeedbackManager
+    from app.ai_detection.services.feedback_manager import FeedbackManager
 
     manager = FeedbackManager()
     before = manager.reviewed.get_entry(sample_id)
@@ -3642,7 +3642,7 @@ async def list_training_dataset(
     label: Optional[int] = Query(None, ge=0, le=1, description="可选。0=正常，1=篡改"),
     include_enhanced: bool = Query(True, description="是否包含 *_enhanced 增强样本"),
 ):
-    from app.ai_detection.dataset_manager import DatasetManager
+    from app.ai_detection.services.dataset_manager import DatasetManager
 
     manager = DatasetManager()
     entries = await run_in_threadpool(manager.list_entries, label, include_enhanced)
@@ -3660,7 +3660,7 @@ async def list_training_dataset(
     response_class=FileResponse,
 )
 async def get_training_dataset_image(filename: str):
-    from app.ai_detection.dataset_manager import DatasetManager
+    from app.ai_detection.services.dataset_manager import DatasetManager
 
     manager = DatasetManager()
     path = await run_in_threadpool(manager.get_image_file, filename)
@@ -3674,7 +3674,7 @@ async def get_training_dataset_image(filename: str):
     summary="获取训练集样本区域标注 JSON",
 )
 async def get_training_dataset_annotation(filename: str):
-    from app.ai_detection.dataset_manager import DatasetManager
+    from app.ai_detection.services.dataset_manager import DatasetManager
 
     manager = DatasetManager()
     annotation = await run_in_threadpool(manager.get_annotation, filename)
@@ -3693,7 +3693,7 @@ async def update_training_dataset_entry(
     req: DatasetUpdateRequest,
     admin: Dict[str, Any] = Depends(_require_ai_admin),
 ):
-    from app.ai_detection.dataset_manager import DatasetManager
+    from app.ai_detection.services.dataset_manager import DatasetManager
 
     manager = DatasetManager()
     try:
@@ -3724,7 +3724,7 @@ async def delete_training_dataset_entry(
     delete_family: bool = Query(True, description="是否同时删除同一基础样本的增强图和 JSON 标注"),
     admin: Dict[str, Any] = Depends(_require_ai_admin),
 ):
-    from app.ai_detection.dataset_manager import DatasetManager
+    from app.ai_detection.services.dataset_manager import DatasetManager
 
     manager = DatasetManager()
     removed = await run_in_threadpool(manager.delete_entry, filename, delete_family)
@@ -3744,7 +3744,7 @@ async def delete_training_dataset_entry(
 # ---- 训练端点 (含风险提示) ----
 
 def _training_job_store():
-    from app.ai_detection.training_jobs import TrainingJobStore
+    from app.ai_detection.services.training_jobs import TrainingJobStore
 
     cfg = _read_model_config()
     training = cfg.get("training") if isinstance(cfg.get("training"), dict) else {}
@@ -3753,7 +3753,7 @@ def _training_job_store():
 
 
 def _model_registry_manager():
-    from app.ai_detection.model_registry import ModelRegistry
+    from app.ai_detection.services.model_registry import ModelRegistry
 
     cfg = _read_model_config()
     paths = cfg.get("paths") if isinstance(cfg.get("paths"), dict) else {}
@@ -3806,7 +3806,7 @@ async def _evaluate_candidate_model(
     engine: "InferenceEngineAPI",
     ocr_reader: Any,
 ) -> Dict[str, Any]:
-    from app.ai_detection.candidate_evaluation import (
+    from app.ai_detection.workflows.candidate_evaluation import (
         build_candidate_gates,
         fixed_regression_samples,
         holdout_samples,
@@ -3839,7 +3839,6 @@ async def _evaluate_candidate_model(
         loaded_font_lib = FontFeatureLibrary()
         if loaded_font_lib.load(candidate_font_path):
             candidate_font_lib = loaded_font_lib
-    service = DetectionDomainServiceV3(MemoryTaskRegistry(), asyncio.Semaphore(1))
     try:
         engine.global_model = candidate_model
         engine._global_fake_threshold = float(candidate.get("global_fake_threshold", old_threshold or 0.65))
@@ -3848,33 +3847,13 @@ async def _evaluate_candidate_model(
         if candidate_font_lib is not None:
             engine.font_lib = candidate_font_lib
 
+        from app.ai_detection.workflows.v3_evaluation import ProductionV3Evaluator
+
+        evaluator = ProductionV3Evaluator(engine, ocr_reader)
+
         async def evaluate_one(image_path: Path) -> tuple[str, bool]:
-            service._clear_task_cache()
-            await run_in_threadpool(service._run_ocr_once, str(image_path), ocr_reader)
-            bboxes = service._deduplicate_bboxes(service._easyocr_auto_detect(str(image_path)))
-            rows = []
-            for bbox in bboxes:
-                bbox_list = [bbox.x1, bbox.y1, bbox.x2, bbox.y2]
-                raw = await run_in_threadpool(
-                    partial(
-                        engine.predict,
-                        str(image_path),
-                        bbox_list,
-                        "xyxy",
-                        **service._predict_kwargs(),
-                    )
-                )
-                result = json.loads(raw)
-                if result.get("result") != "错误":
-                    rows.append(result)
-            document_override = await run_in_threadpool(
-                service._document_rule_override,
-                str(image_path),
-            )
-            if document_override and not any(item.get("result") == "篡改" for item in rows):
-                rows.append(document_override)
-            top = service._select_top_result(rows)
-            return str((top or {}).get("result") or "无法自动检测"), bool(bboxes)
+            result = await run_in_threadpool(evaluator.evaluate_image, image_path)
+            return str(result.get("result") or "无法自动检测"), bool(result.get("roi_count"))
 
         for image_path, expected_label in fixed_regression_samples(image_dir):
             actual, _recognized = await evaluate_one(image_path)
@@ -3894,7 +3873,6 @@ async def _evaluate_candidate_model(
             engine._global_fake_threshold = old_threshold
         engine._has_calibrated_global_threshold = old_threshold_calibrated
         engine._known_source_matcher = old_known_source_matcher
-        service._clear_task_cache()
 
     holdout_metrics = _v3_holdout_metrics(holdout_predictions)
     coverage["coverage"] = coverage["recognized_count"] / max(1, coverage["sample_count"])
@@ -3925,6 +3903,24 @@ async def _evaluate_candidate_model(
         "roi_coverage": coverage,
     }
     report_path = candidate.get("report_path")
+    version_dir = Path(str(candidate.get("model_path") or "")).parent
+    reports_dir = version_dir / "reports"
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    production_report_path = reports_dir / "production_evaluation.json"
+    production_report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    production_report_markdown = [
+        "# v3 Production Candidate Evaluation",
+        "",
+        f"- Version: `{version}`",
+        f"- Gate passed: `{gates.get('passed', False)}`",
+        f"- Holdout ROI coverage: `{coverage['coverage']:.1%}`",
+        f"- Holdout balanced accuracy: `{holdout_metrics.get('balanced_accuracy')}`",
+        f"- Replay failures: `{len(gates.get('training_replay_regression', {}).get('failures', []))}`",
+    ]
+    (reports_dir / "production_evaluation.md").write_text(
+        "\n".join(production_report_markdown) + "\n",
+        encoding="utf-8",
+    )
     if report_path:
         path = Path(str(report_path))
         try:
@@ -3933,6 +3929,13 @@ async def _evaluate_candidate_model(
             existing = {}
         existing["candidate_evaluation"] = report
         path.write_text(json.dumps(existing, ensure_ascii=False, indent=2), encoding="utf-8")
+    from app.ai_detection.workflows.training_v3 import write_version_manifest
+
+    write_version_manifest(
+        version_dir,
+        version=version,
+        feature_config_version=str(candidate.get("feature_config_version") or "global-v2"),
+    )
     registry.update_candidate(version, gates=gates, evaluation_report=report)
     return gates
 
@@ -3962,7 +3965,7 @@ async def _run_training_job(job_id: str, actor: Dict[str, Any]) -> None:
             if engine is None or ocr_reader is None:
                 raise RuntimeError("AI 检测运行时不可用")
 
-            from app.ai_detection.train_pipeline_v2 import TrainPipeline
+            from app.ai_detection.workflows.training_v3 import TrainPipeline
 
             def progress(current: int, total: int, message: str) -> None:
                 ratio = 0.05 + (0.70 * current / max(1, total))
@@ -4089,7 +4092,7 @@ async def trigger_training(
     ),
 )
 async def get_train_visualization(filename: str):
-    from app.ai_detection.train_pipeline_v2 import TrainPipeline
+    from app.ai_detection.workflows.training_v3 import TrainPipeline
 
     pipeline = TrainPipeline()
     viz_file = pipeline.viz_dir / filename
@@ -4153,7 +4156,7 @@ async def activate_model(
     req: ModelActivateRequest,
     admin: Dict[str, Any] = Depends(_require_ai_admin),
 ):
-    from app.ai_detection.model_registry import ModelActivationError
+    from app.ai_detection.services.model_registry import ModelActivationError
 
     if req.force and not req.reason.strip():
         raise HTTPException(
