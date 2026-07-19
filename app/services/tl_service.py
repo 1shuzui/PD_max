@@ -666,7 +666,9 @@ class TLService:
                 res = _raise_tl_geo_crud_result(sa_wh_create(payload))
                 data = res.get("data") or {}
                 wid = int(data.get("id", 0))
-                return {"code": 200, "msg": "仓库新建成功", "仓库id": wid, "新建": True}
+                sa_msg = str(res.get("msg", ""))
+                is_new = "创建成功" in sa_msg
+                return {"code": 200, "msg": sa_msg, "仓库id": wid, "新建": is_new}
             except ValueError:
                 raise
             except RuntimeError as e:
@@ -702,13 +704,24 @@ class TLService:
                             raise ValueError(
                                 f"库房大类 id={warehouse_category_id} 不存在或未启用"
                             )
-                    cur.execute(
-                        "SELECT id FROM dict_warehouses WHERE name = %s",
-                        (name,),
-                    )
-                    row = cur.fetchone()
-                    if row:
-                        return {"code": 200, "msg": "仓库已存在", "仓库id": row[0], "新建": False}
+                    while True:
+                        cur.execute(
+                            "SELECT id, is_active FROM dict_warehouses WHERE name = %s",
+                            (name,),
+                        )
+                        row = cur.fetchone()
+                        if not row:
+                            break
+                        wid, is_active = int(row[0]), row[1]
+                        if is_active == 1:
+                            return {"code": 200, "msg": "仓库已存在", "仓库id": wid, "新建": False}
+                        old_name = f"{name}__已删除_{wid}"
+                        if len(old_name) > 100:
+                            old_name = old_name[:100]
+                        cur.execute(
+                            "UPDATE dict_warehouses SET name = %s WHERE id = %s",
+                            (old_name, wid),
+                        )
                     cur.execute(
                         "INSERT INTO dict_warehouses "
                         "(name, address, warehouse_type_id, category_id, color_config, is_active) "
@@ -4883,7 +4896,7 @@ class TLService:
                     active_cat_name_rows = cur.fetchall()
 
                     for item in items:
-                        # 1. 冶炼厂：须已在字典中存在；优先精确匹配，精确失败时回退模糊匹配
+                        # 1. 冶炼厂：须已在字典中存在；仅精确匹配
                         if item.get("冶炼厂id") is None:
                             factory_name = str(item.get("冶炼厂名") or "").strip()
                             if not factory_name:
@@ -4894,51 +4907,16 @@ class TLService:
                             )
                             row = cur.fetchone()
                             if not row:
-                                # 精确匹配失败，尝试模糊匹配（子串匹配要求较短侧 >= 4 字符）
-                                cur.execute(
-                                    "SELECT id, name, is_active FROM dict_factories"
+                                cur.execute("SELECT name FROM dict_factories WHERE is_active = 1")
+                                all_names = [r[0] for r in cur.fetchall()]
+                                suggestions = _suggest_similar_names(factory_name, all_names)
+                                hint = ""
+                                if suggestions:
+                                    hint = f" 您是否要输入：{'、'.join(suggestions[:3])}？"
+                                raise ValueError(
+                                    f"冶炼厂「{factory_name}」在系统中不存在。"
+                                    f"（须与「冶炼厂」管理中的名称一字不差）。{hint}"
                                 )
-                                all_factories = [
-                                    (int(r[0]), str(r[1]), r[2]) for r in cur.fetchall()
-                                ]
-                                factory_list = [(f[0], f[1]) for f in all_factories]
-                                matched_id = self._match_factory(
-                                    factory_name, factory_list
-                                )
-                                if matched_id is not None:
-                                    # 检查匹配到的冶炼厂是否启用
-                                    matched_active = next(
-                                        (f[2] for f in all_factories if f[0] == matched_id),
-                                        None,
-                                    )
-                                    if matched_active is not None and int(matched_active) != 1:
-                                        matched_name = next(
-                                            (f[1] for f in all_factories if f[0] == matched_id),
-                                            f"id={matched_id}",
-                                        )
-                                        raise ValueError(
-                                            f"冶炼厂「{factory_name}」模糊匹配到「{matched_name}」，"
-                                            f"但该冶炼厂已停用，请先在冶炼厂管理中启用后再写入报价。"
-                                        )
-                                    fid_row = matched_id
-                                    active = matched_active
-                                else:
-                                    # 模糊也未命中，尝试给出相近候选
-                                    suggestions = _suggest_similar_names(
-                                        factory_name,
-                                        [f[1] for f in all_factories],
-                                    )
-                                    hint = ""
-                                    if suggestions:
-                                        hint = (
-                                            f" 您是否要输入：{'、'.join(suggestions[:3])}？"
-                                        )
-                                    raise ValueError(
-                                        f"冶炼厂「{factory_name}」在系统中不存在，或与字典中的名称不完全一致"
-                                        f"（须与「冶炼厂」管理中的名称一字不差，例如全称「安徽鲁控环保有限公司」）。"
-                                        f"{hint}"
-                                        f"请修正名称或先在字典中新增该冶炼厂。"
-                                    )
                             else:
                                 fid_row, active = int(row[0]), row[1]
                             if active is not None and int(active) != 1:
