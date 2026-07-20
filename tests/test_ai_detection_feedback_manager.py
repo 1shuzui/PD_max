@@ -7,8 +7,8 @@ from pathlib import Path
 import yaml
 from PIL import Image
 
-from app.ai_detection.feedback_manager import FeedbackEntryReviewedError, FeedbackManager
-from app.ai_detection.reviewed_dataset import ReviewRegionRequired
+from app.ai_detection.services.feedback_manager import FeedbackEntryReviewedError, FeedbackManager
+from app.ai_detection.services.reviewed_dataset import ReviewRegionRequired
 
 
 class FeedbackManagerTests(unittest.TestCase):

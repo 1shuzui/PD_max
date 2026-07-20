@@ -32,3 +32,6 @@ uploads/
 CLAUDE.md
 .pytest_cache
 /tests
+
+# app/ai_detection 的协作文档只在本地使用；模块 README 作为项目文档提交。
+!app/ai_detection/README.md

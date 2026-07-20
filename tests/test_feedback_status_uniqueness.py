@@ -60,7 +60,7 @@ def test_helper_functions_exist():
 
 def test_helper_function_signatures():
     print("Test 4: Helper function signatures")
-    from app.ai_detection.history_db import get_feedback_status, mark_feedback_status, clear_feedback_status
+    from app.ai_detection.services.history_db import get_feedback_status, mark_feedback_status, clear_feedback_status
 
     sig_get = inspect.signature(get_feedback_status)
     assert "task_id" in sig_get.parameters
@@ -76,7 +76,7 @@ def test_helper_function_signatures():
 
 def test_helper_function_logic():
     print("Test 5: Helper function SQL logic (source inspection)")
-    from app.ai_detection.history_db import get_feedback_status, mark_feedback_status, clear_feedback_status
+    from app.ai_detection.services.history_db import get_feedback_status, mark_feedback_status, clear_feedback_status
 
     # get_feedback_status should query async_v3 mode and order by id DESC
     src_get = inspect.getsource(get_feedback_status)
@@ -146,7 +146,7 @@ def test_feedback_manager_unchanged():
     print("Test 11: FeedbackManager file operations still work")
     import tempfile
     from pathlib import Path
-    from app.ai_detection.feedback_manager import FeedbackManager
+    from app.ai_detection.services.feedback_manager import FeedbackManager
 
     with tempfile.TemporaryDirectory() as tmpdir:
         config_path = f"{tmpdir}/cfg.yaml"
@@ -179,7 +179,7 @@ def test_feedback_manager_unchanged():
 
 def test_list_history_includes_feedback_status():
     print("Test 12: list_ai_detection_history SELECT includes feedback_status")
-    from app.ai_detection.history_db import list_ai_detection_history
+    from app.ai_detection.services.history_db import list_ai_detection_history
     src = inspect.getsource(list_ai_detection_history)
     assert "feedback_status" in src
     print("  PASS")

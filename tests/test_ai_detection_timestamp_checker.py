@@ -2,8 +2,8 @@ import unittest
 from datetime import datetime
 from unittest.mock import patch
 
-from app.ai_detection.amount_candidates import OCRToken
-from app.ai_detection.timestamp_checker import (
+from app.ai_detection.core.amount_candidates import OCRToken
+from app.ai_detection.core.timestamp_checker import (
     check_image_timestamps,
     extract_timestamps_from_tokens,
     parse_exif_timestamps,
@@ -62,7 +62,7 @@ class TimestampCheckerTests(unittest.TestCase):
             ),
         ]
 
-        with patch("app.ai_detection.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
+        with patch("app.ai_detection.core.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
             result = check_image_timestamps(
                 "/tmp/mock.jpg",
                 ocr_tokens=tokens,
@@ -85,7 +85,7 @@ class TimestampCheckerTests(unittest.TestCase):
         self.assertEqual(parsed.isoformat(sep=" ", timespec="seconds"), "2026-01-22 04:20:37")
 
     def test_align_hour_with_status_bar(self):
-        from app.ai_detection.timestamp_checker import _align_hour_with_status_bar
+        from app.ai_detection.core.timestamp_checker import _align_hour_with_status_bar
 
         parsed = parse_loose_datetime("2026.0..22.4.20.37")
         aligned = _align_hour_with_status_bar(parsed, "14:21")
@@ -130,7 +130,7 @@ class TimestampCheckerTests(unittest.TestCase):
             ),
         ]
 
-        with patch("app.ai_detection.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
+        with patch("app.ai_detection.core.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
             result = check_image_timestamps(
                 "/tmp/mock.jpg",
                 ocr_tokens=tokens,
@@ -154,7 +154,7 @@ class TimestampCheckerTests(unittest.TestCase):
             ),
         ]
 
-        with patch("app.ai_detection.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
+        with patch("app.ai_detection.core.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
             result = check_image_timestamps(
                 "/tmp/mock.jpg",
                 ocr_tokens=tokens,
@@ -169,7 +169,7 @@ class TimestampCheckerTests(unittest.TestCase):
         self.assertLess(result["risk"], 0.65)
 
     def test_detects_visible_time_not_found_when_business_time_given(self):
-        with patch("app.ai_detection.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
+        with patch("app.ai_detection.core.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
             result = check_image_timestamps(
                 "/tmp/mock.jpg",
                 ocr_tokens=[],
@@ -179,7 +179,7 @@ class TimestampCheckerTests(unittest.TestCase):
 
         self.assertIn("business_visible_time_not_found", result["anomalies"])
 
-    @patch("app.ai_detection.timestamp_checker.Image.open")
+    @patch("app.ai_detection.core.timestamp_checker.Image.open")
     def test_parse_exif_timestamps(self, mock_open):
         mock_img = mock_open.return_value.__enter__.return_value
         mock_img._getexif.return_value = {
@@ -194,7 +194,7 @@ class TimestampCheckerTests(unittest.TestCase):
         self.assertEqual(info["datetime_original"], "2026-05-28 10:00:00")
         self.assertTrue(info["suspicious_software"])
 
-    @patch("app.ai_detection.timestamp_checker.parse_exif_timestamps")
+    @patch("app.ai_detection.core.timestamp_checker.parse_exif_timestamps")
     def test_future_datetime_is_flagged(self, mock_parse_exif):
         future = datetime(2099, 1, 1, 12, 0, 0).isoformat(sep=" ", timespec="seconds")
         mock_parse_exif.return_value = {
@@ -232,7 +232,7 @@ class TimestampCheckerTests(unittest.TestCase):
             ),
         ]
 
-        with patch("app.ai_detection.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
+        with patch("app.ai_detection.core.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
             result = check_image_timestamps(
                 "/tmp/mock.jpg",
                 ocr_tokens=tokens,
@@ -264,7 +264,7 @@ class TimestampCheckerTests(unittest.TestCase):
             ),
         ]
 
-        with patch("app.ai_detection.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
+        with patch("app.ai_detection.core.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
             result = check_image_timestamps(
                 "/tmp/mock.jpg",
                 ocr_tokens=tokens,
@@ -287,7 +287,7 @@ class TimestampCheckerTests(unittest.TestCase):
             ),
         ]
 
-        with patch("app.ai_detection.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
+        with patch("app.ai_detection.core.timestamp_checker.parse_exif_timestamps", return_value={"has_exif": False}):
             result = check_image_timestamps(
                 "/tmp/mock.jpg",
                 ocr_tokens=tokens,

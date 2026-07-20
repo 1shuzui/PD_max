@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 
 from app.ai_detection.core.detectors import PixelLevelDetector
-from app.ai_detection.rule_check_service import crop_expanded_roi, run_pixel_overlap_check
+from app.ai_detection.services.rule_check_service import crop_expanded_roi, run_pixel_overlap_check
 
 
 class PixelOverlapDetectorTests(unittest.TestCase):

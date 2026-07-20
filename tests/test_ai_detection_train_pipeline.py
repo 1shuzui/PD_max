@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 import yaml
 
-from app.ai_detection.train_pipeline_v2 import TrainPipeline
+from app.ai_detection.workflows.training_v3 import TrainPipeline
 
 
 class TrainPipelineSourceTests(unittest.TestCase):

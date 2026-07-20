@@ -2,13 +2,13 @@ import unittest
 import inspect
 from unittest.mock import MagicMock, patch
 
-from app.ai_detection.history_db import delete_ai_detection_history, normalize_history_original_filename
+from app.ai_detection.services.history_db import delete_ai_detection_history, normalize_history_original_filename
 
 
 class NormalizeHistoryOriginalFilenameTests(unittest.TestCase):
     def test_history_schema_and_insert_support_upload_metadata(self):
         from app.database import TABLE_STATEMENTS, ensure_ai_detection_history_upload_metadata_columns
-        from app.ai_detection.history_db import insert_ai_detection_history
+        from app.ai_detection.services.history_db import insert_ai_detection_history
 
         table_sql = next(sql for sql in TABLE_STATEMENTS if "CREATE TABLE IF NOT EXISTS ai_detection_history" in sql)
         self.assertIn("content_sha256", table_sql)
@@ -51,7 +51,7 @@ class NormalizeHistoryOriginalFilenameTests(unittest.TestCase):
         )
         self.assertEqual(name, "task-id.jpg")
 
-    @patch("app.ai_detection.history_db.get_conn")
+    @patch("app.ai_detection.services.history_db.get_conn")
     def test_delete_history_removes_database_row(self, mock_get_conn):
         cursor = MagicMock()
         cursor.fetchone.return_value = (None,)
@@ -67,7 +67,7 @@ class NormalizeHistoryOriginalFilenameTests(unittest.TestCase):
         executed = [call.args[0] for call in cursor.execute.call_args_list]
         self.assertTrue(any("DELETE FROM ai_detection_history" in sql for sql in executed))
 
-    @patch("app.ai_detection.history_db.get_conn")
+    @patch("app.ai_detection.services.history_db.get_conn")
     def test_delete_history_returns_false_when_missing(self, mock_get_conn):
         cursor = MagicMock()
         cursor.fetchone.return_value = None

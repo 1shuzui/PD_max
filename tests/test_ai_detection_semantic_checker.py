@@ -1,8 +1,8 @@
 import unittest
 
-from app.ai_detection.amount_candidates import OCRToken
-from app.ai_detection.rule_check_service import evaluate_pixel_overlap_alert
-from app.ai_detection.semantic_checker import (
+from app.ai_detection.core.amount_candidates import OCRToken
+from app.ai_detection.services.rule_check_service import evaluate_pixel_overlap_alert
+from app.ai_detection.core.semantic_checker import (
     check_account_mask_consistency,
     check_detail_field_typography,
     find_labeled_field_bbox,
@@ -52,7 +52,7 @@ class SemanticCheckerTests(unittest.TestCase):
 
 class RuleCheckDisplayTests(unittest.TestCase):
     def test_derive_status_from_semantic_hard_tamper(self):
-        from app.ai_detection.rule_check_display import build_rule_check_public_summary, derive_rule_check_status
+        from app.ai_detection.services.rule_check_display import build_rule_check_public_summary, derive_rule_check_status
 
         payload = {
             "reason": "金额千分位格式异常（如 3,2500.00）",

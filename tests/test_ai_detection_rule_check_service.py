@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 
 from app.ai_detection.core.detectors import PixelLevelDetector
-from app.ai_detection.rule_check_service import (
+from app.ai_detection.services.rule_check_service import (
     crop_expanded_roi,
     evaluate_pixel_overlap_alert,
     evaluate_pixel_overlap_hard_tamper,
@@ -108,7 +108,7 @@ class RuleCheckServiceTests(unittest.TestCase):
             )
         )
 
-    @patch("app.ai_detection.rule_check_service.safe_read_image")
+    @patch("app.ai_detection.services.rule_check_service.safe_read_image")
     def test_run_pixel_overlap_check_returns_score(self, mock_read):
         mock_read.return_value = np.full((80, 120, 3), 180, dtype=np.uint8)
         detector = PixelLevelDetector()
@@ -123,7 +123,7 @@ class RuleCheckServiceTests(unittest.TestCase):
         self.assertEqual(len(result["bbox"]), 4)
         self.assertIn("alert", result)
 
-    @patch("app.ai_detection.rule_check_service.check_image_timestamps")
+    @patch("app.ai_detection.services.rule_check_service.check_image_timestamps")
     def test_run_timestamp_check_wraps_checker(self, mock_check):
         mock_check.return_value = {
             "timestamp_check": {"status_bar_time": "11:32", "anomalies": []},
@@ -138,8 +138,8 @@ class RuleCheckServiceTests(unittest.TestCase):
         self.assertFalse(result["hard_tamper"])
         mock_check.assert_called_once()
 
-    @patch("app.ai_detection.rule_check_service.run_timestamp_check")
-    @patch("app.ai_detection.rule_check_service.run_pixel_overlap_check")
+    @patch("app.ai_detection.services.rule_check_service.run_timestamp_check")
+    @patch("app.ai_detection.services.rule_check_service.run_pixel_overlap_check")
     def test_run_rule_checks_aggregates(self, mock_pixel, mock_ts):
         mock_pixel.return_value = {
             "pixel_overlap_score": 0.2,
@@ -166,7 +166,7 @@ class RuleCheckServiceTests(unittest.TestCase):
         self.assertIsNotNone(result["timestamp"])
         self.assertIn("hard_tamper_flags", result)
 
-    @patch("app.ai_detection.rule_check_service.run_timestamp_check")
+    @patch("app.ai_detection.services.rule_check_service.run_timestamp_check")
     def test_run_rule_checks_without_bbox(self, mock_ts):
         mock_ts.return_value = {
             "timestamp_check": {},

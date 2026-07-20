@@ -1,6 +1,6 @@
 import unittest
 
-from app.ai_detection.bbox_overlap_checker import analyze_bbox_iou_overlaps, bbox_iou_xyxy
+from app.ai_detection.core.bbox_overlap_checker import analyze_bbox_iou_overlaps, bbox_iou_xyxy
 
 
 class BboxOverlapCheckerTests(unittest.TestCase):

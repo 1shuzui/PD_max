@@ -10,7 +10,7 @@ import cv2
 import numpy as np
 from fastapi import UploadFile
 
-from app.ai_detection.history_export import render_annotated_jpeg
+from app.ai_detection.services.history_export import render_annotated_jpeg
 from app.api.v1.routes.ai_detection import (
     DetectionDomainServiceV3,
     MemoryTaskRegistry,
@@ -467,7 +467,7 @@ class TaskRecoveryTests(unittest.TestCase):
                 ]
             }
 
-            with patch("app.ai_detection.history_export.load_chinese_font") as mock_font:
+            with patch("app.ai_detection.services.history_export.load_chinese_font") as mock_font:
                 from PIL import ImageFont
 
                 mock_font.return_value = ImageFont.load_default()

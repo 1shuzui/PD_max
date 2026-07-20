@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from app.ai_detection.amount_candidates import OCRToken
-from app.ai_detection.rule_check_roi import (
+from app.ai_detection.core.amount_candidates import OCRToken
+from app.ai_detection.core.rule_check_roi import (
     find_key_field_rois,
     find_high_risk_pixel_rois,
     find_suggested_rois,
     rule_checks_need_auto_pixel_rescan,
 )
-from app.ai_detection.rule_check_service import merge_pixel_overlap_results
+from app.ai_detection.services.rule_check_service import merge_pixel_overlap_results
 
 
 class RuleCheckRoiTests(unittest.TestCase):

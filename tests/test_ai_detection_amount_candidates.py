@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 import numpy as np
 
-from app.ai_detection.amount_candidates import (
+from app.ai_detection.core.amount_candidates import (
     AmountCandidate,
     OCRToken,
     build_amount_candidates,
@@ -45,7 +45,7 @@ class AmountCandidateTests(unittest.TestCase):
         self.assertIn("money_regex", top.match_flags)
         self.assertNotEqual(top.clean_text, "11:32")
 
-    @patch("app.ai_detection.amount_candidates.OriginalityChecker.extract_features")
+    @patch("app.ai_detection.core.amount_candidates.OriginalityChecker.extract_features")
     def test_detects_certificate_amount_row_override(self, mock_extract_features):
         mock_extract_features.return_value = (
             {
@@ -103,7 +103,7 @@ class AmountCandidateTests(unittest.TestCase):
         self.assertEqual(override["reason"], "电子凭证金额行结构异常")
         self.assertEqual(override["bbox_xyxy"], [0, 190, 585, 340])
 
-    @patch("app.ai_detection.amount_candidates.OriginalityChecker.extract_features")
+    @patch("app.ai_detection.core.amount_candidates.OriginalityChecker.extract_features")
     def test_detects_certificate_screen_photo_override(self, mock_extract_features):
         mock_extract_features.return_value = (
             {

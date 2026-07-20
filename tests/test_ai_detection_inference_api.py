@@ -13,7 +13,7 @@ import joblib
 
 
 
-from app.ai_detection.inference_api import InferenceEngineAPI
+from app.ai_detection.workflows.inference_v3 import InferenceEngineAPI
 
 
 
@@ -209,9 +209,9 @@ class InferenceEngineApiTests(unittest.TestCase):
 
 
 
-    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.workflows.inference_v3.analyze_bbox_iou_overlaps")
 
-    @patch("app.ai_detection.inference_api.safe_read_image")
+    @patch("app.ai_detection.workflows.inference_v3.safe_read_image")
 
     def test_predict_respects_xyxy_bbox_format(self, mock_safe_read_image, mock_bbox_overlap):
 
@@ -251,9 +251,9 @@ class InferenceEngineApiTests(unittest.TestCase):
 
 
 
-    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.workflows.inference_v3.analyze_bbox_iou_overlaps")
 
-    @patch("app.ai_detection.inference_api.safe_read_image")
+    @patch("app.ai_detection.workflows.inference_v3.safe_read_image")
 
     def test_predict_hard_tamper_on_bbox_iou(self, mock_safe_read_image, mock_bbox_overlap):
 
@@ -285,9 +285,9 @@ class InferenceEngineApiTests(unittest.TestCase):
 
 
 
-    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.workflows.inference_v3.analyze_bbox_iou_overlaps")
 
-    @patch("app.ai_detection.inference_api.safe_read_image")
+    @patch("app.ai_detection.workflows.inference_v3.safe_read_image")
 
     def test_predict_restores_font_signal_for_numeric_core_text(self, mock_safe_read_image, mock_bbox_overlap):
 
@@ -322,8 +322,8 @@ class InferenceEngineApiTests(unittest.TestCase):
 
         self.assertIn("局部字体风格异常", result["reason"])
 
-    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
-    @patch("app.ai_detection.inference_api.safe_read_image")
+    @patch("app.ai_detection.workflows.inference_v3.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.workflows.inference_v3.safe_read_image")
     def test_predict_does_not_hard_label_from_global_model_threshold_alone(self, mock_safe_read_image, mock_bbox_overlap):
         mock_safe_read_image.return_value = np.zeros((100, 100, 3), dtype=np.uint8)
         mock_bbox_overlap.return_value = {
@@ -342,8 +342,8 @@ class InferenceEngineApiTests(unittest.TestCase):
 
         self.assertEqual(result["result"], "正常")
 
-    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
-    @patch("app.ai_detection.inference_api.safe_read_image")
+    @patch("app.ai_detection.workflows.inference_v3.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.workflows.inference_v3.safe_read_image")
     def test_predict_hard_labels_calibrated_strong_global_signal(self, mock_safe_read_image, mock_bbox_overlap):
         mock_safe_read_image.return_value = np.zeros((100, 100, 3), dtype=np.uint8)
         mock_bbox_overlap.return_value = {
@@ -361,8 +361,8 @@ class InferenceEngineApiTests(unittest.TestCase):
 
         self.assertEqual(result["result"], "篡改")
 
-    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
-    @patch("app.ai_detection.inference_api.safe_read_image")
+    @patch("app.ai_detection.workflows.inference_v3.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.workflows.inference_v3.safe_read_image")
     def test_predict_does_not_hard_label_known_source_local_delta(self, mock_safe_read_image, mock_bbox_overlap):
         mock_safe_read_image.return_value = np.zeros((100, 100, 3), dtype=np.uint8)
         mock_bbox_overlap.return_value = {
@@ -383,8 +383,8 @@ class InferenceEngineApiTests(unittest.TestCase):
 
         self.assertEqual(result["result"], "正常")
 
-    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
-    @patch("app.ai_detection.inference_api.safe_read_image")
+    @patch("app.ai_detection.workflows.inference_v3.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.workflows.inference_v3.safe_read_image")
     def test_predict_does_not_hard_label_exact_verified_tampered_content(
         self,
         mock_safe_read_image,
@@ -409,8 +409,8 @@ class InferenceEngineApiTests(unittest.TestCase):
 
         self.assertEqual(result["result"], "正常")
 
-    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
-    @patch("app.ai_detection.inference_api.safe_read_image")
+    @patch("app.ai_detection.workflows.inference_v3.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.workflows.inference_v3.safe_read_image")
     def test_predict_does_not_match_known_source_against_original_large_image(
         self,
         mock_safe_read_image,
@@ -442,8 +442,8 @@ class InferenceEngineApiTests(unittest.TestCase):
 
         self.assertEqual(result["result"], "正常")
 
-    @patch("app.ai_detection.inference_api.analyze_bbox_iou_overlaps")
-    @patch("app.ai_detection.inference_api.safe_read_image")
+    @patch("app.ai_detection.workflows.inference_v3.analyze_bbox_iou_overlaps")
+    @patch("app.ai_detection.workflows.inference_v3.safe_read_image")
     def test_predict_downscales_large_work_image_but_returns_original_bbox(
         self,
         mock_safe_read_image,

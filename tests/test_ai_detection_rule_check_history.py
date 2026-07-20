@@ -1,6 +1,6 @@
 import unittest
 
-from app.ai_detection.rule_check_history import (
+from app.ai_detection.services.rule_check_history import (
     MODE_RULE_CHECKS,
     MODE_RULE_PIXEL_OVERLAP,
     MODE_RULE_TIMESTAMP,

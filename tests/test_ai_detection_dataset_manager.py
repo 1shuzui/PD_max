@@ -6,7 +6,7 @@ from pathlib import Path
 import yaml
 from PIL import Image
 
-from app.ai_detection.dataset_manager import DatasetManager
+from app.ai_detection.services.dataset_manager import DatasetManager
 
 
 class DatasetManagerTests(unittest.TestCase):
