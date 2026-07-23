@@ -47,6 +47,50 @@ class RuleCheckRoiTests(unittest.TestCase):
         amount_rois = [roi for roi in rois if roi.get("field_type") == "amount"]
         self.assertGreaterEqual(len(amount_rois), 2)
 
+    def test_find_key_field_rois_keeps_uppercase_lowercase_amount_pair_when_uppercase_ocr_is_noisy(self):
+        image_shape = (594, 703, 3)
+        tokens = [
+            OCRToken("小:51510,.00元", "小:51510,.00元", (141, 220, 232, 234), 0.38, 91, 14, 227.0),
+            OCRToken("大丐:侨4佰~[〉", "大丐:侨4佰~[〉", (141, 235, 251, 249), 0.01, 110, 14, 242.0),
+        ]
+
+        rois = find_key_field_rois(tokens, image_shape)
+
+        by_bbox = {tuple(roi["bbox"]): roi for roi in rois}
+        self.assertIn((141, 220, 232, 234), by_bbox)
+        self.assertIn((141, 235, 251, 249), by_bbox)
+        uppercase = by_bbox[(141, 235, 251, 249)]
+        self.assertEqual(uppercase["source"], "ocr_uppercase_amount_pair")
+        self.assertFalse(uppercase["amount_consistency"]["comparison_available"])
+        self.assertEqual(uppercase["amount_consistency"]["reason"], "uppercase_ocr_unreadable")
+
+    def test_find_key_field_rois_excludes_split_account_prefix_but_keeps_labeled_amount(self):
+        image_shape = (1280, 2781, 3)
+        tokens = [
+            OCRToken("收款方账号", "收款方账号", (173, 1085, 383, 1137), 0.9, 210, 52, 1111.0),
+            OCRToken("6230", "6230", (647, 1088, 757, 1135), 0.9, 110, 47, 1111.5),
+            OCRToken("***3 076", "***3076", (931, 1088, 1104, 1135), 0.9, 173, 47, 1111.5),
+            OCRToken("转账金额", "转账金额", (171, 1238, 343, 1289), 0.9, 172, 51, 1263.5),
+            OCRToken("339,041.00元", "339,041.00元", (843, 1238, 1102, 1289), 0.9, 259, 51, 1263.5),
+        ]
+
+        rois = find_key_field_rois(tokens, image_shape)
+        amount_bboxes = [roi["bbox"] for roi in rois if roi["field_type"] == "amount"]
+        self.assertNotIn([647, 1088, 757, 1135], amount_bboxes)
+        self.assertIn([843, 1238, 1102, 1289], amount_bboxes)
+        self.assertNotIn([647, 1088, 1104, 1137], [roi["bbox"] for roi in rois if roi["field_type"] == "name"])
+
+    def test_find_key_field_rois_does_not_use_certificate_header_as_transfer_context(self):
+        image_shape = (703, 594, 3)
+        tokens = [
+            OCRToken("微信支付转账电子凭证", "微信支付转账电子凭证", (208, 71, 386, 95), 0.7, 178, 24, 83.0),
+            OCRToken("Wulang6651", "Wulang6651", (344, 145, 400, 159), 0.16, 56, 14, 152.0),
+            OCRToken("小:51510,.00元", "小:51510,.00元", (141, 220, 232, 234), 0.38, 91, 14, 227.0),
+        ]
+
+        rois = find_key_field_rois(tokens, image_shape)
+        self.assertNotIn([344, 145, 400, 159], [roi["bbox"] for roi in rois if roi["field_type"] == "amount"])
+
     def test_find_key_field_rois_keeps_currency_unit_amount_candidate(self):
         image_shape = (2781, 1280, 3)
         tokens = [

@@ -1,0 +1,312 @@
+{
+  "run_id": "20260722_173151",
+  "created_at": "2026-07-22T18:12:58",
+  "metrics": {
+    "independent": {
+      "available": true,
+      "sample_count": 96,
+      "normal_sample_count": 52,
+      "tampered_sample_count": 44,
+      "strict_correct": 94,
+      "strict_accuracy": 0.979167,
+      "normal_recall": 0.961538,
+      "tampered_recall": 1.0,
+      "balanced_accuracy": 0.980769,
+      "result_counts": {
+        "正常": 50,
+        "篡改": 45,
+        "无法自动检测": 1
+      },
+      "suspicious_count": 0,
+      "unable_count": 1,
+      "roi_coverage": 0.989583,
+      "average_elapsed_ms": 25121.36,
+      "max_elapsed_ms": 39399.0,
+      "risk": {
+        "minimum": 0.0,
+        "maximum": 0.816941
+      }
+    },
+    "training_replay": {
+      "available": false,
+      "sample_count": 2,
+      "normal_sample_count": 0,
+      "tampered_sample_count": 2,
+      "strict_correct": 0,
+      "strict_accuracy": 0.0,
+      "normal_recall": 0.0,
+      "tampered_recall": 0.0,
+      "balanced_accuracy": null,
+      "result_counts": {
+        "正常": 2
+      },
+      "suspicious_count": 0,
+      "unable_count": 0,
+      "roi_coverage": 1.0,
+      "average_elapsed_ms": 51810.15,
+      "max_elapsed_ms": 55811.5,
+      "risk": {
+        "minimum": 0.075124,
+        "maximum": 0.195365
+      }
+    },
+    "splits": {
+      "train": {
+        "available": true,
+        "sample_count": 57,
+        "normal_sample_count": 25,
+        "tampered_sample_count": 32,
+        "strict_correct": 56,
+        "strict_accuracy": 0.982456,
+        "normal_recall": 0.96,
+        "tampered_recall": 1.0,
+        "balanced_accuracy": 0.98,
+        "result_counts": {
+          "正常": 24,
+          "篡改": 33
+        },
+        "suspicious_count": 0,
+        "unable_count": 0,
+        "roi_coverage": 1.0,
+        "average_elapsed_ms": 24288.11,
+        "max_elapsed_ms": 37731.9,
+        "risk": {
+          "minimum": 0.051397,
+          "maximum": 0.816941
+        }
+      },
+      "validation": {
+        "available": true,
+        "sample_count": 18,
+        "normal_sample_count": 15,
+        "tampered_sample_count": 3,
+        "strict_correct": 18,
+        "strict_accuracy": 1.0,
+        "normal_recall": 1.0,
+        "tampered_recall": 1.0,
+        "balanced_accuracy": 1.0,
+        "result_counts": {
+          "正常": 15,
+          "篡改": 3
+        },
+        "suspicious_count": 0,
+        "unable_count": 0,
+        "roi_coverage": 1.0,
+        "average_elapsed_ms": 25688.81,
+        "max_elapsed_ms": 31069.1,
+        "risk": {
+          "minimum": 0.418787,
+          "maximum": 0.790184
+        }
+      },
+      "test": {
+        "available": true,
+        "sample_count": 21,
+        "normal_sample_count": 12,
+        "tampered_sample_count": 9,
+        "strict_correct": 20,
+        "strict_accuracy": 0.952381,
+        "normal_recall": 0.916667,
+        "tampered_recall": 1.0,
+        "balanced_accuracy": 0.958333,
+        "result_counts": {
+          "正常": 11,
+          "无法自动检测": 1,
+          "篡改": 9
+        },
+        "suspicious_count": 0,
+        "unable_count": 1,
+        "roi_coverage": 0.952381,
+        "average_elapsed_ms": 26896.68,
+        "max_elapsed_ms": 39399.0,
+        "risk": {
+          "minimum": 0.0,
+          "maximum": 0.66
+        }
+      }
+    },
+    "train": {
+      "available": true,
+      "sample_count": 57,
+      "normal_sample_count": 25,
+      "tampered_sample_count": 32,
+      "strict_correct": 56,
+      "strict_accuracy": 0.982456,
+      "normal_recall": 0.96,
+      "tampered_recall": 1.0,
+      "balanced_accuracy": 0.98,
+      "result_counts": {
+        "正常": 24,
+        "篡改": 33
+      },
+      "suspicious_count": 0,
+      "unable_count": 0,
+      "roi_coverage": 1.0,
+      "average_elapsed_ms": 24288.11,
+      "max_elapsed_ms": 37731.9,
+      "risk": {
+        "minimum": 0.051397,
+        "maximum": 0.816941
+      }
+    },
+    "validation": {
+      "available": true,
+      "sample_count": 18,
+      "normal_sample_count": 15,
+      "tampered_sample_count": 3,
+      "strict_correct": 18,
+      "strict_accuracy": 1.0,
+      "normal_recall": 1.0,
+      "tampered_recall": 1.0,
+      "balanced_accuracy": 1.0,
+      "result_counts": {
+        "正常": 15,
+        "篡改": 3
+      },
+      "suspicious_count": 0,
+      "unable_count": 0,
+      "roi_coverage": 1.0,
+      "average_elapsed_ms": 25688.81,
+      "max_elapsed_ms": 31069.1,
+      "risk": {
+        "minimum": 0.418787,
+        "maximum": 0.790184
+      }
+    },
+    "test": {
+      "available": true,
+      "sample_count": 21,
+      "normal_sample_count": 12,
+      "tampered_sample_count": 9,
+      "strict_correct": 20,
+      "strict_accuracy": 0.952381,
+      "normal_recall": 0.916667,
+      "tampered_recall": 1.0,
+      "balanced_accuracy": 0.958333,
+      "result_counts": {
+        "正常": 11,
+        "无法自动检测": 1,
+        "篡改": 9
+      },
+      "suspicious_count": 0,
+      "unable_count": 1,
+      "roi_coverage": 0.952381,
+      "average_elapsed_ms": 26896.68,
+      "max_elapsed_ms": 39399.0,
+      "risk": {
+        "minimum": 0.0,
+        "maximum": 0.66
+      }
+    },
+    "independent_note": "兼容旧调用的非回放汇总，混合 train/validation/test，不作为独立测试指标。",
+    "decision_thresholds": {
+      "suspicious": 0.55,
+      "tampered": 0.65
+    },
+    "training_replay_details": [
+      {
+        "filename": "pptest__ebe78fef76ed__111.png",
+        "expected": "篡改",
+        "result": "正常",
+        "final_risk": 0.19536496508372553,
+        "distance_to_suspicious": -0.354635,
+        "distance_to_tampered": -0.454635,
+        "reason": "文件体积/像素比异常(疑似工具导出)；局部字体风格异常；数值区域基线严重不齐(疑似错位拼接)",
+        "regions": [
+          {
+            "region_no": 1,
+            "field_type": "amount",
+            "field_label": "金额",
+            "risk": 0.19536496508372553,
+            "result": "正常",
+            "distance_to_suspicious": -0.354635,
+            "distance_to_tampered": -0.454635,
+            "reason": "文件体积/像素比异常(疑似工具导出)；局部字体风格异常；数值区域基线严重不齐(疑似错位拼接)"
+          },
+          {
+            "region_no": 2,
+            "field_type": "name",
+            "field_label": "姓名",
+            "risk": 0.0,
+            "result": "正常",
+            "distance_to_suspicious": -0.55,
+            "distance_to_tampered": -0.65,
+            "reason": "文件体积/像素比异常(疑似工具导出)"
+          },
+          {
+            "region_no": 3,
+            "field_type": "time",
+            "field_label": "时间",
+            "risk": 0.020552054944640116,
+            "result": "正常",
+            "distance_to_suspicious": -0.529448,
+            "distance_to_tampered": -0.629448,
+            "reason": "文件体积/像素比异常(疑似工具导出)；局部字体风格异常"
+          },
+          {
+            "region_no": 4,
+            "field_type": "amount",
+            "field_label": "金额",
+            "risk": 0.07692630309458069,
+            "result": "正常",
+            "distance_to_suspicious": -0.473074,
+            "distance_to_tampered": -0.573074,
+            "reason": "文件体积/像素比异常(疑似工具导出)；局部字体风格异常"
+          },
+          {
+            "region_no": 5,
+            "field_type": "time",
+            "field_label": "时间",
+            "risk": 0.0,
+            "result": "正常",
+            "distance_to_suspicious": -0.55,
+            "distance_to_tampered": -0.65,
+            "reason": "文件体积/像素比异常(疑似工具导出)"
+          },
+          {
+            "region_no": 6,
+            "field_type": "amount",
+            "field_label": "金额",
+            "risk": 0.0,
+            "result": "正常",
+            "distance_to_suspicious": -0.55,
+            "distance_to_tampered": -0.65,
+            "reason": "文件体积/像素比异常(疑似工具导出)"
+          }
+        ]
+      },
+      {
+        "filename": "pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd.png",
+        "expected": "篡改",
+        "result": "正常",
+        "final_risk": 0.07512364521186309,
+        "distance_to_suspicious": -0.474876,
+        "distance_to_tampered": -0.574876,
+        "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+        "regions": [
+          {
+            "region_no": 1,
+            "field_type": "amount",
+            "field_label": "金额",
+            "risk": 0.07512364521186309,
+            "result": "正常",
+            "distance_to_suspicious": -0.474876,
+            "distance_to_tampered": -0.574876,
+            "reason": "缺少EXIF且图像结构异常(疑似生成图)"
+          },
+          {
+            "region_no": 2,
+            "field_type": "time",
+            "field_label": "时间",
+            "risk": 0.06764263292818992,
+            "result": "正常",
+            "distance_to_suspicious": -0.482357,
+            "distance_to_tampered": -0.582357,
+            "reason": "缺少EXIF且图像结构异常(疑似生成图)"
+          }
+        ]
+      }
+    ],
+    "production_model_version": "/home/quyu/PD_new/PD_max/app/ai_detection/models/trained/20260717_193825/global_layout_model.pkl"
+  }
+}

@@ -1,0 +1,296 @@
+{
+  "independent": {
+    "available": true,
+    "sample_count": 24,
+    "normal_sample_count": 12,
+    "tampered_sample_count": 12,
+    "strict_correct": 16,
+    "strict_accuracy": 0.666667,
+    "normal_recall": 0.416667,
+    "tampered_recall": 0.916667,
+    "balanced_accuracy": 0.666667,
+    "result_counts": {
+      "篡改": 17,
+      "正常": 6,
+      "无法自动检测": 1
+    },
+    "suspicious_count": 0,
+    "unable_count": 1,
+    "roi_coverage": 0.958333,
+    "average_elapsed_ms": 1143.99,
+    "max_elapsed_ms": 2424.3,
+    "risk": {
+      "minimum": 0.0,
+      "maximum": 0.735141
+    }
+  },
+  "training_replay": {
+    "available": false,
+    "sample_count": 2,
+    "normal_sample_count": 0,
+    "tampered_sample_count": 2,
+    "strict_correct": 2,
+    "strict_accuracy": 1.0,
+    "normal_recall": 0.0,
+    "tampered_recall": 1.0,
+    "balanced_accuracy": null,
+    "result_counts": {
+      "篡改": 2
+    },
+    "suspicious_count": 0,
+    "unable_count": 0,
+    "roi_coverage": 1.0,
+    "average_elapsed_ms": 5542.85,
+    "max_elapsed_ms": 8863.3,
+    "risk": {
+      "minimum": 0.693931,
+      "maximum": 0.702092
+    }
+  },
+  "splits": {
+    "train": {
+      "available": false,
+      "sample_count": 0,
+      "normal_sample_count": 0,
+      "tampered_sample_count": 0,
+      "strict_correct": 0,
+      "strict_accuracy": 0.0,
+      "normal_recall": 0.0,
+      "tampered_recall": 0.0,
+      "balanced_accuracy": null,
+      "result_counts": {},
+      "suspicious_count": 0,
+      "unable_count": 0,
+      "roi_coverage": 0.0,
+      "average_elapsed_ms": 0.0,
+      "max_elapsed_ms": 0.0,
+      "risk": {
+        "minimum": 0.0,
+        "maximum": 0.0
+      }
+    },
+    "validation": {
+      "available": false,
+      "sample_count": 0,
+      "normal_sample_count": 0,
+      "tampered_sample_count": 0,
+      "strict_correct": 0,
+      "strict_accuracy": 0.0,
+      "normal_recall": 0.0,
+      "tampered_recall": 0.0,
+      "balanced_accuracy": null,
+      "result_counts": {},
+      "suspicious_count": 0,
+      "unable_count": 0,
+      "roi_coverage": 0.0,
+      "average_elapsed_ms": 0.0,
+      "max_elapsed_ms": 0.0,
+      "risk": {
+        "minimum": 0.0,
+        "maximum": 0.0
+      }
+    },
+    "test": {
+      "available": true,
+      "sample_count": 24,
+      "normal_sample_count": 12,
+      "tampered_sample_count": 12,
+      "strict_correct": 16,
+      "strict_accuracy": 0.666667,
+      "normal_recall": 0.416667,
+      "tampered_recall": 0.916667,
+      "balanced_accuracy": 0.666667,
+      "result_counts": {
+        "篡改": 17,
+        "正常": 6,
+        "无法自动检测": 1
+      },
+      "suspicious_count": 0,
+      "unable_count": 1,
+      "roi_coverage": 0.958333,
+      "average_elapsed_ms": 1143.99,
+      "max_elapsed_ms": 2424.3,
+      "risk": {
+        "minimum": 0.0,
+        "maximum": 0.735141
+      }
+    }
+  },
+  "train": {
+    "available": false,
+    "sample_count": 0,
+    "normal_sample_count": 0,
+    "tampered_sample_count": 0,
+    "strict_correct": 0,
+    "strict_accuracy": 0.0,
+    "normal_recall": 0.0,
+    "tampered_recall": 0.0,
+    "balanced_accuracy": null,
+    "result_counts": {},
+    "suspicious_count": 0,
+    "unable_count": 0,
+    "roi_coverage": 0.0,
+    "average_elapsed_ms": 0.0,
+    "max_elapsed_ms": 0.0,
+    "risk": {
+      "minimum": 0.0,
+      "maximum": 0.0
+    }
+  },
+  "validation": {
+    "available": false,
+    "sample_count": 0,
+    "normal_sample_count": 0,
+    "tampered_sample_count": 0,
+    "strict_correct": 0,
+    "strict_accuracy": 0.0,
+    "normal_recall": 0.0,
+    "tampered_recall": 0.0,
+    "balanced_accuracy": null,
+    "result_counts": {},
+    "suspicious_count": 0,
+    "unable_count": 0,
+    "roi_coverage": 0.0,
+    "average_elapsed_ms": 0.0,
+    "max_elapsed_ms": 0.0,
+    "risk": {
+      "minimum": 0.0,
+      "maximum": 0.0
+    }
+  },
+  "test": {
+    "available": true,
+    "sample_count": 24,
+    "normal_sample_count": 12,
+    "tampered_sample_count": 12,
+    "strict_correct": 16,
+    "strict_accuracy": 0.666667,
+    "normal_recall": 0.416667,
+    "tampered_recall": 0.916667,
+    "balanced_accuracy": 0.666667,
+    "result_counts": {
+      "篡改": 17,
+      "正常": 6,
+      "无法自动检测": 1
+    },
+    "suspicious_count": 0,
+    "unable_count": 1,
+    "roi_coverage": 0.958333,
+    "average_elapsed_ms": 1143.99,
+    "max_elapsed_ms": 2424.3,
+    "risk": {
+      "minimum": 0.0,
+      "maximum": 0.735141
+    }
+  },
+  "independent_note": "兼容旧调用的非回放汇总，混合 train/validation/test，不作为独立测试指标。",
+  "decision_thresholds": {
+    "suspicious": 0.55,
+    "tampered": 0.65
+  },
+  "training_replay_details": [
+    {
+      "filename": "pptest__ebe78fef76ed__111.png",
+      "expected": "篡改",
+      "result": "篡改",
+      "final_risk": 0.6939313087938098,
+      "distance_to_suspicious": 0.143931,
+      "distance_to_tampered": 0.043931,
+      "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常；局部字体风格异常",
+      "regions": [
+        {
+          "region_no": 1,
+          "field_type": "time",
+          "field_label": "时间",
+          "risk": 0.6939313087938098,
+          "result": "篡改",
+          "distance_to_suspicious": 0.143931,
+          "distance_to_tampered": 0.043931,
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常；局部字体风格异常"
+        },
+        {
+          "region_no": 2,
+          "field_type": "amount",
+          "field_label": "金额",
+          "risk": 0.6938669655889176,
+          "result": "篡改",
+          "distance_to_suspicious": 0.143867,
+          "distance_to_tampered": 0.043867,
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常；局部字体风格异常"
+        },
+        {
+          "region_no": 3,
+          "field_type": "time",
+          "field_label": "时间",
+          "risk": 0.6895272970199584,
+          "result": "篡改",
+          "distance_to_suspicious": 0.139527,
+          "distance_to_tampered": 0.039527,
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常"
+        },
+        {
+          "region_no": 4,
+          "field_type": "amount",
+          "field_label": "金额",
+          "risk": 0.6895272970199584,
+          "result": "篡改",
+          "distance_to_suspicious": 0.139527,
+          "distance_to_tampered": 0.039527,
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常"
+        },
+        {
+          "region_no": 5,
+          "field_type": "name",
+          "field_label": "姓名",
+          "risk": 0.6895272970199584,
+          "result": "篡改",
+          "distance_to_suspicious": 0.139527,
+          "distance_to_tampered": 0.039527,
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常"
+        }
+      ]
+    },
+    {
+      "filename": "pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd.png",
+      "expected": "篡改",
+      "result": "篡改",
+      "final_risk": 0.7020924105474086,
+      "distance_to_suspicious": 0.152092,
+      "distance_to_tampered": 0.052092,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常",
+      "regions": [
+        {
+          "region_no": 1,
+          "field_type": "amount",
+          "field_label": "金额",
+          "risk": 0.6884174327649405,
+          "result": "篡改",
+          "distance_to_suspicious": 0.138417,
+          "distance_to_tampered": 0.038417,
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常"
+        },
+        {
+          "region_no": 2,
+          "field_type": "time",
+          "field_label": "时间",
+          "risk": 0.6843187634874023,
+          "result": "篡改",
+          "distance_to_suspicious": 0.134319,
+          "distance_to_tampered": 0.034319,
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常"
+        },
+        {
+          "region_no": 3,
+          "field_type": "amount",
+          "field_label": "金额",
+          "risk": 0.7020924105474086,
+          "result": "篡改",
+          "distance_to_suspicious": 0.152092,
+          "distance_to_tampered": 0.052092,
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常"
+        }
+      ]
+    }
+  ],
+  "production_model_version": "20260721_150336"
+}

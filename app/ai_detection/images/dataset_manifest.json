@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "created_at": "2026-07-18T21:28:57",
+  "created_at": "2026-07-21T00:00:00",
   "image_root": "/home/quyu/PD_new/PD_max/app/ai_detection/images",
   "classes": {
     "0": "normal",
@@ -3031,6 +3031,966 @@
       "fixed_regression": false,
       "training_replay_regression": false,
       "template_cluster": null
+    },
+    {
+      "path": "tampered/1.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-46ee0d52a2d24f44",
+      "parent_group_id": "source-46ee0d52a2d24f44",
+      "sha256": "1230e95ab5782be105d15de1fbc63c7069347b9af9276efcb8e486e768d81b03",
+      "size_bytes": 3983197,
+      "width": 1373,
+      "height": 3051,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-c5b0b580d8d5d2f7",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-c5b0b580d8d5d2f7",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/2.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-40599167d2a6303a",
+      "parent_group_id": "source-40599167d2a6303a",
+      "sha256": "e6312b1177d821cc435cc74474ea5e474e6980e6345e399a857af84571409ffa",
+      "size_bytes": 1915204,
+      "width": 1392,
+      "height": 3010,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-fe62921b4cc4a210",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-fe62921b4cc4a210",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/3.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-bd87d3596b3bea98",
+      "parent_group_id": "source-bd87d3596b3bea98",
+      "sha256": "7dc5ed7f74b7eecc305273c097f3a5aaebec3b3d3772cb23bb18db59ef1fd6b0",
+      "size_bytes": 1977785,
+      "width": 1377,
+      "height": 3042,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-7a46f456242fa79f",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-7a46f456242fa79f",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/4.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-27a5afd56adf4e23",
+      "parent_group_id": "source-27a5afd56adf4e23",
+      "sha256": "8550ea8797e4eb3006bd9dd89275985e55a561749b0114de5bcdcf9485b3e35b",
+      "size_bytes": 4438527,
+      "width": 1535,
+      "height": 2732,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-5264467586674c1a",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-5264467586674c1a",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/5.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-526e1b51d9a58614",
+      "parent_group_id": "source-526e1b51d9a58614",
+      "sha256": "91d6683da50ea91d6077e23828a35d5255f14a8083ec89d26b41f91fb65bf5e0",
+      "size_bytes": 1806121,
+      "width": 1373,
+      "height": 3051,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-9632d60f847740fb",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-9632d60f847740fb",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/11.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-7e7f96ea5b07294a",
+      "parent_group_id": "source-7e7f96ea5b07294a",
+      "sha256": "35ad126182c3cc3ac4dd27046a3346e133e72903fef765903180427483653487",
+      "size_bytes": 1364316,
+      "width": 1615,
+      "height": 2596,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-6a83d7a3c5a048cd",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-6a83d7a3c5a048cd",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/6.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-7e7f96ea5b07294a",
+      "parent_group_id": "source-7e7f96ea5b07294a",
+      "sha256": "e6068f8e15045a93b2c4536cc187e2ce304f65d3cac2738fe30d18d48d49a533",
+      "size_bytes": 1755147,
+      "width": 1615,
+      "height": 2596,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-6a83d7a3c5a048cd",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-6a83d7a3c5a048cd",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/7.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-7e7f96ea5b07294a",
+      "parent_group_id": "source-7e7f96ea5b07294a",
+      "sha256": "b5a44aa748d74defc5dca247bce2435c96f83426c305124e3b6b2315b65ec2b5",
+      "size_bytes": 1325960,
+      "width": 1615,
+      "height": 2596,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-6a83d7a3c5a048cd",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-6a83d7a3c5a048cd",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/8.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "validation",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-75ddacb6756847b1",
+      "parent_group_id": "source-75ddacb6756847b1",
+      "sha256": "7dba7a59ec2f688510d472b53063dd21a28b245d42f00bf1e35c2e04c6af1359",
+      "size_bytes": 2494485,
+      "width": 1144,
+      "height": 3660,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-df716a4fdb051cbd",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-df716a4fdb051cbd",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/9.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "validation",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-75ddacb6756847b1",
+      "parent_group_id": "source-75ddacb6756847b1",
+      "sha256": "74d791d72a249097f47c3af8f66e5b878e50714d706e75845949c6e803ef70e4",
+      "size_bytes": 2481470,
+      "width": 1144,
+      "height": 3660,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-df716a4fdb051cbd",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-df716a4fdb051cbd",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/10.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-6d64efd03783578f",
+      "parent_group_id": "source-6d64efd03783578f",
+      "sha256": "223bd344bf1dc2fa6f51135f1402955d22851e44e50f73243c3ca89acd034617",
+      "size_bytes": 1615907,
+      "width": 2349,
+      "height": 1785,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-16679f1c1929c833",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-16679f1c1929c833",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/12.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-224cb902f6391b2d",
+      "parent_group_id": "source-224cb902f6391b2d",
+      "sha256": "19b3d04dc4d542e345262179becb8a51d246a78e027ae83d6a065c334356cf54",
+      "size_bytes": 1297208,
+      "width": 3831,
+      "height": 1094,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-43848a66422fb7da",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-43848a66422fb7da",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/13.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "forced_near_template_training",
+      "group_id": "source-01c907a4f87840ed",
+      "parent_group_id": "source-01c907a4f87840ed",
+      "sha256": "bc21a5e623e73e2c919033002da13975ba0baabbb4c932b3be60fdfba087c493",
+      "size_bytes": 1821363,
+      "width": 1387,
+      "height": 3020,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-ab99bceaa6283503",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-ab99bceaa6283503",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/14.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "test",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-530c709a80830b47",
+      "parent_group_id": "source-530c709a80830b47",
+      "sha256": "50ad6c2c2f11ab56df68e94f0019deb52eac89a18f1606cb05166a50bf1371e2",
+      "size_bytes": 1513376,
+      "width": 2014,
+      "height": 2081,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-d810785c25b3141e",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-d810785c25b3141e",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/17.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "test",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-530c709a80830b47",
+      "parent_group_id": "source-530c709a80830b47",
+      "sha256": "9ef79928fa0eafbbc389e632160926fe62b30583f3bb5e7b2f42bcba0cc661e9",
+      "size_bytes": 84733,
+      "width": 647,
+      "height": 669,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-d810785c25b3141e",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-d810785c25b3141e",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/15.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-b2e6fb48f678c570",
+      "parent_group_id": "source-b2e6fb48f678c570",
+      "sha256": "13e8c80f4d87608cd8a42e345df9cd76845f81820404ce79210ecccc880d4f07",
+      "size_bytes": 1711078,
+      "width": 1721,
+      "height": 2435,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-be2877328c6629db",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-be2877328c6629db",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/16.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-d05fc73de1b97f53",
+      "parent_group_id": "source-d05fc73de1b97f53",
+      "sha256": "b1c242608c348493fabfc687dc4051c7cb4fce14c0c1e6a7931214898c28abfb",
+      "size_bytes": 2014696,
+      "width": 1721,
+      "height": 2435,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-df64852bff8f95ed",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-df64852bff8f95ed",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/18.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "validation",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-dcce6b5f1b08b056",
+      "parent_group_id": "source-dcce6b5f1b08b056",
+      "sha256": "1c3dd8f8914d9215094aa24888a403e0fe23ad8a866b9073f18cbcf6c5a03049",
+      "size_bytes": 111135,
+      "width": 594,
+      "height": 703,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-04c768d10cf5c2db",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-04c768d10cf5c2db",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/19.png",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "test",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-20ff410c90758179",
+      "parent_group_id": "source-20ff410c90758179",
+      "sha256": "387e71b373fcbc66ed68d09f519ef0db118129a5c62f0c709786ac55166a7319",
+      "size_bytes": 110954,
+      "width": 407,
+      "height": 753,
+      "format": "PNG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-a9d8baa6163e5c50",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-a9d8baa6163e5c50",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
+    },
+    {
+      "path": "tampered/20.jpg",
+      "label": 1,
+      "class": "tampered",
+      "source": "ai_generated_document",
+      "split": "train",
+      "split_reason": "incremental_template_group_holdout",
+      "group_id": "source-fb9cf933bd4bf07c",
+      "parent_group_id": "source-fb9cf933bd4bf07c",
+      "sha256": "9ad65618cf6d654f7c799e18226340d762627a90494283ac379c4f71d67b3ecc",
+      "size_bytes": 355500,
+      "width": 1280,
+      "height": 2781,
+      "format": "JPEG",
+      "is_derived": false,
+      "fixed_regression": false,
+      "training_replay_regression": false,
+      "template_cluster": "template-3c97eb91127e1db5",
+      "original_source": "curated_tampered",
+      "fraud_type": "ai_generated_document",
+      "exclude_from_v3_training": true,
+      "exclude_from_v3_evaluation": true,
+      "exclude_from_v3_candidate_gate": true,
+      "aigc": {
+        "generator": "doubao",
+        "template_family": "template-3c97eb91127e1db5",
+        "watermark_state": "present",
+        "watermark_removed": false,
+        "watermark_regions": [
+          {
+            "field_type": "other",
+            "x1": 0.7,
+            "y1": 0.84,
+            "x2": 0.995,
+            "y2": 0.995,
+            "is_tampered": false,
+            "source": "doubao_watermark_default",
+            "review_required": true
+          }
+        ],
+        "tampered_field_rois": [],
+        "roi_truth_status": "unknown",
+        "derivation": {
+          "kind": "source",
+          "derived_from": null
+        }
+      }
     }
   ]
 }

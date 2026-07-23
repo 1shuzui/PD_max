@@ -1,0 +1,62 @@
+{
+  "version": "20260721_143146",
+  "created_at": "2026-07-21T14:38:39",
+  "feature_config_version": "global-v2",
+  "artifacts": [
+    {
+      "filename": "font_lib.index",
+      "size_bytes": 200749,
+      "sha256": "589010cbcbd4307f779a21426529c91ce97a697cf890aae9e7cc111f04c39ce1"
+    },
+    {
+      "filename": "font_lib_meta.pkl",
+      "size_bytes": 470,
+      "sha256": "bcbd628b58d9a11a7f8d1cb803009a3b4b56ab3a3648ce2a2cbb66e00e690b08"
+    },
+    {
+      "filename": "global_layout_model.pkl",
+      "size_bytes": 861012,
+      "sha256": "6cf7e328fe86c0120b7ca69f16c9d90de4031d879fd328e59b4d3b726273ef95"
+    },
+    {
+      "filename": "normal_reference_index.json",
+      "size_bytes": 3109,
+      "sha256": "f7aa8065e33ce32cb0592b8f34a85ea3e1c06baddf92d70968e419251b1a7535"
+    },
+    {
+      "filename": "reports/charts/training_analysis.png",
+      "size_bytes": 47962,
+      "sha256": "06c6748f40d00b6ab47909e65907713dad854142d174b8cf4084a37a9fe24a66"
+    },
+    {
+      "filename": "reports/metrics.json",
+      "size_bytes": 3583,
+      "sha256": "3bc1731f7de8efe7e8140a222fa483fdcab222a35d0e37d16ba9a57609e364e6"
+    },
+    {
+      "filename": "reports/per_image_results.csv",
+      "size_bytes": 2326,
+      "sha256": "e1f8e95863cfd85524783460f6cffe01fc25390882712bab8db7aa232bd1f709"
+    },
+    {
+      "filename": "reports/production_evaluation.json",
+      "size_bytes": 20109,
+      "sha256": "e73d02d5826873ec54b706ad825912b1a4e773c6a677acb22e9470bc3e4905d3"
+    },
+    {
+      "filename": "reports/production_evaluation.md",
+      "size_bytes": 195,
+      "sha256": "20d8ce847a21f441e0eb832e7dd93d0398f0e28992ff00eb36af112d980b7309"
+    },
+    {
+      "filename": "reports/report.md",
+      "size_bytes": 159,
+      "sha256": "6af148bfb768bf9d3039faeeb3cdffe3cc60f771a72506f81a412606ab7d7475"
+    },
+    {
+      "filename": "reports/summary.json",
+      "size_bytes": 27793,
+      "sha256": "937b6176f74468ec40383919aff0abbb353177e4c30166d2a7975cd6cfc84436"
+    }
+  ]
+}

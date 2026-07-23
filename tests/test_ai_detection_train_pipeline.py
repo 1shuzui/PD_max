@@ -1,6 +1,8 @@
+import inspect
 import json
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 import cv2
@@ -148,6 +150,38 @@ class TrainPipelineSourceTests(unittest.TestCase):
             index = json.loads(index_path.read_text(encoding="utf-8"))
             self.assertEqual([item["path"] for item in index["references"]], ["normal/source.png"])
             self.assertNotIn("verified_tampered_references", index)
+
+    def test_training_keeps_raw_xgboost_probability_order(self):
+        source = inspect.getsource(TrainPipeline.run)
+
+        self.assertIn("model = base_model", source)
+        self.assertNotIn("CalibratedClassifierCV", source)
+
+    def test_grouped_profile_selection_keeps_augmented_groups_in_one_fold(self):
+        features = np.arange(80, dtype=np.float32).reshape(40, 2)
+        labels = np.array([0] * 20 + [1] * 20)
+        groups = np.array([f"normal-{index // 2}" for index in range(20)] + [f"tampered-{index // 2}" for index in range(20)])
+
+        class _Model:
+            def fit(self, *_args, **_kwargs):
+                return self
+
+        metrics = {"available": True, "balanced_accuracy": 0.8, "normal_recall": 0.8, "tampered_recall": 0.8}
+        with mock.patch.object(TrainPipeline, "_build_xgb_model", return_value=_Model()), mock.patch.object(TrainPipeline, "_evaluation_metrics", return_value=metrics):
+            result = TrainPipeline._select_xgb_profile(features, labels, groups)
+
+        self.assertTrue(result["available"])
+        self.assertEqual(result["selected_profile"]["name"], "shallow")
+        for profile in result["profiles"]:
+            for fold in profile["folds"]:
+                self.assertTrue(set(fold["fit_group_ids"]).isdisjoint(fold["validation_group_ids"]))
+
+    def test_profile_selection_is_called_only_with_train_features(self):
+        source = inspect.getsource(TrainPipeline.run)
+
+        self.assertIn("self._select_xgb_profile(X_train, y_train, train_group_values)", source)
+        self.assertNotIn("_select_xgb_profile(X_val", source)
+        self.assertNotIn("_select_xgb_profile(X_test", source)
 
 
 if __name__ == "__main__":

@@ -20,6 +20,11 @@ temp/
 logs/
 .cache/
 app/ai_detection/feedback/*
+app/ai_detection/.local/
+app/ai_detection/locate_json/annotations/local/
+app/ai_detection/images/derived/aigc_experiment/
+app/ai_detection/images/aigc_experiment_manifest.json
+app/ai_detection/models/aigc_candidates/
 
 # 4. IDE 与系统配置文件
 .vscode/

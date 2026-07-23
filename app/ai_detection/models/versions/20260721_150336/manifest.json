@@ -1,0 +1,497 @@
+{
+  "version": "20260721_150336",
+  "created_at": "2026-07-21T17:14:56",
+  "feature_config_version": "global-v2",
+  "artifacts": [
+    {
+      "filename": "font_lib.index",
+      "size_bytes": 200749,
+      "sha256": "589010cbcbd4307f779a21426529c91ce97a697cf890aae9e7cc111f04c39ce1"
+    },
+    {
+      "filename": "font_lib_meta.pkl",
+      "size_bytes": 470,
+      "sha256": "bcbd628b58d9a11a7f8d1cb803009a3b4b56ab3a3648ce2a2cbb66e00e690b08"
+    },
+    {
+      "filename": "global_layout_model.pkl",
+      "size_bytes": 241765,
+      "sha256": "5c71a802f66697fa5c047d4572f9db0eba7ca097724b17b8a63db46d0361e28e"
+    },
+    {
+      "filename": "normal_reference_index.json",
+      "size_bytes": 3109,
+      "sha256": "f7aa8065e33ce32cb0592b8f34a85ea3e1c06baddf92d70968e419251b1a7535"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/10__independent__ec16186da3.jpg",
+      "size_bytes": 127425,
+      "sha256": "addc44337ed775bc9fa7d0c2759d190e03a7127261c1669213ba0df7f76ffc3b"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/11__independent__9dcb745c3c.jpg",
+      "size_bytes": 208407,
+      "sha256": "783353a33186ca35a74b5e16cd00d5b2eda02431bb8b00ec5629b6194a9232b9"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/13__independent__e86f2224c1.jpg",
+      "size_bytes": 265817,
+      "sha256": "30fdd9bde37864a77e8d978ecebca2c3a5f1fe0771a427452afcf747fbfad395"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/14__independent__f6acf6ccf2.jpg",
+      "size_bytes": 370562,
+      "sha256": "c1a6c7348bf98d6f0da6051a92e4e858935a8640af8e24cfa3cae28d65fdeaff"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/16__independent__c6c2ee551e.jpg",
+      "size_bytes": 95517,
+      "sha256": "7a662db8feb9382cd4c67f1f7f7f15236779b0867f8da6c4a9d47f2c48cd83ac"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/17__independent__399e4a0a0a.jpg",
+      "size_bytes": 66371,
+      "sha256": "afc99c2a95ee54f8299eb556c13b453325e668bae94dc4d8cde3f4f2c3d62ed4"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/19__independent__8652b4619b.jpg",
+      "size_bytes": 64638,
+      "sha256": "f8650539031e75f76e54ace931ffbfc9df791abf34e4d1e97a6c86fdad107384"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/1__independent__5e73690c25.jpg",
+      "size_bytes": 78314,
+      "sha256": "c1084031a22817e8f85242336674f9314ba918c5f2d7a19f5e0d74ea2496482d"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/21__independent__0587fb9cd0.jpg",
+      "size_bytes": 212483,
+      "sha256": "d0b3e1a30a4ee8b7a91986781857e3222c2302000f740726e2b5c333331be1d9"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/2__independent__ac22f2c617.jpg",
+      "size_bytes": 90572,
+      "sha256": "945f7b68c21bfb5000e06b95a84b9bf5c0bb6e900000fac85b046f62c751bfc3"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/31__independent__c249bd1b48.jpg",
+      "size_bytes": 88571,
+      "sha256": "46b7b9fdc5d4112f5e3919b4e0cb07cb515d8b031601fd8830e286eccad648b0"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/32__independent__8820364df9.jpg",
+      "size_bytes": 90066,
+      "sha256": "0476bedec92e30988ae8962e13c4fc5f4e71a98fd0bb695c9525e8b710079711"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/33__independent__5343f2282c.jpg",
+      "size_bytes": 80913,
+      "sha256": "f5ed0692f2dd5babca0d19587a778666cf18b5d5a8f48f7b15f797e03af3f9e8"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/34__independent__282581e766.jpg",
+      "size_bytes": 83430,
+      "sha256": "56c57462da597180fcc8f6d089efd90eb798840b1f74a34d5e8b5a0eab7686c9"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/8__independent__4b630d9f1a.jpg",
+      "size_bytes": 208338,
+      "sha256": "560a04496fae85b2220ed281ecfc432ddb32e0d7b19d17b4bfb18b4106f8489d"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/no (1)__fixed_regression__8cf9c52db0.jpg",
+      "size_bytes": 213924,
+      "sha256": "486fcbc227b98493622b3b52f79bd5faf28cbf1d128115b95d1f3c009fe9172f"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/no (10)__fixed_regression__cb105b309e.jpg",
+      "size_bytes": 244237,
+      "sha256": "129a4b5bc76e042fb5c9db683851d1c9ee10d3b9c71d53a6225a1d0bf67f2b29"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/no (11)__fixed_regression__3cdded7948.jpg",
+      "size_bytes": 366840,
+      "sha256": "1ead4340c2d16e369d1c2bd937710e36c367ac6413ba2cda0186cc3a445c73b7"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/no (12)__fixed_regression__91a8e54f88.jpg",
+      "size_bytes": 235584,
+      "sha256": "9c851edf3f5f0b41c4359d3081d546233f02005fd7cc7c9625529ce0627d1ae5"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/no (2)__fixed_regression__aee7a5f2dc.jpg",
+      "size_bytes": 315408,
+      "sha256": "a5b192288b1c8e1c6ae2676152841589bf806d8cb1f0198534ae42f052382cb6"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/no (3)__fixed_regression__c0c5184e15.jpg",
+      "size_bytes": 288486,
+      "sha256": "8dadc3381f8c29b589ae21ac8bfea6329523b5eb660e284d9ac164bd06024790"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/no (4)__fixed_regression__98ab21fb56.jpg",
+      "size_bytes": 206999,
+      "sha256": "a7c9aa68e4d8bbca1b18970a4fd680f90361afabbb5b491fecfd336ba647f00f"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/no (5)__fixed_regression__05b0ddf585.jpg",
+      "size_bytes": 276037,
+      "sha256": "2593fa9cf27617d487a807d7064249368db965e9265ac2403c36ae58ef4ee4f1"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/no (6)__fixed_regression__8293ac7883.jpg",
+      "size_bytes": 276702,
+      "sha256": "a71e7797965c25c6bbebbc2eea03998ca54885832c5ebfce5bb1b3155e513da8"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/no (7)__fixed_regression__efac9f2baf.jpg",
+      "size_bytes": 276702,
+      "sha256": "a71e7797965c25c6bbebbc2eea03998ca54885832c5ebfce5bb1b3155e513da8"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/no (8)__fixed_regression__9fe264cda4.jpg",
+      "size_bytes": 160846,
+      "sha256": "8d9ff9bd1f25642b9081c1fae28252bbc70320dbff3c0827774f1ad7b4579bd4"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/no (9)__fixed_regression__3fa13aa3ea.jpg",
+      "size_bytes": 244237,
+      "sha256": "129a4b5bc76e042fb5c9db683851d1c9ee10d3b9c71d53a6225a1d0bf67f2b29"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (1)__independent__44b92bf858.jpg",
+      "size_bytes": 82298,
+      "sha256": "e01386b003d310d7afb7657e0dfd34f744499512ac2ad366f85aac661ff266c7"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (10)__independent__4bc04af327.jpg",
+      "size_bytes": 51762,
+      "sha256": "dbca4e862d3129c80d2d469e31e6909ad8265760ed23b2070a04a8d069c7a03f"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (11)__independent__6fd7a5b906.jpg",
+      "size_bytes": 50297,
+      "sha256": "dc937c21f32b8075160a9083bb2ba5fb651b9360cc5c14b5a136c75208fc5fbf"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (12)__fixed_regression__b4d0602e4a.jpg",
+      "size_bytes": 370195,
+      "sha256": "c4fc1c853baeb6f9bc9333e3dc6ba544491e5d219430c9b03148bef4f360b0e2"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (13)__fixed_regression__b1047c2f57.jpg",
+      "size_bytes": 252097,
+      "sha256": "c725cf5d063a14d223ad67f5df2ffc66cfd8e5f85acd024bd3a2a78f79175659"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (14)__fixed_regression__685df05b4d.jpg",
+      "size_bytes": 52562,
+      "sha256": "f59d7d9c8792c1cdceefec6d189e246b12369271dba1762258e98bc69026caa3"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (15)__fixed_regression__444eb8ce5b.jpg",
+      "size_bytes": 104548,
+      "sha256": "85b3cd0a310bb671ae690c1bd8945ac3bcaec0beda2fd1988d421b831451cea4"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (16)__fixed_regression__a1b2102427.jpg",
+      "size_bytes": 239735,
+      "sha256": "04901b04df71f2f9ed31f31d122d711847a779a7ed5c7cd06800407995f6ed12"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (17)__independent__d8685d0c2c.jpg",
+      "size_bytes": 79802,
+      "sha256": "46d944a8b2938d623192a0093c5f90decdd762edbd30eb01318be3a5eb68d261"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (18)__independent__cfd113bc54.jpg",
+      "size_bytes": 50636,
+      "sha256": "159904789f6462be47cb7baca593a02b956730b139bd8930ff28a753e6917961"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (19)__fixed_regression__480c6c9282.jpg",
+      "size_bytes": 153642,
+      "sha256": "8f0abb0b27ade2a3fe2e299379e2a72a8a7bcf6bce29d582ff21246677551b2c"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (2)__fixed_regression__be5fc1d522.jpg",
+      "size_bytes": 278983,
+      "sha256": "74b390e627ee201e9bf0a34740accc066e223341ce9fa8065b822dde4a832fd9"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (20)__fixed_regression__404756cb44.jpg",
+      "size_bytes": 239653,
+      "sha256": "7335dfd8f2cbaa949404ff68b352334d2b73fdcdfb393f18e7e3a0357e95cdf1"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (21)__fixed_regression__1df8f9ab1d.jpg",
+      "size_bytes": 49514,
+      "sha256": "ea59822c20ea9820c12157c5b7850fe130bf440a0955e7db8e240925aac731f9"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (22)__fixed_regression__ac2ece5610.jpg",
+      "size_bytes": 254139,
+      "sha256": "88c421b3fd47a4fe4a4cc25aac87863504629836ef00fc8b6fb21bd3332ce5bb"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (23)__fixed_regression__7c8319b55e.jpg",
+      "size_bytes": 151034,
+      "sha256": "8cb9a0d81b9a04fe4e8f3a303fc6b0e04197697a9a205447eecdb2199155f0b1"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (24)__fixed_regression__f1130a804f.jpg",
+      "size_bytes": 196859,
+      "sha256": "28efeafdabd065c661974ab0d94c5a88cb48ea5fdae8b444597c3832f02eab51"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (25)__fixed_regression__635c1bad09.jpg",
+      "size_bytes": 107884,
+      "sha256": "0c67f8e3c5071ce5047e1ae5dbd896193798c8ec9de0a6f696db4bdde0d2e82a"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (26)__fixed_regression__29fcba9587.jpg",
+      "size_bytes": 239923,
+      "sha256": "2391896e9f24abb8ad2d0b83ede7170c32de08a574bc4bb1ebe33c06e1127e29"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (27)__fixed_regression__5e4c8b294a.jpg",
+      "size_bytes": 152630,
+      "sha256": "a31860130bb85d92fcfffb5e841c87233c40745fc1b74e4ec46d8deb5025fc92"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (28)__fixed_regression__dfca29effe.jpg",
+      "size_bytes": 153430,
+      "sha256": "cb86d77d63bcb374e4990eec7e0542eef3174b068344876c934127fa8e12eedb"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (29)__fixed_regression__774ee3ec3e.jpg",
+      "size_bytes": 79741,
+      "sha256": "9f22347154cc60b2960fa9606f021b00faf540e3e54995f66bb88567aa036b95"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (3)__fixed_regression__3b543fcb8a.jpg",
+      "size_bytes": 150843,
+      "sha256": "fd66e799db5377740c6402446709129055768d3ed0f9d318c1bf7d63379e7c3e"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (30)__fixed_regression__10189f95b7.jpg",
+      "size_bytes": 215906,
+      "sha256": "6d8c52f3df75e4dbe78cd57d313b01bcc7e8d78253445dab58b593509a84f625"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (31)__fixed_regression__14b8521907.jpg",
+      "size_bytes": 254987,
+      "sha256": "f0bc09df8ff56c57c0b2b0bba9f0327953250a6846a760a0c1a73ef6a0153589"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (32)__fixed_regression__90ca08dedd.jpg",
+      "size_bytes": 231424,
+      "sha256": "fed270b55428aa6aecc82b468c2e0e372f9d606ed792d570f79c56a718a77afa"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (33)__fixed_regression__27498a4ef8.jpg",
+      "size_bytes": 151721,
+      "sha256": "95b40be05d5e20f08edfad97ff51d005fcfb37c0dcded05b795326545b47d734"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (34)__fixed_regression__68650f8765.jpg",
+      "size_bytes": 151721,
+      "sha256": "95b40be05d5e20f08edfad97ff51d005fcfb37c0dcded05b795326545b47d734"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (35)__fixed_regression__b362b5211b.jpg",
+      "size_bytes": 151430,
+      "sha256": "9e38acc4e0f2b33fa6c0118031e0e274f65df12ce3198590b70d30474df56489"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (36)__fixed_regression__c6db8149a3.jpg",
+      "size_bytes": 151577,
+      "sha256": "78b00eb128ff302e33468339641cd6f44734dab58f8a19562733a687258785fe"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (37)__fixed_regression__a645780cf6.jpg",
+      "size_bytes": 150940,
+      "sha256": "2259309af2dfc3c6a3c0e43dde469bd88254d81bd243e3796c841bbd65d2875a"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (38)__fixed_regression__1dc02977df.jpg",
+      "size_bytes": 150188,
+      "sha256": "2fc969f087cac84d075c3249a27017ca0c6c047b8f6ec9b77a8d85de62818055"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (39)__fixed_regression__8d468c102b.jpg",
+      "size_bytes": 151976,
+      "sha256": "27f61453c0d018dd7bdd8553dd7e7a7e459d856c603e00b79bbc5f05cec6136f"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (4)__fixed_regression__2d2075ec25.jpg",
+      "size_bytes": 406245,
+      "sha256": "d064d99b96a122d3b06ce60a761288596ea58a40d6641e14ada98dfdb59fab09"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (40)__fixed_regression__0d7ab7e1a2.jpg",
+      "size_bytes": 194993,
+      "sha256": "9da76ae8ae1a694e4ac139a0a5927e16d24194c4dc32a84398646dedf4161203"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (41)__independent__dc31dda8cf.jpg",
+      "size_bytes": 49796,
+      "sha256": "5f96929fdf75bb125b7516ec35a400adb6077b16ba8f641b1e9a59e62790ffea"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (42)__fixed_regression__83aae92819.jpg",
+      "size_bytes": 150789,
+      "sha256": "3dc1c49950e130c83c881d8d675133687f8ddd1e332b9b99e48e47d1fa675735"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (43)__fixed_regression__752577d15d.jpg",
+      "size_bytes": 51916,
+      "sha256": "d1dea71fbee3d47ffca3d72d3cc7cd47d9b18296b7b1f8d93b94c342c5c9d681"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (44)__fixed_regression__af90e4f94f.jpg",
+      "size_bytes": 368758,
+      "sha256": "9c27d0f15e18c7f0d0b5163cf5a7c6a0c3bff8258d3557d3b03bffa0ffdc3d08"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (5)__independent__6be5fb1170.jpg",
+      "size_bytes": 48890,
+      "sha256": "bfabcc8fe3d42ab50750629d1316744097436d328ff8cb67fab22d9ce0f8c8cb"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (6)__independent__8f468834ba.jpg",
+      "size_bytes": 50108,
+      "sha256": "ce1791eae0aac730f30d5014f506818ed2fa869b6b81c6ee4dc63d89be8f3f11"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (7)__independent__b246b0721f.jpg",
+      "size_bytes": 49919,
+      "sha256": "a46910e0d18481ec2a0b059353bf563bed92de9d69df2d625deabddb7487551a"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (8)__fixed_regression__0aa41771da.jpg",
+      "size_bytes": 152585,
+      "sha256": "7ad040d073cf6848b35f76dd189bdf15541c2a51432c4fa2728df42ea39ba2cb"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/p (9)__fixed_regression__efb3444740.jpg",
+      "size_bytes": 237858,
+      "sha256": "f4d27307c4dcfa08ef9dc41cd960342a811b1baeb0ac8032e2c10f3055bc0360"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd__training_replay__9587f7f4a0.jpg",
+      "size_bytes": 139710,
+      "sha256": "31627c270d27095e0ef047f3ed4b87fe26d129127f35677e8c5fd57432d955d5"
+    },
+    {
+      "filename": "reports/candidate_e2e/annotated/pptest__ebe78fef76ed__111__training_replay__b6c39a3cf6.jpg",
+      "size_bytes": 5091596,
+      "sha256": "6a925bd170fc7631c523d35f412c9bed0a5e50fc72eab8431d82e3208efce12b"
+    },
+    {
+      "filename": "reports/candidate_e2e/charts/outcome_counts.png",
+      "size_bytes": 34521,
+      "sha256": "1f2691e3f3af5a45b444acfc7435ca5da0aa54a3a1bbd249690fb817defbb02d"
+    },
+    {
+      "filename": "reports/candidate_e2e/charts/outcome_counts_test.png",
+      "size_bytes": 34521,
+      "sha256": "1f2691e3f3af5a45b444acfc7435ca5da0aa54a3a1bbd249690fb817defbb02d"
+    },
+    {
+      "filename": "reports/candidate_e2e/charts/outcome_counts_train.png",
+      "size_bytes": 30395,
+      "sha256": "52ca9d4ab3d7da55673f8eccc7bee46ff4f55a0989e532e3e7aff18c820edd1f"
+    },
+    {
+      "filename": "reports/candidate_e2e/charts/outcome_counts_validation.png",
+      "size_bytes": 30395,
+      "sha256": "52ca9d4ab3d7da55673f8eccc7bee46ff4f55a0989e532e3e7aff18c820edd1f"
+    },
+    {
+      "filename": "reports/candidate_e2e/charts/risk_distribution.png",
+      "size_bytes": 57841,
+      "sha256": "e83fbbbf048050fa3fd9f75b0a8af9baa7df804d8a2a5c96f997f6b1263aa7aa"
+    },
+    {
+      "filename": "reports/candidate_e2e/charts/risk_distribution_test.png",
+      "size_bytes": 57841,
+      "sha256": "e83fbbbf048050fa3fd9f75b0a8af9baa7df804d8a2a5c96f997f6b1263aa7aa"
+    },
+    {
+      "filename": "reports/candidate_e2e/charts/risk_distribution_train.png",
+      "size_bytes": 49116,
+      "sha256": "8653353a0cd01b38ea6bc746ecd99cdeb4c7d0aafc4e95ae8d22207c3f17aef9"
+    },
+    {
+      "filename": "reports/candidate_e2e/charts/risk_distribution_validation.png",
+      "size_bytes": 49116,
+      "sha256": "8653353a0cd01b38ea6bc746ecd99cdeb4c7d0aafc4e95ae8d22207c3f17aef9"
+    },
+    {
+      "filename": "reports/candidate_e2e/metrics.json",
+      "size_bytes": 8489,
+      "sha256": "caf4a57cad6eda24b8b0055ab447fa3e1951b5b3dc22a71806b7d16c5ea3ee38"
+    },
+    {
+      "filename": "reports/candidate_e2e/per_image_results.csv",
+      "size_bytes": 132943,
+      "sha256": "c5c23d44dd9c817a23943aea8f30f8ee5d05b5f71c417372c602bce3578c5186"
+    },
+    {
+      "filename": "reports/candidate_e2e/report.md",
+      "size_bytes": 2385,
+      "sha256": "d3ad45ec45402ad82ead4ff4a66bf1326e2c4c66353be72317f06b2648589b00"
+    },
+    {
+      "filename": "reports/candidate_e2e/results.json",
+      "size_bytes": 294798,
+      "sha256": "8efa5dbe6bcbedc6f6bc6c24247c676b3154b915e64c7cb7d173a63a2cb8ff62"
+    },
+    {
+      "filename": "reports/candidate_e2e/summary.json",
+      "size_bytes": 9176,
+      "sha256": "250257d2f21f219441473e052d1e848717fca411f91533556389e782e18a3845"
+    },
+    {
+      "filename": "reports/charts/feature_importance.png",
+      "size_bytes": 90562,
+      "sha256": "09ca9737a8ff1ddc7109c7faa7fc88574051dd5939bc162b24f87e93b040ac5a"
+    },
+    {
+      "filename": "reports/charts/training_analysis.png",
+      "size_bytes": 47474,
+      "sha256": "59d62fa71e1ae782b2ed9086cec72b4793f03f0bdcac33501a7f1d7b3c18a073"
+    },
+    {
+      "filename": "reports/metrics.json",
+      "size_bytes": 3541,
+      "sha256": "4e0b988648147511b550bd4a7124f8c2955fd0bba13196fab98cdad94a35be4c"
+    },
+    {
+      "filename": "reports/per_image_results.csv",
+      "size_bytes": 2326,
+      "sha256": "48b313778ab9c06264881bb0c717e58e48b288c3ddce1adac1f86daa0b7e2073"
+    },
+    {
+      "filename": "reports/production_evaluation.json",
+      "size_bytes": 170824,
+      "sha256": "a540cedcb911d5f7bc82ef3662b6d828f99d568ac954eda5b93d5b9831db84d8"
+    },
+    {
+      "filename": "reports/production_evaluation.md",
+      "size_bytes": 276,
+      "sha256": "0540d23f49593fe8b37da2fc3d4e18f8a1182bb7fae97be63ac9dd24e147225e"
+    },
+    {
+      "filename": "reports/report.md",
+      "size_bytes": 145,
+      "sha256": "d63aa69e9ab5fd3815310fd5d8a601623a76f78af3a80dcd1e23c3b62b0d8d30"
+    },
+    {
+      "filename": "reports/summary.json",
+      "size_bytes": 190760,
+      "sha256": "a00c710c4056011953a1ef53b3f4239a1fdc0580f70430b84690042f30b78257"
+    }
+  ]
+}

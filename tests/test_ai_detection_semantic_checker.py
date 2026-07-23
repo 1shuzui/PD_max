@@ -1,10 +1,13 @@
 import unittest
+from unittest.mock import patch
 
 from app.ai_detection.core.amount_candidates import OCRToken
 from app.ai_detection.services.rule_check_service import evaluate_pixel_overlap_alert
 from app.ai_detection.core.semantic_checker import (
     check_account_mask_consistency,
     check_detail_field_typography,
+    check_uppercase_lowercase_amount_consistency,
+    check_receipt_semantics,
     find_labeled_field_bbox,
     is_invalid_amount_thousand_separator,
 )
@@ -49,6 +52,55 @@ class SemanticCheckerTests(unittest.TestCase):
         result = check_account_mask_consistency(tokens)
         self.assertTrue(result["anomaly"])
 
+    def test_uppercase_lowercase_amount_mismatch_is_semantic_evidence_not_ocr_guess(self):
+        tokens = [
+            OCRToken("小写:100.00元", "小写:100.00元", (100, 200, 260, 230), 0.9, 160, 30, 215.0),
+            OCRToken("大写:贰佰元整", "大写:贰佰元整", (100, 240, 300, 270), 0.9, 200, 30, 255.0),
+        ]
+
+        result = check_uppercase_lowercase_amount_consistency(tokens)
+        self.assertTrue(result["anomaly"])
+        self.assertEqual(result["mismatches"][0]["reason"], "amount_uppercase_lowercase_mismatch")
+
+    def test_uppercase_lowercase_amount_unreadable_does_not_report_mismatch(self):
+        tokens = [
+            OCRToken("小:51510,.00元", "小:51510,.00元", (141, 220, 232, 234), 0.38, 91, 14, 227.0),
+            OCRToken("大丐:侨4佰~[〉", "大丐:侨4佰~[〉", (141, 235, 251, 249), 0.01, 110, 14, 242.0),
+        ]
+
+        result = check_uppercase_lowercase_amount_consistency(tokens)
+        self.assertFalse(result["anomaly"])
+        self.assertEqual(result["pairs"][0]["reason"], "uppercase_ocr_unreadable")
+
+    @patch("app.ai_detection.core.semantic_checker.check_synthetic_image_signals")
+    def test_doubao_ai_watermark_is_hard_tamper(self, mock_synthetic):
+        mock_synthetic.return_value = {"suspicious": False, "signals": []}
+        tokens = [
+            OCRToken("豆包", "豆包", (820, 900, 860, 918), 0.92, 40, 18, 909.0),
+            OCRToken("AI", "AI", (862, 900, 884, 918), 0.91, 22, 18, 909.0),
+            OCRToken("生成", "生成", (886, 900, 922, 918), 0.90, 36, 18, 909.0),
+        ]
+
+        result = check_receipt_semantics("/tmp/not-used.png", ocr_tokens=tokens)
+
+        self.assertTrue(result["hard_tamper"])
+        self.assertIn("doubao_ai_generated_watermark", result["anomalies"])
+        evidence = result["semantic_check"]["ai_watermark"]
+        self.assertEqual(evidence["bbox_xyxy"], [820, 900, 922, 918])
+        self.assertEqual(evidence["evidence_type"], "ai_generated_document")
+
+    @patch("app.ai_detection.core.semantic_checker.check_synthetic_image_signals")
+    def test_uppercase_lowercase_mismatch_is_not_hard_tamper_by_default(self, mock_synthetic):
+        mock_synthetic.return_value = {"suspicious": False, "signals": []}
+        tokens = [
+            OCRToken("小写:100.00元", "小写:100.00元", (100, 200, 260, 230), 0.9, 160, 30, 215.0),
+            OCRToken("大写:贰佰元整", "大写:贰佰元整", (100, 240, 300, 270), 0.9, 200, 30, 255.0),
+        ]
+
+        result = check_receipt_semantics("/tmp/not-used.png", ocr_tokens=tokens)
+        self.assertIn("uppercase_lowercase_amount_mismatch", result["anomalies"])
+        self.assertFalse(result["hard_tamper"])
+
 
 class RuleCheckDisplayTests(unittest.TestCase):
     def test_derive_status_from_semantic_hard_tamper(self):
@@ -65,6 +117,26 @@ class RuleCheckDisplayTests(unittest.TestCase):
         summary = build_rule_check_public_summary(payload)
         self.assertTrue(summary["available"])
         self.assertFalse(summary["pixel_overlap"]["passed"])
+
+    def test_uppercase_lowercase_mismatch_is_displayed_as_suspicious(self):
+        from app.ai_detection.services.rule_check_display import build_rule_check_public_summary, derive_rule_check_status
+
+        payload = {
+            "reason": "金额大写与小写不一致",
+            "hard_tamper_flags": {"semantic": False, "pixel_overlap": False, "timestamp": False},
+            "semantic": {
+                "risk": 0.45,
+                "hard_tamper": False,
+                "anomalies": ["uppercase_lowercase_amount_mismatch"],
+                "reasons": ["金额大写与小写不一致"],
+            },
+            "pixel_overlap": None,
+            "timestamp": None,
+        }
+        self.assertEqual(derive_rule_check_status(payload), "可疑")
+        summary = build_rule_check_public_summary(payload)
+        self.assertFalse(summary["semantic"]["passed"])
+        self.assertEqual(summary["semantic"]["anomalies"], ["uppercase_lowercase_amount_mismatch"])
 
 
 class PixelOverlapAlertTests(unittest.TestCase):

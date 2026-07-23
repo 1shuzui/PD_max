@@ -1,4 +1,5 @@
 import unittest
+from decimal import Decimal
 from pathlib import Path
 from unittest.mock import patch
 
@@ -9,11 +10,57 @@ from app.ai_detection.core.amount_candidates import (
     OCRToken,
     build_amount_candidates,
     detect_certificate_document_override,
+    find_uppercase_amount_pairs,
+    is_account_context_token,
+    parse_chinese_uppercase_amount,
+    parse_decimal_amount,
     tokenize_ocr_results,
 )
 
 
 class AmountCandidateTests(unittest.TestCase):
+    def test_account_value_split_into_multiple_tokens_is_not_an_amount_candidate(self):
+        tokens = [
+            OCRToken("收款方账号", "收款方账号", (173, 1085, 383, 1137), 0.9, 210, 52, 1111.0),
+            OCRToken("6230", "6230", (647, 1088, 757, 1135), 0.9, 110, 47, 1111.5),
+            OCRToken("***3 076", "***3076", (931, 1088, 1104, 1135), 0.9, 173, 47, 1111.5),
+            OCRToken("转账金额", "转账金额", (171, 1238, 343, 1289), 0.9, 172, 51, 1263.5),
+            OCRToken("339,041.00元", "339,041.00元", (843, 1238, 1102, 1289), 0.9, 259, 51, 1263.5),
+        ]
+
+        self.assertTrue(is_account_context_token(tokens[1], tokens))
+        candidates = build_amount_candidates(tokens, (1280, 2781, 3))
+        candidate_bboxes = [item.bbox for item in candidates]
+        self.assertNotIn((647, 1088, 757, 1135), candidate_bboxes)
+        self.assertIn((843, 1238, 1102, 1289), candidate_bboxes)
+
+    def test_uppercase_lowercase_amount_pair_parses_only_reliable_text(self):
+        tokens = [
+            OCRToken("小写:12,345.60元", "小写:12,345.60元", (100, 200, 300, 230), 0.9, 200, 30, 215.0),
+            OCRToken("大写:壹万贰仟叁佰肆拾伍元陆角", "大写:壹万贰仟叁佰肆拾伍元陆角", (100, 240, 440, 270), 0.9, 340, 30, 255.0),
+        ]
+
+        self.assertEqual(parse_decimal_amount("小写:12,345.60元"), Decimal("12345.60"))
+        self.assertEqual(parse_chinese_uppercase_amount("大写:壹万贰仟叁佰肆拾伍元陆角"), Decimal("12345.6"))
+        pairs = find_uppercase_amount_pairs(tokens)
+        self.assertEqual(len(pairs), 1)
+        self.assertTrue(pairs[0]["comparison_available"])
+        self.assertTrue(pairs[0]["consistent"])
+
+    def test_uppercase_amount_with_ocr_noise_is_not_parsed(self):
+        tokens = [
+            OCRToken("小:51510,.00元", "小:51510,.00元", (141, 220, 232, 234), 0.38, 91, 14, 227.0),
+            OCRToken("2另全8", "2另全8", (72, 228, 116, 241), 0.11, 44, 13, 234.5),
+            OCRToken("大丐:侨4佰~[〉", "大丐:侨4佰~[〉", (141, 235, 251, 249), 0.01, 110, 14, 242.0),
+        ]
+
+        pairs = find_uppercase_amount_pairs(tokens)
+        self.assertEqual(len(pairs), 1)
+        self.assertEqual(pairs[0]["small_amount"], "51510.00")
+        self.assertFalse(pairs[0]["comparison_available"])
+        self.assertIsNone(pairs[0]["consistent"])
+        self.assertEqual(pairs[0]["reason"], "uppercase_ocr_unreadable")
+
     def test_prefers_amount_region_over_time_and_order_number(self):
         ocr_results = [
             (

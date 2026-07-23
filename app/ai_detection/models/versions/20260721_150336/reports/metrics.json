@@ -1,0 +1,116 @@
+{
+  "model_internal_validation": {
+    "available": true,
+    "balanced_accuracy": 0.75,
+    "normal_recall": 0.6666666666666666,
+    "tampered_recall": 0.8333333333333334,
+    "confusion_matrix": [
+      [
+        10,
+        5
+      ],
+      [
+        1,
+        5
+      ]
+    ],
+    "threshold": 0.67
+  },
+  "model_internal_test": {
+    "available": true,
+    "balanced_accuracy": 0.7083333333333333,
+    "normal_recall": 0.5,
+    "tampered_recall": 0.9166666666666666,
+    "confusion_matrix": [
+      [
+        6,
+        6
+      ],
+      [
+        1,
+        11
+      ]
+    ],
+    "threshold": 0.67,
+    "sample_count": 24,
+    "paths": [
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/1.png",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/13.jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/10.png",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/16.png",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/2.png",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/31.png",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/32.png",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/33.png",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/34.png",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/11.jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/21.jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/8.jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (10).jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (11).jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (18).jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (41).jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (5).jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (6).jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (7).jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (1).jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (17).jpg",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/14.png",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/17.png",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/19.png"
+    ],
+    "predictions": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      1
+    ],
+    "sample_failures": []
+  },
+  "training_replay_global_feature_only": {
+    "available": false,
+    "balanced_accuracy": null,
+    "normal_recall": null,
+    "tampered_recall": null,
+    "confusion_matrix": null,
+    "sample_count": 2,
+    "paths": [
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/pptest__ebe78fef76ed__111.png",
+      "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd.png"
+    ],
+    "predictions": [
+      1,
+      1
+    ],
+    "sample_failures": []
+  },
+  "threshold": 0.67,
+  "source_counts": {
+    "real_certificate": 40,
+    "legacy_tampered": 44,
+    "legacy_normal": 12,
+    "production_tampered": 2,
+    "curated_tampered": 20
+  },
+  "note": "训练内指标仅衡量全图特征模型；候选启用前必须另行运行生产端到端 OCR/ROI 评估。"
+}

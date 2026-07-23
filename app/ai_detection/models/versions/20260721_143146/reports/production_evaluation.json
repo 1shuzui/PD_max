@@ -1,0 +1,673 @@
+{
+  "version": "20260721_143146",
+  "gates": {
+    "passed": false,
+    "fixed_regression": {
+      "passed": false,
+      "total": 56,
+      "failures": [
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (10).jpg",
+          "expected": "正常",
+          "actual": "篡改"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (2).jpg",
+          "expected": "正常",
+          "actual": "篡改"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (9).jpg",
+          "expected": "正常",
+          "actual": "篡改"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (4).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (4).jpg",
+          "expected": "正常",
+          "actual": "篡改"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (3).jpg",
+          "expected": "正常",
+          "actual": "篡改"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (12).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (14).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (10).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (11).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (18).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (41).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (5).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (6).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (7).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (21).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (1).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (17).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (25).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (44).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (19).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (23).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (27).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (28).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (3).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (33).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (34).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (35).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (36).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (37).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (38).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (39).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (42).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        },
+        {
+          "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (8).jpg",
+          "expected": "篡改",
+          "actual": "正常"
+        }
+      ]
+    },
+    "training_replay_regression": {
+      "passed": true,
+      "total": 2,
+      "failures": []
+    },
+    "validation_metrics": {
+      "passed": false,
+      "comparisons": {
+        "balanced_accuracy": {
+          "candidate": 0.7333333333333334,
+          "active": 0.75,
+          "passed": false
+        },
+        "normal_recall": {
+          "candidate": 0.8,
+          "active": 1.0,
+          "passed": false
+        },
+        "tampered_recall": {
+          "candidate": 0.6666666666666666,
+          "active": 0.5,
+          "passed": true
+        }
+      }
+    },
+    "holdout_metrics": {
+      "passed": false,
+      "comparisons": {
+        "balanced_accuracy": {
+          "candidate": 0.4583333333333333,
+          "minimum": 0.9,
+          "passed": false
+        },
+        "normal_recall": {
+          "candidate": 0.75,
+          "minimum": 0.9,
+          "passed": false
+        },
+        "tampered_recall": {
+          "candidate": 0.16666666666666666,
+          "minimum": 0.9,
+          "passed": false
+        }
+      }
+    },
+    "roi_coverage": {
+      "passed": true,
+      "coverage": 0.9583333333333334,
+      "minimum": 0.9,
+      "sample_count": 24,
+      "recognized_count": 23
+    }
+  },
+  "regression_predictions": [
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (29).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (6).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (7).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (40).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (30).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (10).jpg",
+      "expected_label": 0,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (2).jpg",
+      "expected_label": 0,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (9).jpg",
+      "expected_label": 0,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (4).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (13).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (31).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (4).jpg",
+      "expected_label": 0,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (3).jpg",
+      "expected_label": 0,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (24).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (11).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (12).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (14).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (43).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (12).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (5).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (2).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (16).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (20).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (22).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (26).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (32).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (9).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (10).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (11).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (18).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (41).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (5).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (6).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (7).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (21).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (8).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (1).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (1).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (17).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (25).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (15).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (44).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (19).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (23).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (27).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (28).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (3).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (33).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (34).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (35).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (36).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (37).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (38).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (39).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (42).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (8).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    }
+  ],
+  "training_replay_predictions": [
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/pptest__ebe78fef76ed__111.png",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd.png",
+      "expected_label": 1,
+      "actual": "篡改"
+    }
+  ],
+  "holdout_predictions": [
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/1.png",
+      "expected_label": 0,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/13.jpg",
+      "expected_label": 0,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/10.png",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/16.png",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/2.png",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/31.png",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/32.png",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/33.png",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/34.png",
+      "expected_label": 0,
+      "actual": "无法自动检测"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/11.jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/21.jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/8.jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (10).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (11).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (18).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (41).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (5).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (6).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (7).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (1).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (17).jpg",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/14.png",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/17.png",
+      "expected_label": 1,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/19.png",
+      "expected_label": 1,
+      "actual": "篡改"
+    }
+  ],
+  "holdout_metrics": {
+    "available": true,
+    "sample_count": 24,
+    "balanced_accuracy": 0.4583333333333333,
+    "normal_recall": 0.75,
+    "tampered_recall": 0.16666666666666666,
+    "confusion_matrix": [
+      [
+        9,
+        3
+      ],
+      [
+        10,
+        2
+      ]
+    ],
+    "abstained_count": 1
+  },
+  "roi_coverage": {
+    "sample_count": 24,
+    "recognized_count": 23,
+    "coverage": 0.9583333333333334
+  }
+}

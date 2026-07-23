@@ -1,0 +1,6760 @@
+{
+  "version": "20260721_150336",
+  "gates": {
+    "passed": false,
+    "fixed_regression": {
+      "passed": true,
+      "total": 56,
+      "failures": []
+    },
+    "training_replay_regression": {
+      "passed": true,
+      "total": 2,
+      "failures": []
+    },
+    "training_profile_validation": {
+      "passed": false,
+      "comparisons": {
+        "balanced_accuracy": {
+          "candidate": 0.75,
+          "active": 0.75,
+          "passed": true
+        },
+        "normal_recall": {
+          "candidate": 0.6666666666666666,
+          "active": 1.0,
+          "passed": false
+        },
+        "tampered_recall": {
+          "candidate": 0.8333333333333334,
+          "active": 0.5,
+          "passed": true
+        }
+      }
+    },
+    "same_test_metrics": {
+      "passed": false,
+      "reason": "冻结 test 每类至少需要 20 张",
+      "normal_sample_count": 12,
+      "tampered_sample_count": 12,
+      "comparisons": {}
+    },
+    "roi_coverage": {
+      "passed": true,
+      "candidate": 0.958333,
+      "active": 0.958333,
+      "minimum": 0.9,
+      "allowed_regression": 0.02,
+      "sample_count": 24
+    }
+  },
+  "regression_predictions": [
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (29).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (6).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (7).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (40).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (30).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (10).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (2).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (9).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (4).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (13).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (31).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (4).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (3).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (24).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (11).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (12).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (14).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (43).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (12).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (5).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (2).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (16).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (20).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (22).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (26).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (32).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (9).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (10).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (11).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (18).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (41).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (5).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (6).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (7).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (21).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (8).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/no (1).jpg",
+      "expected_label": 0,
+      "actual": "正常"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (1).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (17).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (25).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (15).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (44).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (19).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (23).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (27).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (28).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (3).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (33).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (34).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (35).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (36).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (37).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (38).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (39).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (42).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (8).jpg",
+      "expected_label": 1,
+      "actual": "篡改"
+    }
+  ],
+  "training_replay_predictions": [
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/pptest__ebe78fef76ed__111.png",
+      "expected_label": 1,
+      "actual": "篡改"
+    },
+    {
+      "path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd.png",
+      "expected_label": 1,
+      "actual": "篡改"
+    }
+  ],
+  "active_test_metrics": {
+    "available": true,
+    "sample_count": 24,
+    "normal_sample_count": 12,
+    "tampered_sample_count": 12,
+    "strict_correct": 21,
+    "strict_accuracy": 0.875,
+    "normal_recall": 0.916667,
+    "tampered_recall": 0.833333,
+    "balanced_accuracy": 0.875,
+    "result_counts": {
+      "正常": 13,
+      "无法自动检测": 1,
+      "篡改": 10
+    },
+    "suspicious_count": 0,
+    "unable_count": 1,
+    "roi_coverage": 0.958333,
+    "average_elapsed_ms": 1216.92,
+    "max_elapsed_ms": 2446.7,
+    "risk": {
+      "minimum": 0.0,
+      "maximum": 0.66
+    }
+  },
+  "candidate_test_metrics": {
+    "available": true,
+    "sample_count": 24,
+    "normal_sample_count": 12,
+    "tampered_sample_count": 12,
+    "strict_correct": 16,
+    "strict_accuracy": 0.666667,
+    "normal_recall": 0.416667,
+    "tampered_recall": 0.916667,
+    "balanced_accuracy": 0.666667,
+    "result_counts": {
+      "篡改": 17,
+      "正常": 6,
+      "无法自动检测": 1
+    },
+    "suspicious_count": 0,
+    "unable_count": 1,
+    "roi_coverage": 0.958333,
+    "average_elapsed_ms": 1143.99,
+    "max_elapsed_ms": 2424.3,
+    "risk": {
+      "minimum": 0.0,
+      "maximum": 0.735141
+    }
+  },
+  "active_test_results": [
+    {
+      "filename": "1.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/1.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.0,
+      "reason": "未检出明显篡改痕迹",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.0,
+          "bbox": [
+            146,
+            220,
+            74,
+            13
+          ],
+          "reason": "未检出明显篡改痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 1,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            146,
+            220,
+            220,
+            233
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            146,
+            220,
+            220,
+            233
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "小:E0000元",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_currency_amount_value"
+        }
+      ],
+      "roi_count": 1,
+      "ocr_token_count": 42,
+      "elapsed_ms": 1848.5
+    },
+    {
+      "filename": "13.jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/13.jpg",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.4116034360939976,
+      "reason": "存在局部边缘拼接/像素涂抹痕迹",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.3352829098856177,
+          "bbox": [
+            458,
+            387,
+            403,
+            103
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹；局部字体风格异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 6,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            458,
+            387,
+            861,
+            490
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.39471509176137076,
+          "bbox": [
+            932,
+            664,
+            348,
+            47
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 6,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            932,
+            664,
+            1280,
+            711
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        },
+        {
+          "result": "正常",
+          "confidence": 0.4082506307578879,
+          "bbox": [
+            530,
+            511,
+            257,
+            52
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 6,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            530,
+            511,
+            787,
+            563
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 3
+        },
+        {
+          "result": "正常",
+          "confidence": 0.4116034360939976,
+          "bbox": [
+            1098,
+            1198,
+            183,
+            52
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 6,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            1098,
+            1198,
+            1281,
+            1250
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 4
+        },
+        {
+          "result": "正常",
+          "confidence": 0.4089465791843053,
+          "bbox": [
+            1100,
+            1413,
+            180,
+            50
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 6,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            1100,
+            1413,
+            1280,
+            1463
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 5
+        },
+        {
+          "result": "正常",
+          "confidence": 0.41004408643975454,
+          "bbox": [
+            1110,
+            1626,
+            170,
+            50
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 6,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            1110,
+            1626,
+            1280,
+            1676
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 6
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            458,
+            387,
+            861,
+            490
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "+5,000.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            932,
+            664,
+            1280,
+            711
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            530,
+            511,
+            787,
+            563
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "余额:5.717.93",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            1098,
+            1198,
+            1281,
+            1250
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "交易金额",
+          "category": "金额",
+          "priority": 1,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            1100,
+            1413,
+            1280,
+            1463
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "5,000.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        },
+        {
+          "bbox": [
+            1110,
+            1626,
+            1280,
+            1676
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "5,717.93",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        }
+      ],
+      "roi_count": 6,
+      "ocr_token_count": 30,
+      "elapsed_ms": 1206.2
+    },
+    {
+      "filename": "10.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/10.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.13223191046152022,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.09613359082401565,
+          "bbox": [
+            147,
+            89,
+            107,
+            14
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            147,
+            89,
+            254,
+            103
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.1175154396850982,
+          "bbox": [
+            147,
+            246,
+            107,
+            13
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            147,
+            246,
+            254,
+            259
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        },
+        {
+          "result": "正常",
+          "confidence": 0.13223191046152022,
+          "bbox": [
+            146,
+            224,
+            79,
+            16
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            146,
+            224,
+            225,
+            240
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 3
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            147,
+            89,
+            254,
+            103
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.151432.52",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            147,
+            246,
+            254,
+            259
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.04091833",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            146,
+            224,
+            225,
+            240
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "小:+518.32",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        }
+      ],
+      "roi_count": 3,
+      "ocr_token_count": 37,
+      "elapsed_ms": 2278.3
+    },
+    {
+      "filename": "16.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/16.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.11150899651295544,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.0,
+          "bbox": [
+            26,
+            456,
+            252,
+            13
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            26,
+            456,
+            278,
+            469
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.11150899651295544,
+          "bbox": [
+            112,
+            257,
+            86,
+            11
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            112,
+            257,
+            198,
+            268
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            26,
+            456,
+            278,
+            469
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "8云h讧包;个人69.订261眚;M2t<5元;『三万",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_currency_amount_value"
+        },
+        {
+          "bbox": [
+            112,
+            257,
+            198,
+            268
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "20260521.+57.29",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 39,
+      "elapsed_ms": 2278.3
+    },
+    {
+      "filename": "2.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/2.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.17587885421409113,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.10692079042348654,
+          "bbox": [
+            98,
+            245,
+            88,
+            12
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            98,
+            245,
+            186,
+            257
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.0,
+          "bbox": [
+            99,
+            121,
+            85,
+            10
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            99,
+            121,
+            184,
+            131
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        },
+        {
+          "result": "正常",
+          "confidence": 0.17587885421409113,
+          "bbox": [
+            99,
+            228,
+            63,
+            12
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            99,
+            228,
+            162,
+            240
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 3
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            98,
+            245,
+            186,
+            257
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607-05123323",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            99,
+            121,
+            184,
+            131
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.15.134.21",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            99,
+            228,
+            162,
+            240
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "小:`200.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        }
+      ],
+      "roi_count": 3,
+      "ocr_token_count": 39,
+      "elapsed_ms": 2295.7
+    },
+    {
+      "filename": "31.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/31.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.0,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.0,
+          "bbox": [
+            109,
+            113,
+            85,
+            10
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            109,
+            113,
+            194,
+            123
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.0,
+          "bbox": [
+            109,
+            221,
+            63,
+            12
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            109,
+            221,
+            172,
+            233
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            109,
+            113,
+            194,
+            123
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.617.3151",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            109,
+            221,
+            172,
+            233
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "小:`550.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 38,
+      "elapsed_ms": 2446.7
+    },
+    {
+      "filename": "32.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/32.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.0922420030368113,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.0914559110471882,
+          "bbox": [
+            108,
+            128,
+            88,
+            12
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            108,
+            128,
+            196,
+            140
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.0922420030368113,
+          "bbox": [
+            108,
+            253,
+            88,
+            12
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            108,
+            253,
+            196,
+            265
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            108,
+            128,
+            196,
+            140
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2026.07.1617.3220",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            108,
+            253,
+            196,
+            265
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.1518.5657",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 39,
+      "elapsed_ms": 1886.9
+    },
+    {
+      "filename": "33.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/33.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.06755835684150105,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.06755835684150105,
+          "bbox": [
+            97,
+            116,
+            82,
+            13
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            97,
+            116,
+            179,
+            129
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.0,
+          "bbox": [
+            97,
+            217,
+            60,
+            12
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            97,
+            217,
+            157,
+            229
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 2
+        },
+        {
+          "result": "正常",
+          "confidence": 0.0,
+          "bbox": [
+            98,
+            235,
+            79,
+            9
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            98,
+            235,
+            177,
+            244
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 3
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            97,
+            116,
+            179,
+            129
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.16113100",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            97,
+            217,
+            157,
+            229
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "小:<634.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        },
+        {
+          "bbox": [
+            98,
+            235,
+            177,
+            244
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.16092731",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 3,
+      "ocr_token_count": 39,
+      "elapsed_ms": 2275.0
+    },
+    {
+      "filename": "34.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/34.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": false,
+      "manual_rois": [],
+      "result": "无法自动检测",
+      "confidence": 0.0,
+      "reason": "未识别到金额、姓名、时间关键区域，无法自动检测",
+      "regions": [],
+      "auto_rois": [],
+      "roi_count": 0,
+      "ocr_token_count": 38,
+      "elapsed_ms": 1500.2
+    },
+    {
+      "filename": "11.jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/11.jpg",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.44954427199556957,
+      "reason": "存在局部边缘拼接/像素涂抹痕迹",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.07788479036349226,
+          "bbox": [
+            359,
+            537,
+            511,
+            121
+          ],
+          "reason": "未检出明显篡改痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            359,
+            537,
+            870,
+            658
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.44954427199556957,
+          "bbox": [
+            44,
+            1669,
+            412,
+            44
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            44,
+            1669,
+            456,
+            1713
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            359,
+            537,
+            870,
+            658
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "半3,602.57",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            44,
+            1669,
+            456,
+            1713
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2023-11-0317.41.38",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 32,
+      "elapsed_ms": 848.5
+    },
+    {
+      "filename": "21.jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/21.jpg",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.3829523240379986,
+      "reason": "存在局部边缘拼接/像素涂抹痕迹",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.0607420938595688,
+          "bbox": [
+            357,
+            537,
+            515,
+            121
+          ],
+          "reason": "未检出明显篡改痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            357,
+            537,
+            872,
+            658
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.3829523240379986,
+          "bbox": [
+            44,
+            1669,
+            421,
+            44
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            44,
+            1669,
+            465,
+            1713
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            357,
+            537,
+            872,
+            658
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "半3,600.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            44,
+            1669,
+            465,
+            1713
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2023-10-1513.49:00",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 32,
+      "elapsed_ms": 917.9
+    },
+    {
+      "filename": "8.jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/8.jpg",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.44024547466755454,
+      "reason": "存在局部边缘拼接/像素涂抹痕迹",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.4167294306162313,
+          "bbox": [
+            367,
+            542,
+            459,
+            105
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            367,
+            542,
+            826,
+            647
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.44024547466755454,
+          "bbox": [
+            44,
+            1669,
+            426,
+            44
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            44,
+            1669,
+            470,
+            1713
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            367,
+            542,
+            826,
+            647
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "半199.50",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            44,
+            1669,
+            470,
+            1713
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2025-02-2116:03:55",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 29,
+      "elapsed_ms": 831.8
+    },
+    {
+      "filename": "p (10).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (10).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            253,
+            143,
+            160,
+            35
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            253,
+            143,
+            413,
+            178
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            492,
+            492,
+            150,
+            16
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            492,
+            492,
+            642,
+            508
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            253,
+            143,
+            413,
+            178
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "半37,000.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            492,
+            492,
+            642,
+            508
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 23,
+      "elapsed_ms": 687.6
+    },
+    {
+      "filename": "p (11).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (11).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            252,
+            140,
+            158,
+            39
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            252,
+            140,
+            410,
+            179
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            489,
+            488,
+            151,
+            16
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            489,
+            488,
+            640,
+            504
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            252,
+            140,
+            410,
+            179
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "羊31,000.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            489,
+            488,
+            640,
+            504
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2026-01-2817.01.36",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 23,
+      "elapsed_ms": 607.6
+    },
+    {
+      "filename": "p (18).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (18).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            254,
+            141,
+            157,
+            37
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            254,
+            141,
+            411,
+            178
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            491,
+            488,
+            149,
+            16
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            491,
+            488,
+            640,
+            504
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            254,
+            141,
+            411,
+            178
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "羊27,000.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            491,
+            488,
+            640,
+            504
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2026-02-101847.48",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 23,
+      "elapsed_ms": 594.5
+    },
+    {
+      "filename": "p (41).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (41).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            269,
+            140,
+            140,
+            36
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            269,
+            140,
+            409,
+            176
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            488,
+            484,
+            147,
+            18
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            488,
+            484,
+            635,
+            502
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            269,
+            140,
+            409,
+            176
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "18,000.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            488,
+            484,
+            635,
+            502
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 22,
+      "elapsed_ms": 637.9
+    },
+    {
+      "filename": "p (5).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (5).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            270,
+            141,
+            108,
+            36
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            270,
+            141,
+            378,
+            177
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            490,
+            487,
+            149,
+            16
+          ],
+          "reason": "全局UI布局异常；局部字体风格异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            490,
+            487,
+            639,
+            503
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            270,
+            141,
+            378,
+            177
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "10,000(",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            490,
+            487,
+            639,
+            503
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 23,
+      "elapsed_ms": 573.1
+    },
+    {
+      "filename": "p (6).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (6).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            255,
+            143,
+            160,
+            36
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            255,
+            143,
+            415,
+            179
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            495,
+            493,
+            151,
+            17
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            495,
+            493,
+            646,
+            510
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            255,
+            143,
+            415,
+            179
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "羊13,500.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            495,
+            493,
+            646,
+            510
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 24,
+      "elapsed_ms": 603.1
+    },
+    {
+      "filename": "p (7).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (7).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            252,
+            140,
+            127,
+            39
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            252,
+            140,
+            379,
+            179
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            491,
+            488,
+            149,
+            16
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            491,
+            488,
+            640,
+            504
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            252,
+            140,
+            379,
+            179
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "半31,000.C",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            491,
+            488,
+            640,
+            504
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2026-02-1018.5327",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 26,
+      "elapsed_ms": 601.2
+    },
+    {
+      "filename": "p (1).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (1).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常；局部字体风格异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            38,
+            384,
+            398,
+            36
+          ],
+          "reason": "全局UI布局异常；局部字体风格异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0264,
+            "risk_max_iou": 0.0264,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            38,
+            384,
+            436,
+            420
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            38,
+            418,
+            344,
+            36
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0264,
+            "risk_max_iou": 0.0264,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            38,
+            418,
+            382,
+            454
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 2
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            230,
+            4,
+            265,
+            37
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0264,
+            "risk_max_iou": 0.0264,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            230,
+            4,
+            495,
+            41
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 3
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            38,
+            384,
+            436,
+            420
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "24814:17向周庚俊转出36000元,",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_currency_amount_value"
+        },
+        {
+          "bbox": [
+            38,
+            418,
+            382,
+            454
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "为558.51元.摘要:转账汇款.",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_currency_amount_value"
+        },
+        {
+          "bbox": [
+            230,
+            4,
+            495,
+            41
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "金额36000元,切勿泄",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_labeled_currency_amount"
+        }
+      ],
+      "roi_count": 3,
+      "ocr_token_count": 17,
+      "elapsed_ms": 525.1
+    },
+    {
+      "filename": "p (17).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (17).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            43,
+            379,
+            441,
+            41
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0153,
+            "risk_max_iou": 0.0153,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            43,
+            379,
+            484,
+            420
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            44,
+            418,
+            198,
+            41
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0153,
+            "risk_max_iou": 0.0153,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            44,
+            418,
+            242,
+            459
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            43,
+            379,
+            484,
+            420
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "24813:40向秦成磊转出33000元,",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_currency_amount_value"
+        },
+        {
+          "bbox": [
+            44,
+            418,
+            242,
+            459
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "为37172.51元,",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_currency_amount_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 15,
+      "elapsed_ms": 535.3
+    },
+    {
+      "filename": "14.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/14.png",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": false,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.14662403592983586,
+      "reason": "文件体积/像素比异常(疑似工具导出)",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.09262661066396626,
+          "bbox": [
+            1215,
+            415,
+            724,
+            162
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            1215,
+            415,
+            1939,
+            577
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.11382835495824577,
+          "bbox": [
+            1182,
+            820,
+            751,
+            76
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            1182,
+            820,
+            1933,
+            896
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        },
+        {
+          "result": "正常",
+          "confidence": 0.14662403592983586,
+          "bbox": [
+            667,
+            250,
+            214,
+            86
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            667,
+            250,
+            881,
+            336
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 3
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            1215,
+            415,
+            1939,
+            577
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "交易金额",
+          "category": "金额",
+          "priority": 1,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            1182,
+            820,
+            1933,
+            896
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            667,
+            250,
+            881,
+            336
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "5576",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        }
+      ],
+      "roi_count": 3,
+      "ocr_token_count": 21,
+      "elapsed_ms": 1735.4
+    },
+    {
+      "filename": "17.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/17.png",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": false,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.43582514033161407,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)；存在局部边缘拼接/像素涂抹痕迹",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.3783797004251147,
+          "bbox": [
+            423,
+            125,
+            206,
+            57
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)；存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            423,
+            125,
+            629,
+            182
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.43582514033161407,
+          "bbox": [
+            379,
+            261,
+            246,
+            24
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)；存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            379,
+            261,
+            625,
+            285
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        },
+        {
+          "result": "正常",
+          "confidence": 0.1638591920537725,
+          "bbox": [
+            209,
+            73,
+            72,
+            28
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            209,
+            73,
+            281,
+            101
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 3
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            423,
+            125,
+            629,
+            182
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "交易金额",
+          "category": "金额",
+          "priority": 1,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            379,
+            261,
+            625,
+            285
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            209,
+            73,
+            281,
+            101
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "5576",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        }
+      ],
+      "roi_count": 3,
+      "ocr_token_count": 20,
+      "elapsed_ms": 507.4
+    },
+    {
+      "filename": "19.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/19.png",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            51,
+            401,
+            310,
+            18
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.2806,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 5,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            51,
+            401,
+            361,
+            419
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            274,
+            401,
+            87,
+            18
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.2806,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 5,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            274,
+            401,
+            361,
+            419
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 2
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            348,
+            61,
+            57,
+            18
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.2806,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 5,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            348,
+            61,
+            405,
+            79
+          ],
+          "field_type": "name",
+          "field_label": "姓名",
+          "region_no": 3
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            317,
+            325,
+            44,
+            17
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.2806,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 5,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            317,
+            325,
+            361,
+            342
+          ],
+          "field_type": "name",
+          "field_label": "姓名",
+          "region_no": 4
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            318,
+            426,
+            43,
+            17
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.2806,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 5,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            318,
+            426,
+            361,
+            443
+          ],
+          "field_type": "name",
+          "field_label": "姓名",
+          "region_no": 5
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            51,
+            401,
+            361,
+            419
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "转账金额339,041.00元",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_line"
+        },
+        {
+          "bbox": [
+            274,
+            401,
+            361,
+            419
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "转账金额",
+          "category": "金额",
+          "priority": 1,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            348,
+            61,
+            405,
+            79
+          ],
+          "field_type": "name",
+          "field_label": "姓名",
+          "label": "收款人",
+          "category": "姓名",
+          "priority": 2,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            317,
+            325,
+            361,
+            342
+          ],
+          "field_type": "name",
+          "field_label": "姓名",
+          "label": "收款方",
+          "category": "姓名",
+          "priority": 2,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            318,
+            426,
+            361,
+            443
+          ],
+          "field_type": "name",
+          "field_label": "姓名",
+          "label": "付款方",
+          "category": "姓名",
+          "priority": 2,
+          "source": "ocr_labeled_field"
+        }
+      ],
+      "roi_count": 5,
+      "ocr_token_count": 35,
+      "elapsed_ms": 983.8
+    }
+  ],
+  "candidate_test_results": [
+    {
+      "filename": "1.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/1.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": false,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            146,
+            220,
+            74,
+            13
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 1,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            146,
+            220,
+            220,
+            233
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            146,
+            220,
+            220,
+            233
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "小:E0000元",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_currency_amount_value"
+        }
+      ],
+      "roi_count": 1,
+      "ocr_token_count": 42,
+      "elapsed_ms": 1490.1
+    },
+    {
+      "filename": "13.jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/13.jpg",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.44097032615162096,
+      "reason": "存在局部边缘拼接/像素涂抹痕迹",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.3352829098856177,
+          "bbox": [
+            458,
+            387,
+            403,
+            103
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹；局部字体风格异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 6,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            458,
+            387,
+            861,
+            490
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.3864932789170944,
+          "bbox": [
+            932,
+            664,
+            348,
+            47
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 6,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            932,
+            664,
+            1280,
+            711
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        },
+        {
+          "result": "正常",
+          "confidence": 0.4089331897712546,
+          "bbox": [
+            530,
+            511,
+            257,
+            52
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 6,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            530,
+            511,
+            787,
+            563
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 3
+        },
+        {
+          "result": "正常",
+          "confidence": 0.43401915274209946,
+          "bbox": [
+            1098,
+            1198,
+            183,
+            52
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 6,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            1098,
+            1198,
+            1281,
+            1250
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 4
+        },
+        {
+          "result": "正常",
+          "confidence": 0.44097032615162096,
+          "bbox": [
+            1100,
+            1413,
+            180,
+            50
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 6,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            1100,
+            1413,
+            1280,
+            1463
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 5
+        },
+        {
+          "result": "正常",
+          "confidence": 0.4089197950197716,
+          "bbox": [
+            1110,
+            1626,
+            170,
+            50
+          ],
+          "reason": "存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 6,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            1110,
+            1626,
+            1280,
+            1676
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 6
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            458,
+            387,
+            861,
+            490
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "+5,000.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            932,
+            664,
+            1280,
+            711
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            530,
+            511,
+            787,
+            563
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "余额:5.717.93",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            1098,
+            1198,
+            1281,
+            1250
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "交易金额",
+          "category": "金额",
+          "priority": 1,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            1100,
+            1413,
+            1280,
+            1463
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "5,000.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        },
+        {
+          "bbox": [
+            1110,
+            1626,
+            1280,
+            1676
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "5,717.93",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        }
+      ],
+      "roi_count": 6,
+      "ocr_token_count": 30,
+      "elapsed_ms": 1137.7
+    },
+    {
+      "filename": "10.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/10.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.15822102754902032,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.10177669394672682,
+          "bbox": [
+            147,
+            89,
+            107,
+            14
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            147,
+            89,
+            254,
+            103
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.15822102754902032,
+          "bbox": [
+            147,
+            246,
+            107,
+            13
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            147,
+            246,
+            254,
+            259
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        },
+        {
+          "result": "正常",
+          "confidence": 0.13597478651437667,
+          "bbox": [
+            146,
+            224,
+            79,
+            16
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            146,
+            224,
+            225,
+            240
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 3
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            147,
+            89,
+            254,
+            103
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.151432.52",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            147,
+            246,
+            254,
+            259
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.04091833",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            146,
+            224,
+            225,
+            240
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "小:+518.32",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        }
+      ],
+      "roi_count": 3,
+      "ocr_token_count": 37,
+      "elapsed_ms": 2043.9
+    },
+    {
+      "filename": "16.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/16.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.10977516176945568,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.0,
+          "bbox": [
+            26,
+            456,
+            252,
+            13
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            26,
+            456,
+            278,
+            469
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.10977516176945568,
+          "bbox": [
+            112,
+            257,
+            86,
+            11
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            112,
+            257,
+            198,
+            268
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            26,
+            456,
+            278,
+            469
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "8云h讧包;个人69.订261眚;M2t<5元;『三万",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_currency_amount_value"
+        },
+        {
+          "bbox": [
+            112,
+            257,
+            198,
+            268
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "20260521.+57.29",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 39,
+      "elapsed_ms": 2424.3
+    },
+    {
+      "filename": "2.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/2.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.17572144073142507,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.10310880397710592,
+          "bbox": [
+            98,
+            245,
+            88,
+            12
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            98,
+            245,
+            186,
+            257
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.0,
+          "bbox": [
+            99,
+            121,
+            85,
+            10
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            99,
+            121,
+            184,
+            131
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        },
+        {
+          "result": "正常",
+          "confidence": 0.17572144073142507,
+          "bbox": [
+            99,
+            228,
+            63,
+            12
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            99,
+            228,
+            162,
+            240
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 3
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            98,
+            245,
+            186,
+            257
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607-05123323",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            99,
+            121,
+            184,
+            131
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.15.134.21",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            99,
+            228,
+            162,
+            240
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "小:`200.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        }
+      ],
+      "roi_count": 3,
+      "ocr_token_count": 39,
+      "elapsed_ms": 2352.5
+    },
+    {
+      "filename": "31.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/31.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": false,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            109,
+            113,
+            85,
+            10
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            109,
+            113,
+            194,
+            123
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            109,
+            221,
+            63,
+            12
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            109,
+            221,
+            172,
+            233
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            109,
+            113,
+            194,
+            123
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.617.3151",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            109,
+            221,
+            172,
+            233
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "小:`550.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 38,
+      "elapsed_ms": 2313.5
+    },
+    {
+      "filename": "32.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/32.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": false,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            108,
+            128,
+            88,
+            12
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            108,
+            128,
+            196,
+            140
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            108,
+            253,
+            88,
+            12
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            108,
+            253,
+            196,
+            265
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            108,
+            128,
+            196,
+            140
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2026.07.1617.3220",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            108,
+            253,
+            196,
+            265
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.1518.5657",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 39,
+      "elapsed_ms": 2394.0
+    },
+    {
+      "filename": "33.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/33.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.07152179869025592,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.07152179869025592,
+          "bbox": [
+            97,
+            116,
+            82,
+            13
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            97,
+            116,
+            179,
+            129
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.0,
+          "bbox": [
+            97,
+            217,
+            60,
+            12
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            97,
+            217,
+            157,
+            229
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 2
+        },
+        {
+          "result": "正常",
+          "confidence": 0.0,
+          "bbox": [
+            98,
+            235,
+            79,
+            9
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            98,
+            235,
+            177,
+            244
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 3
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            97,
+            116,
+            179,
+            129
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.16113100",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        },
+        {
+          "bbox": [
+            97,
+            217,
+            157,
+            229
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "小:<634.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_token"
+        },
+        {
+          "bbox": [
+            98,
+            235,
+            177,
+            244
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "202607.16092731",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 3,
+      "ocr_token_count": 39,
+      "elapsed_ms": 2034.7
+    },
+    {
+      "filename": "34.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/34.png",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": false,
+      "manual_rois": [],
+      "result": "无法自动检测",
+      "confidence": 0.0,
+      "reason": "未识别到金额、姓名、时间关键区域，无法自动检测",
+      "regions": [],
+      "auto_rois": [],
+      "roi_count": 0,
+      "ocr_token_count": 38,
+      "elapsed_ms": 1584.2
+    },
+    {
+      "filename": "11.jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/11.jpg",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": false,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.7233901650919413,
+      "reason": "全局UI布局异常；存在局部边缘拼接/像素涂抹痕迹",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            359,
+            537,
+            511,
+            121
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            359,
+            537,
+            870,
+            658
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.7233901650919413,
+          "bbox": [
+            44,
+            1669,
+            412,
+            44
+          ],
+          "reason": "全局UI布局异常；存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            44,
+            1669,
+            456,
+            1713
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            359,
+            537,
+            870,
+            658
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "半3,602.57",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            44,
+            1669,
+            456,
+            1713
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2023-11-0317.41.38",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 32,
+      "elapsed_ms": 799.8
+    },
+    {
+      "filename": "21.jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/21.jpg",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": false,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.715426044042089,
+      "reason": "全局UI布局异常；存在局部边缘拼接/像素涂抹痕迹",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            357,
+            537,
+            515,
+            121
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            357,
+            537,
+            872,
+            658
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.715426044042089,
+          "bbox": [
+            44,
+            1669,
+            421,
+            44
+          ],
+          "reason": "全局UI布局异常；存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            44,
+            1669,
+            465,
+            1713
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            357,
+            537,
+            872,
+            658
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "半3,600.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            44,
+            1669,
+            465,
+            1713
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2023-10-1513.49:00",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 32,
+      "elapsed_ms": 727.7
+    },
+    {
+      "filename": "8.jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/8.jpg",
+      "expected_label": 0,
+      "expected": "正常",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": false,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.7275497969135865,
+      "reason": "全局UI布局异常；存在局部边缘拼接/像素涂抹痕迹",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.7275497969135865,
+          "bbox": [
+            367,
+            542,
+            459,
+            105
+          ],
+          "reason": "全局UI布局异常；存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            367,
+            542,
+            826,
+            647
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.7134259292704757,
+          "bbox": [
+            44,
+            1669,
+            426,
+            44
+          ],
+          "reason": "全局UI布局异常；存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            44,
+            1669,
+            470,
+            1713
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            367,
+            542,
+            826,
+            647
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "半199.50",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            44,
+            1669,
+            470,
+            1713
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2025-02-2116:03:55",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 29,
+      "elapsed_ms": 673.1
+    },
+    {
+      "filename": "p (10).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (10).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            253,
+            143,
+            160,
+            35
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            253,
+            143,
+            413,
+            178
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            492,
+            492,
+            150,
+            16
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            492,
+            492,
+            642,
+            508
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            253,
+            143,
+            413,
+            178
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "半37,000.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            492,
+            492,
+            642,
+            508
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 23,
+      "elapsed_ms": 543.7
+    },
+    {
+      "filename": "p (11).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (11).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            252,
+            140,
+            158,
+            39
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            252,
+            140,
+            410,
+            179
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            489,
+            488,
+            151,
+            16
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            489,
+            488,
+            640,
+            504
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            252,
+            140,
+            410,
+            179
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "羊31,000.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            489,
+            488,
+            640,
+            504
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2026-01-2817.01.36",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 23,
+      "elapsed_ms": 456.6
+    },
+    {
+      "filename": "p (18).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (18).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            254,
+            141,
+            157,
+            37
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            254,
+            141,
+            411,
+            178
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            491,
+            488,
+            149,
+            16
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            491,
+            488,
+            640,
+            504
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            254,
+            141,
+            411,
+            178
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "羊27,000.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            491,
+            488,
+            640,
+            504
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2026-02-101847.48",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 23,
+      "elapsed_ms": 475.4
+    },
+    {
+      "filename": "p (41).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (41).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            269,
+            140,
+            140,
+            36
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            269,
+            140,
+            409,
+            176
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            488,
+            484,
+            147,
+            18
+          ],
+          "reason": "全局UI布局异常；局部字体风格异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            488,
+            484,
+            635,
+            502
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            269,
+            140,
+            409,
+            176
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "18,000.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            488,
+            484,
+            635,
+            502
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 22,
+      "elapsed_ms": 475.5
+    },
+    {
+      "filename": "p (5).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (5).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            270,
+            141,
+            108,
+            36
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            270,
+            141,
+            378,
+            177
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            490,
+            487,
+            149,
+            16
+          ],
+          "reason": "全局UI布局异常；局部字体风格异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            490,
+            487,
+            639,
+            503
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            270,
+            141,
+            378,
+            177
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "10,000(",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            490,
+            487,
+            639,
+            503
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 23,
+      "elapsed_ms": 489.3
+    },
+    {
+      "filename": "p (6).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (6).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            255,
+            143,
+            160,
+            36
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            255,
+            143,
+            415,
+            179
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            495,
+            493,
+            151,
+            17
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            495,
+            493,
+            646,
+            510
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            255,
+            143,
+            415,
+            179
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "羊13,500.00",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            495,
+            493,
+            646,
+            510
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 24,
+      "elapsed_ms": 504.1
+    },
+    {
+      "filename": "p (7).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (7).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            252,
+            140,
+            127,
+            39
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            252,
+            140,
+            379,
+            179
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            491,
+            488,
+            149,
+            16
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            491,
+            488,
+            640,
+            504
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            252,
+            140,
+            379,
+            179
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "半31,000.C",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        },
+        {
+          "bbox": [
+            491,
+            488,
+            640,
+            504
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "2026-02-1018.5327",
+          "category": "时间",
+          "priority": 5,
+          "source": "ocr_datetime_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 26,
+      "elapsed_ms": 515.2
+    },
+    {
+      "filename": "p (1).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (1).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.7351412405024504,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.7223428471385046,
+          "bbox": [
+            38,
+            384,
+            398,
+            36
+          ],
+          "reason": "全局UI布局异常；局部字体风格异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0264,
+            "risk_max_iou": 0.0264,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            38,
+            384,
+            436,
+            420
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.7351412405024504,
+          "bbox": [
+            38,
+            418,
+            344,
+            36
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0264,
+            "risk_max_iou": 0.0264,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            38,
+            418,
+            382,
+            454
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 2
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.7334582631964652,
+          "bbox": [
+            230,
+            4,
+            265,
+            37
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0264,
+            "risk_max_iou": 0.0264,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            230,
+            4,
+            495,
+            41
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 3
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            38,
+            384,
+            436,
+            420
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "24814:17向周庚俊转出36000元,",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_currency_amount_value"
+        },
+        {
+          "bbox": [
+            38,
+            418,
+            382,
+            454
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "为558.51元.摘要:转账汇款.",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_currency_amount_value"
+        },
+        {
+          "bbox": [
+            230,
+            4,
+            495,
+            41
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "金额36000元,切勿泄",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_labeled_currency_amount"
+        }
+      ],
+      "roi_count": 3,
+      "ocr_token_count": 17,
+      "elapsed_ms": 449.5
+    },
+    {
+      "filename": "p (17).jpg",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (17).jpg",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.7339667333019518,
+      "reason": "全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.7270789817060297,
+          "bbox": [
+            43,
+            379,
+            441,
+            41
+          ],
+          "reason": "全局UI布局异常；局部字体风格异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0153,
+            "risk_max_iou": 0.0153,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            43,
+            379,
+            484,
+            420
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.7339667333019518,
+          "bbox": [
+            44,
+            418,
+            198,
+            41
+          ],
+          "reason": "全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0153,
+            "risk_max_iou": 0.0153,
+            "overlapping_pairs": [],
+            "box_count": 2,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            44,
+            418,
+            242,
+            459
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 2
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            43,
+            379,
+            484,
+            420
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "24813:40向秦成磊转出33000元,",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_currency_amount_value"
+        },
+        {
+          "bbox": [
+            44,
+            418,
+            242,
+            459
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "为37172.51元,",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_currency_amount_value"
+        }
+      ],
+      "roi_count": 2,
+      "ocr_token_count": 15,
+      "elapsed_ms": 450.0
+    },
+    {
+      "filename": "14.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/14.png",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.66,
+      "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            1215,
+            415,
+            724,
+            162
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            1215,
+            415,
+            1939,
+            577
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            1182,
+            820,
+            751,
+            76
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            1182,
+            820,
+            1933,
+            896
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.66,
+          "bbox": [
+            667,
+            250,
+            214,
+            86
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            667,
+            250,
+            881,
+            336
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 3
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            1215,
+            415,
+            1939,
+            577
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "交易金额",
+          "category": "金额",
+          "priority": 1,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            1182,
+            820,
+            1933,
+            896
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            667,
+            250,
+            881,
+            336
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "5576",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        }
+      ],
+      "roi_count": 3,
+      "ocr_token_count": 21,
+      "elapsed_ms": 1806.2
+    },
+    {
+      "filename": "17.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/17.png",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": false,
+      "manual_rois": [],
+      "result": "正常",
+      "confidence": 0.4446547566398264,
+      "reason": "缺少EXIF且图像结构异常(疑似生成图)；存在局部边缘拼接/像素涂抹痕迹",
+      "regions": [
+        {
+          "result": "正常",
+          "confidence": 0.3999738194970751,
+          "bbox": [
+            423,
+            125,
+            206,
+            57
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)；存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            423,
+            125,
+            629,
+            182
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "正常",
+          "confidence": 0.4446547566398264,
+          "bbox": [
+            379,
+            261,
+            246,
+            24
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)；存在局部边缘拼接/像素涂抹痕迹",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            379,
+            261,
+            625,
+            285
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "region_no": 2
+        },
+        {
+          "result": "正常",
+          "confidence": 0.15163624874780324,
+          "bbox": [
+            209,
+            73,
+            72,
+            28
+          ],
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)",
+          "bbox_overlap_check": {
+            "max_iou": 0.0,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 3,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            209,
+            73,
+            281,
+            101
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 3
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            423,
+            125,
+            629,
+            182
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "交易金额",
+          "category": "金额",
+          "priority": 1,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            379,
+            261,
+            625,
+            285
+          ],
+          "field_type": "time",
+          "field_label": "时间",
+          "label": "交易时间",
+          "category": "时间",
+          "priority": 3,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            209,
+            73,
+            281,
+            101
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "5576",
+          "category": "金额",
+          "priority": 6,
+          "source": "ocr_transfer_context_amount"
+        }
+      ],
+      "roi_count": 3,
+      "ocr_token_count": 20,
+      "elapsed_ms": 436.0
+    },
+    {
+      "filename": "19.png",
+      "image_path": "/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/19.png",
+      "expected_label": 1,
+      "expected": "篡改",
+      "split": "test",
+      "cohort": "independent",
+      "strict_correct": true,
+      "manual_rois": [],
+      "result": "篡改",
+      "confidence": 0.7160978878425444,
+      "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+      "regions": [
+        {
+          "result": "篡改",
+          "confidence": 0.6928615160816256,
+          "bbox": [
+            51,
+            401,
+            310,
+            18
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.2806,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 5,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            51,
+            401,
+            361,
+            419
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 1
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.7160978878425444,
+          "bbox": [
+            274,
+            401,
+            87,
+            18
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.2806,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 5,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            274,
+            401,
+            361,
+            419
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "region_no": 2
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.678474473953247,
+          "bbox": [
+            348,
+            61,
+            57,
+            18
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.2806,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 5,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            348,
+            61,
+            405,
+            79
+          ],
+          "field_type": "name",
+          "field_label": "姓名",
+          "region_no": 3
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.678474473953247,
+          "bbox": [
+            317,
+            325,
+            44,
+            17
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.2806,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 5,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            317,
+            325,
+            361,
+            342
+          ],
+          "field_type": "name",
+          "field_label": "姓名",
+          "region_no": 4
+        },
+        {
+          "result": "篡改",
+          "confidence": 0.678474473953247,
+          "bbox": [
+            318,
+            426,
+            43,
+            17
+          ],
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常",
+          "bbox_overlap_check": {
+            "max_iou": 0.2806,
+            "risk_max_iou": 0.0,
+            "overlapping_pairs": [],
+            "box_count": 5,
+            "anomalies": []
+          },
+          "hard_tamper_flags": {
+            "bbox_iou": false
+          },
+          "original_bbox": [
+            318,
+            426,
+            361,
+            443
+          ],
+          "field_type": "name",
+          "field_label": "姓名",
+          "region_no": 5
+        }
+      ],
+      "auto_rois": [
+        {
+          "bbox": [
+            51,
+            401,
+            361,
+            419
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "转账金额339,041.00元",
+          "category": "金额",
+          "priority": 6,
+          "source": "amount_line"
+        },
+        {
+          "bbox": [
+            274,
+            401,
+            361,
+            419
+          ],
+          "field_type": "amount",
+          "field_label": "金额",
+          "label": "转账金额",
+          "category": "金额",
+          "priority": 1,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            348,
+            61,
+            405,
+            79
+          ],
+          "field_type": "name",
+          "field_label": "姓名",
+          "label": "收款人",
+          "category": "姓名",
+          "priority": 2,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            317,
+            325,
+            361,
+            342
+          ],
+          "field_type": "name",
+          "field_label": "姓名",
+          "label": "收款方",
+          "category": "姓名",
+          "priority": 2,
+          "source": "ocr_labeled_field"
+        },
+        {
+          "bbox": [
+            318,
+            426,
+            361,
+            443
+          ],
+          "field_type": "name",
+          "field_label": "姓名",
+          "label": "付款方",
+          "category": "姓名",
+          "priority": 2,
+          "source": "ocr_labeled_field"
+        }
+      ],
+      "roi_count": 5,
+      "ocr_token_count": 35,
+      "elapsed_ms": 878.8
+    }
+  ],
+  "result_package": {
+    "metrics": {
+      "independent": {
+        "available": true,
+        "sample_count": 24,
+        "normal_sample_count": 12,
+        "tampered_sample_count": 12,
+        "strict_correct": 16,
+        "strict_accuracy": 0.666667,
+        "normal_recall": 0.416667,
+        "tampered_recall": 0.916667,
+        "balanced_accuracy": 0.666667,
+        "result_counts": {
+          "篡改": 17,
+          "正常": 6,
+          "无法自动检测": 1
+        },
+        "suspicious_count": 0,
+        "unable_count": 1,
+        "roi_coverage": 0.958333,
+        "average_elapsed_ms": 1143.99,
+        "max_elapsed_ms": 2424.3,
+        "risk": {
+          "minimum": 0.0,
+          "maximum": 0.735141
+        }
+      },
+      "training_replay": {
+        "available": false,
+        "sample_count": 2,
+        "normal_sample_count": 0,
+        "tampered_sample_count": 2,
+        "strict_correct": 2,
+        "strict_accuracy": 1.0,
+        "normal_recall": 0.0,
+        "tampered_recall": 1.0,
+        "balanced_accuracy": null,
+        "result_counts": {
+          "篡改": 2
+        },
+        "suspicious_count": 0,
+        "unable_count": 0,
+        "roi_coverage": 1.0,
+        "average_elapsed_ms": 5542.85,
+        "max_elapsed_ms": 8863.3,
+        "risk": {
+          "minimum": 0.693931,
+          "maximum": 0.702092
+        }
+      },
+      "splits": {
+        "train": {
+          "available": false,
+          "sample_count": 0,
+          "normal_sample_count": 0,
+          "tampered_sample_count": 0,
+          "strict_correct": 0,
+          "strict_accuracy": 0.0,
+          "normal_recall": 0.0,
+          "tampered_recall": 0.0,
+          "balanced_accuracy": null,
+          "result_counts": {},
+          "suspicious_count": 0,
+          "unable_count": 0,
+          "roi_coverage": 0.0,
+          "average_elapsed_ms": 0.0,
+          "max_elapsed_ms": 0.0,
+          "risk": {
+            "minimum": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "validation": {
+          "available": false,
+          "sample_count": 0,
+          "normal_sample_count": 0,
+          "tampered_sample_count": 0,
+          "strict_correct": 0,
+          "strict_accuracy": 0.0,
+          "normal_recall": 0.0,
+          "tampered_recall": 0.0,
+          "balanced_accuracy": null,
+          "result_counts": {},
+          "suspicious_count": 0,
+          "unable_count": 0,
+          "roi_coverage": 0.0,
+          "average_elapsed_ms": 0.0,
+          "max_elapsed_ms": 0.0,
+          "risk": {
+            "minimum": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "test": {
+          "available": true,
+          "sample_count": 24,
+          "normal_sample_count": 12,
+          "tampered_sample_count": 12,
+          "strict_correct": 16,
+          "strict_accuracy": 0.666667,
+          "normal_recall": 0.416667,
+          "tampered_recall": 0.916667,
+          "balanced_accuracy": 0.666667,
+          "result_counts": {
+            "篡改": 17,
+            "正常": 6,
+            "无法自动检测": 1
+          },
+          "suspicious_count": 0,
+          "unable_count": 1,
+          "roi_coverage": 0.958333,
+          "average_elapsed_ms": 1143.99,
+          "max_elapsed_ms": 2424.3,
+          "risk": {
+            "minimum": 0.0,
+            "maximum": 0.735141
+          }
+        }
+      },
+      "train": {
+        "available": false,
+        "sample_count": 0,
+        "normal_sample_count": 0,
+        "tampered_sample_count": 0,
+        "strict_correct": 0,
+        "strict_accuracy": 0.0,
+        "normal_recall": 0.0,
+        "tampered_recall": 0.0,
+        "balanced_accuracy": null,
+        "result_counts": {},
+        "suspicious_count": 0,
+        "unable_count": 0,
+        "roi_coverage": 0.0,
+        "average_elapsed_ms": 0.0,
+        "max_elapsed_ms": 0.0,
+        "risk": {
+          "minimum": 0.0,
+          "maximum": 0.0
+        }
+      },
+      "validation": {
+        "available": false,
+        "sample_count": 0,
+        "normal_sample_count": 0,
+        "tampered_sample_count": 0,
+        "strict_correct": 0,
+        "strict_accuracy": 0.0,
+        "normal_recall": 0.0,
+        "tampered_recall": 0.0,
+        "balanced_accuracy": null,
+        "result_counts": {},
+        "suspicious_count": 0,
+        "unable_count": 0,
+        "roi_coverage": 0.0,
+        "average_elapsed_ms": 0.0,
+        "max_elapsed_ms": 0.0,
+        "risk": {
+          "minimum": 0.0,
+          "maximum": 0.0
+        }
+      },
+      "test": {
+        "available": true,
+        "sample_count": 24,
+        "normal_sample_count": 12,
+        "tampered_sample_count": 12,
+        "strict_correct": 16,
+        "strict_accuracy": 0.666667,
+        "normal_recall": 0.416667,
+        "tampered_recall": 0.916667,
+        "balanced_accuracy": 0.666667,
+        "result_counts": {
+          "篡改": 17,
+          "正常": 6,
+          "无法自动检测": 1
+        },
+        "suspicious_count": 0,
+        "unable_count": 1,
+        "roi_coverage": 0.958333,
+        "average_elapsed_ms": 1143.99,
+        "max_elapsed_ms": 2424.3,
+        "risk": {
+          "minimum": 0.0,
+          "maximum": 0.735141
+        }
+      },
+      "independent_note": "兼容旧调用的非回放汇总，混合 train/validation/test，不作为独立测试指标。",
+      "decision_thresholds": {
+        "suspicious": 0.55,
+        "tampered": 0.65
+      },
+      "training_replay_details": [
+        {
+          "filename": "pptest__ebe78fef76ed__111.png",
+          "expected": "篡改",
+          "result": "篡改",
+          "final_risk": 0.6939313087938098,
+          "distance_to_suspicious": 0.143931,
+          "distance_to_tampered": 0.043931,
+          "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常；局部字体风格异常",
+          "regions": [
+            {
+              "region_no": 1,
+              "field_type": "time",
+              "field_label": "时间",
+              "risk": 0.6939313087938098,
+              "result": "篡改",
+              "distance_to_suspicious": 0.143931,
+              "distance_to_tampered": 0.043931,
+              "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常；局部字体风格异常"
+            },
+            {
+              "region_no": 2,
+              "field_type": "amount",
+              "field_label": "金额",
+              "risk": 0.6938669655889176,
+              "result": "篡改",
+              "distance_to_suspicious": 0.143867,
+              "distance_to_tampered": 0.043867,
+              "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常；局部字体风格异常"
+            },
+            {
+              "region_no": 3,
+              "field_type": "time",
+              "field_label": "时间",
+              "risk": 0.6895272970199584,
+              "result": "篡改",
+              "distance_to_suspicious": 0.139527,
+              "distance_to_tampered": 0.039527,
+              "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常"
+            },
+            {
+              "region_no": 4,
+              "field_type": "amount",
+              "field_label": "金额",
+              "risk": 0.6895272970199584,
+              "result": "篡改",
+              "distance_to_suspicious": 0.139527,
+              "distance_to_tampered": 0.039527,
+              "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常"
+            },
+            {
+              "region_no": 5,
+              "field_type": "name",
+              "field_label": "姓名",
+              "risk": 0.6895272970199584,
+              "result": "篡改",
+              "distance_to_suspicious": 0.139527,
+              "distance_to_tampered": 0.039527,
+              "reason": "文件体积/像素比异常(疑似工具导出)；全局UI布局异常"
+            }
+          ]
+        },
+        {
+          "filename": "pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd.png",
+          "expected": "篡改",
+          "result": "篡改",
+          "final_risk": 0.7020924105474086,
+          "distance_to_suspicious": 0.152092,
+          "distance_to_tampered": 0.052092,
+          "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常",
+          "regions": [
+            {
+              "region_no": 1,
+              "field_type": "amount",
+              "field_label": "金额",
+              "risk": 0.6884174327649405,
+              "result": "篡改",
+              "distance_to_suspicious": 0.138417,
+              "distance_to_tampered": 0.038417,
+              "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常"
+            },
+            {
+              "region_no": 2,
+              "field_type": "time",
+              "field_label": "时间",
+              "risk": 0.6843187634874023,
+              "result": "篡改",
+              "distance_to_suspicious": 0.134319,
+              "distance_to_tampered": 0.034319,
+              "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常"
+            },
+            {
+              "region_no": 3,
+              "field_type": "amount",
+              "field_label": "金额",
+              "risk": 0.7020924105474086,
+              "result": "篡改",
+              "distance_to_suspicious": 0.152092,
+              "distance_to_tampered": 0.052092,
+              "reason": "缺少EXIF且图像结构异常(疑似生成图)；全局UI布局异常"
+            }
+          ]
+        }
+      ],
+      "production_model_version": "20260721_150336"
+    },
+    "failure_count": 8,
+    "report_path": "/home/quyu/PD_new/PD_max/app/ai_detection/models/versions/20260721_150336/reports/candidate_e2e/report.md",
+    "manifest_path": "/home/quyu/PD_new/PD_max/app/ai_detection/models/versions/20260721_150336/reports/candidate_e2e/manifest.json"
+  }
+}

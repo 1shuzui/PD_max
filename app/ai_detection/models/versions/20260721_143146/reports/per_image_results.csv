@@ -1,0 +1,27 @@
+﻿cohort,image_path,global_prediction
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/1.png,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/13.jpg,1
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/10.png,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/16.png,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/2.png,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/31.png,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/32.png,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/33.png,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/34.png,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/11.jpg,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/21.jpg,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/normal/8.jpg,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (10).jpg,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (11).jpg,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (18).jpg,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (41).jpg,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (5).jpg,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (6).jpg,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (7).jpg,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (1).jpg,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/p (17).jpg,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/14.png,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/17.png,0
+test_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/19.png,0
+training_replay_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/pptest__ebe78fef76ed__111.png,0
+training_replay_evaluation,/home/quyu/PD_new/PD_max/app/ai_detection/images/tampered/pptest__21a9066bff6a__92e595cffb63d039f10b271f23b180dd.png,0

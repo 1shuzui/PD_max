@@ -11,6 +11,7 @@ import numpy as np
 from fastapi import UploadFile
 
 from app.ai_detection.services.history_export import render_annotated_jpeg
+from app.ai_detection.core.amount_candidates import OCRToken
 from app.api.v1.routes.ai_detection import (
     DetectionDomainServiceV3,
     MemoryTaskRegistry,
@@ -441,6 +442,21 @@ class TaskRecoveryTests(unittest.TestCase):
         result = service._visual_document_override()
 
         self.assertIsNone(result)
+
+    def test_doubao_watermark_override_is_direct_tamper_result(self):
+        service = DetectionDomainServiceV3(MemoryTaskRegistry(), asyncio.Semaphore(1))
+        service._cached_tokens = [
+            OCRToken("豆包AI生成", "豆包AI生成", (820, 900, 922, 918), 0.96, 102, 18, 909.0),
+        ]
+
+        result = service._doubao_watermark_override()
+
+        self.assertIsNotNone(result)
+        assert result is not None
+        self.assertEqual(result["result"], "篡改")
+        self.assertEqual(result["field_label"], "AI水印")
+        self.assertEqual(result["evidence_type"], "ai_generated_document")
+        self.assertTrue(result["hard_tamper_flags"]["doubao_ai_watermark"])
 
     def test_render_annotated_jpeg_draws_region_number_labels(self):
         image = np.full((120, 180, 3), 255, dtype=np.uint8)

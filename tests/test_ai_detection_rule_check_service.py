@@ -6,6 +6,7 @@ import numpy as np
 
 from app.ai_detection.core.detectors import PixelLevelDetector
 from app.ai_detection.services.rule_check_service import (
+    build_ai_watermark_hard_tamper_result,
     crop_expanded_roi,
     evaluate_pixel_overlap_alert,
     evaluate_pixel_overlap_hard_tamper,
@@ -17,6 +18,20 @@ from app.ai_detection.services.rule_check_service import (
 
 
 class RuleCheckServiceTests(unittest.TestCase):
+    def test_ai_watermark_result_is_hard_tamper_without_roi_or_ocr(self):
+        result = build_ai_watermark_hard_tamper_result(
+            {
+                "hard_tamper": True,
+                "reason": "识别到“豆包AI生成”水印，按业务规则直接判定篡改",
+                "matched_text": "豆包AI生成",
+                "evidence_type": "ai_generated_document",
+            }
+        )
+
+        self.assertTrue(result["hard_tamper_flags"]["doubao_ai_watermark"])
+        self.assertTrue(result["semantic"]["hard_tamper"])
+        self.assertIsNone(result["pixel_overlap"])
+
     def test_normalize_roi_bbox_xyxy(self):
         x1, y1, x2, y2 = normalize_roi_bbox([10, 20, 110, 80], 200, 200, "xyxy")
         self.assertEqual([x1, y1, x2, y2], [10, 20, 110, 80])
@@ -138,9 +153,10 @@ class RuleCheckServiceTests(unittest.TestCase):
         self.assertFalse(result["hard_tamper"])
         mock_check.assert_called_once()
 
+    @patch("app.ai_detection.services.rule_check_service.check_receipt_semantics")
     @patch("app.ai_detection.services.rule_check_service.run_timestamp_check")
     @patch("app.ai_detection.services.rule_check_service.run_pixel_overlap_check")
-    def test_run_rule_checks_aggregates(self, mock_pixel, mock_ts):
+    def test_run_rule_checks_aggregates(self, mock_pixel, mock_ts, mock_semantic):
         mock_pixel.return_value = {
             "pixel_overlap_score": 0.2,
             "reasons": [],
@@ -154,6 +170,13 @@ class RuleCheckServiceTests(unittest.TestCase):
             "hard_tamper": False,
             "business_mismatch": False,
         }
+        mock_semantic.return_value = {
+            "semantic_check": {},
+            "anomalies": ["uppercase_lowercase_amount_mismatch"],
+            "reasons": ["金额大写与小写不一致"],
+            "risk": 0.45,
+            "hard_tamper": False,
+        }
         detector = MagicMock()
         result = run_rule_checks(
             "dummy.jpg",
@@ -164,10 +187,14 @@ class RuleCheckServiceTests(unittest.TestCase):
         )
         self.assertIsNotNone(result["pixel_overlap"])
         self.assertIsNotNone(result["timestamp"])
+        self.assertEqual(result["semantic"]["anomalies"], ["uppercase_lowercase_amount_mismatch"])
+        self.assertFalse(result["hard_tamper_flags"]["semantic"])
+        self.assertIn("金额大写与小写不一致", result["reason"])
         self.assertIn("hard_tamper_flags", result)
 
+    @patch("app.ai_detection.services.rule_check_service.check_receipt_semantics")
     @patch("app.ai_detection.services.rule_check_service.run_timestamp_check")
-    def test_run_rule_checks_without_bbox(self, mock_ts):
+    def test_run_rule_checks_without_bbox(self, mock_ts, mock_semantic):
         mock_ts.return_value = {
             "timestamp_check": {},
             "risk": 0.0,
@@ -175,6 +202,13 @@ class RuleCheckServiceTests(unittest.TestCase):
             "anomalies": [],
             "hard_tamper": False,
             "business_mismatch": False,
+        }
+        mock_semantic.return_value = {
+            "semantic_check": {},
+            "anomalies": [],
+            "reasons": [],
+            "risk": 0.0,
+            "hard_tamper": False,
         }
         result = run_rule_checks("dummy.jpg", MagicMock(), ocr_tokens=[], image_shape=(10, 10, 3))
         self.assertIsNone(result["pixel_overlap"])
